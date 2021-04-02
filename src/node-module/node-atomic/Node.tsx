@@ -1,0 +1,203 @@
+import React, {PureComponent} from 'react';
+import "./Node.css";
+import {DummyValueFunction} from "./NodeValueFunction";
+import {NodeStorage} from "../NodeStorage";
+import {NodeCanvasViewProperties} from "../NodeCanvasViewProperties";
+import {PressedKeys} from "../NodeCanvas";
+import {NodeDimension, NodeModel, NodeStyle} from "./NodeModel";
+
+export class NodeComponentState {
+    public x: number;
+    public y: number;
+    public selected: boolean;
+
+    constructor(x: number, y: number, selected: boolean) {
+        this.x = x;
+        this.y = y;
+        this.selected = selected;
+    }
+}
+
+export class NodeComponentProps {
+    public node: NodeModel;
+    public storage: NodeStorage;
+    public canvasViewProps: NodeCanvasViewProperties;
+    public selected?: boolean;
+
+    constructor(node: NodeModel, storage: NodeStorage, currentScale: NodeCanvasViewProperties, selected?: boolean) {
+        this.node = node;
+        this.storage = storage;
+        this.canvasViewProps = currentScale;
+        this.selected = selected;
+    }
+}
+
+export function createDefaultNode(id: number, name: string, x?: number, y?: number): NodeModel {
+    x = x ? x : 0;
+    y = y ? y : 0;
+    return new NodeModel(id, name, x, y,
+        new NodeDimension(180, 22, 25, 20),
+        new DummyValueFunction());
+}
+
+class Node extends PureComponent<NodeComponentProps, NodeComponentState> {
+    private _nodeBackgroundRef = React.createRef<HTMLDivElement>();
+    private readonly width: number;
+    private readonly height: number;
+    private readonly nodeStyle: NodeStyle;
+
+    constructor(props: NodeComponentProps) {
+        super(props);
+        let node = this.props.node;
+        this.width = node.dimensions.width;
+        this.height = (node.dimensions.headHeight
+            + node.dimensions.segmentHeight * node.segments.length
+            + node.dimensions.footerHeight);
+        this.nodeStyle = props.node.style;
+
+        this.state = new NodeComponentState(this.props.node.x, this.props.node.y, props.selected ? props.selected : false);
+    }
+
+    get nodeBackgroundRef(): React.RefObject<HTMLDivElement> {
+        return this._nodeBackgroundRef;
+    }
+
+    deleteNodeListener = (event: any) => {
+        if (this.state.selected && (event.code === "Backspace" || event.code === "Delete")) {
+            this.props.storage.handleRemoveNode(this.props.node);
+        }
+    }
+
+    handleClick = (event: any) => {
+        event.preventDefault();
+        this.setState({selected: true});
+        window.addEventListener("mousedown", this.unselect);
+        this.props.storage.handleUpdateNode(this.props.node);
+        let mouseX = event.clientX, mouseY = event.clientY;
+
+        const moveNode = (event: any) => {
+            let x = this.state.x - (mouseX - event.clientX) / this.props.canvasViewProps.scale;
+            let y = this.state.y - (mouseY - event.clientY) / this.props.canvasViewProps.scale;
+
+            this.setState({x: x, y: y});
+            this.props.node.x = x;
+            this.props.node.y = y;
+
+            mouseX = event.clientX;
+            mouseY = event.clientY;
+            this.props.storage.handleUpdateNode(this.props.node);
+        }
+
+        const cleanUp = (event: any) => {
+            window.removeEventListener("mousemove", moveNode);
+            window.removeEventListener("mouseup", cleanUp);
+        }
+
+        window.addEventListener("mousemove", moveNode);
+        window.addEventListener("mouseup", cleanUp);
+    }
+
+    unselect = (event: any) => {
+        let shiftPressed = PressedKeys.keys.includes("ShiftLeft");
+        if (this._nodeBackgroundRef.current && !shiftPressed) {
+            let nodeBox = this._nodeBackgroundRef.current.getBoundingClientRect();
+            if (event.clientX < nodeBox.left || event.clientX > nodeBox.left + nodeBox.width ||
+                event.clientY < nodeBox.top || event.clientY > nodeBox.top + nodeBox.height) {
+                this.setState({selected: false});
+                window.removeEventListener("click", this.unselect);
+            }
+        } else if (!shiftPressed) {
+            this.setState({selected: false});
+            window.removeEventListener("click", this.unselect);
+        }
+    }
+
+    handleTouch = (event: any) => {
+        event.preventDefault();
+        this.setState({selected: true});
+        window.addEventListener("touchstart", this.touchUnselect);
+        this.props.storage.handleUpdateNode(this.props.node);
+        let screenX = event.touches[0].clientX;
+        let screenY = event.touches[0].clientY;
+
+        const moveNode = (event: any) => {
+            let touch = event.touches[0];
+            let x = this.state.x - (screenX - touch.screenX) / this.props.canvasViewProps.scale;
+            let y = this.state.y - (screenY - touch.screenY) / this.props.canvasViewProps.scale;
+
+            this.setState({x: x, y: y});
+            this.props.node.x = x;
+            this.props.node.y = y;
+
+            screenX = touch.screenX;
+            screenY = touch.screenY;
+            this.props.storage.handleUpdateNode(this.props.node);
+        }
+
+        const cleanUp = (event: any) => {
+            window.removeEventListener("touchmove", moveNode);
+            window.removeEventListener("touchend", cleanUp);
+        }
+
+        window.addEventListener("touchmove", moveNode);
+        window.addEventListener("touchend", cleanUp);
+    }
+
+    touchUnselect = (event: any) => {
+        let shiftPressed = PressedKeys.keys.includes("ShiftLeft");
+        if (this._nodeBackgroundRef.current && !shiftPressed) {
+            let nodeBox = this._nodeBackgroundRef.current.getBoundingClientRect();
+            if (event.clientX < nodeBox.left || event.clientX > nodeBox.left + nodeBox.width ||
+                event.clientY < nodeBox.top || event.clientY > nodeBox.top + nodeBox.height) {
+                this.setState({selected: false});
+                window.removeEventListener("click", this.unselect);
+            }
+        } else if (!shiftPressed) {
+            this.setState({selected: false});
+            window.removeEventListener("touchstart", this.unselect);
+        }
+    }
+
+    componentDidMount() {
+        window.addEventListener("keydown", this.deleteNodeListener);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener("keydown", this.deleteNodeListener);
+    }
+
+    render() {
+        return (
+            <div className={"nodeWrapper"} style={{top: (this.state.y) + "px", left: (this.state.x) + "px"}}>
+                <div style={{position: "absolute", top: this.props.node.dimensions.headHeight}}>
+                </div>
+                {this.props.node.segments.map(s => s.createView(this.props.storage, this.props.canvasViewProps))}
+
+                <div ref={this._nodeBackgroundRef} className={"nodeBackground"}
+                     onMouseDown={this.handleClick}
+                     onTouchStart={this.handleTouch}
+                     style={{
+                         width: this.width + "px",
+                         height: this.height + "px",
+                         borderRadius: this.props.node.dimensions.headHeight,
+                         backgroundColor: this.nodeStyle.nodeBackgroundColor,
+                         boxShadow: "0 0 3px 2px " + (this.state.selected ? this.nodeStyle.headerColor : "#555e66")
+                     }}>
+
+                    <span draggable="false" className={"header"} style={{
+                        width: this.props.node.dimensions.width,
+                        height: this.props.node.dimensions.headHeight,
+                        color: this.nodeStyle.textColor,
+                        fontWeight: this.nodeStyle.headerFontWeight,
+                        backgroundColor: this.nodeStyle.headerColor
+                    }}>
+                        {this.props.node.name}
+                    </span>
+
+                </div>
+            </div>
+        );
+    }
+}
+
+export default Node;

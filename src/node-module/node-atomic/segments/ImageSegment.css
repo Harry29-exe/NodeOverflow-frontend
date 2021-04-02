@@ -1,0 +1,20 @@
+.fileInput {
+    opacity: 0;
+}
+
+.fileInput::-webkit-file-upload-button {
+    visibility: hidden;
+}
+
+.fileInput::selection {
+    border: none;
+}
+
+.fileInput::-moz-selection {
+    border: none;
+}
+
+.fileLabel {
+    pointer-events: none;
+    user-select: none;
+}

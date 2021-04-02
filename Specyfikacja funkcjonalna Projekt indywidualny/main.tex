@@ -1,0 +1,103 @@
+\documentclass{article}
+\usepackage{polski}
+\usepackage[utf8]{inputenc}
+\usepackage{indentfirst}
+
+\usepackage{lastpage}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+
+\rhead{Wójcik Kamil}
+\lhead{Rozwinięcie internetowej aplikacji do edycji obrazów bazującej na konceptach flow-programing}
+
+\chead{ }
+\cfoot{\thepage\//\pageref{LastPage}}
+
+\title{Specyfikacja funkcjonalna}
+\author{Wójcik Kamil}
+\date{Marzec 2021}
+
+\begin{document}
+
+\begin{titlepage}
+    \begin{center}
+    
+
+    \Huge
+    \textbf{Rozwinięcie internetowej aplikacji do edycji obrazów bazującej na konceptach flow-programing}
+            
+    \vspace{0.5cm}
+    \LARGE
+    Specyfikacja funkcjonalna
+    \vspace{1.5cm}
+            
+    \textbf{Wójcik Kamil}
+    
+    \end{center}
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+\section{Cel dokumentu}
+
+Celem dokumentu jest przedstawienie zagadnień związanych funkcjonalnością dostarczaną przez projekt którego dotyczy niniejsza specyfikacja.
+\section{Słownik}
+
+\section{Opis projektu}
+
+Poniżej zostały opisane pojęcia które będą używane w dalszej części niniejszego dokumentu.
+\begin{itemize}
+    \item Aplikacja - produkt końcowy projektu w którego w skład wchodzi program uruchamiany w przeglądarce z którym użytkownik wchodzi w bezpośrednią interakcje oraz którego duża cześć jest gotowa przed rozpoczęciem prac projektowych  oraz program uruchamiany na serwerze z którym komunikuje się jedynie wspomniany program uruchamiany w przeglądarce internetowej,
+    \item Front-end - cześć aplikacji uruchamiana w przeglądarce na komputerze użytkownika,
+    \item Edytor - część Front-endu pozwalająca użytkownikowi na edycję zdjęć,
+    \item Back-end - część aplikacji uruchamiana na serwerze,
+    \item Projekt w aplikacji - obiekt tworzony przez użytkownika w aplikacji przechowujący informacje o aktualnym stanie znajdującego się w aplikacji edytora zdjęć. 
+    \item Metadane projektu - wszystkie dane które są przechowywane z każdym projektem ale nie są potrzebne podczas wczytywania go. W skład metadanych zaliczane są: tytuł, tagi do wyszukiwania projektu, data utworzenia oraz ostatniego zapisania, właściciel projektu.
+
+\end{itemize}
+
+\subsection{Cel projektu}
+Celem projektu jest rozbudowanie aplikacji o dodatkową funkcjonalność przedstawioną w poniższym dokumencie.
+
+\subsection{Użytkownik docelowy}
+Użytkownikiem docelowym są osoby które chcą edytować swoje obrazy w pseudo programistyczny oraz niedestrukcyjny sposób.
+\section{Opis funkcjonalności dostarczanej przez projekt}
+\subsection{Zarys funkcjonalności}
+
+Celem projektu jest rozbudowa Front-endu oraz budowa Back-endu. Aplikacja po ukończeniu projektu powinna pozwalać użytkownikowi na następujące czynności:
+\begin{itemize}
+    \item stworzenie konta oraz na zalogowanie się na nie,
+    \item stworzenie projektu w aplikacji, zapisanie go oraz zarządzanie nim,
+    \item odczytanie zapisanego projektu na dowolnym komputerze.
+\end{itemize}
+
+Front-end powinien pozwalać na łatwe wywołanie tych funkcji poprzez graficzny interfejs użytkownika, ich częściową obsługę oraz komunikacje z Back-endem w celu dalszej obsługi żądań.
+Back-end powinien wykonywać operacje związane z weryfikacją danych i uprawnień oraz na przechowywanie danych służące do prawidłowej obsługi wyżej wymienionych funkcjonalności
+
+\subsection{Opis funkcjonalności związanej z obsługą kont użytkowników}
+
+Użytkownik powinien być w stanie utworzyć swoje konto oraz nim zarządzać korzystając jedynie z doświadczeń przy korzystaniu popularnych portali internetowych takich jak Facebook, Youtube czy Github. Oznacza to że użytkownik będąc w dowolnym miejscu aplikacji powinien zawsze w prawym górnym rogu ekranu widzieć ikonę swojego profilu lub w przypadku jeśli nie jest zalogowany hiper link który przeniesie go do okna w której będzie mógł się zarejestrować. Zalogowany użytkownik powinien po kliknięciu na ikonę swojego profilu mieć dostęp do menu z którego będzie miał możliwość przejścia do ustawień swojego konta oraz do opcji wylogowania się. W panelu ustawień swojego konta użytkownik powinien mieć możliwość zmiany hasła, email'a oraz usunięcia swojego konta. W przypadku zmiany hasła lub próby usunięcia konta system powinien zapytać użytkownika o aktualne hasło a po jego podaniu zweryfikować je i jedynie w przypadku pozytywnej weryfikacji wykonać polecenie użytkownika.
+
+\subsubsection{Okno rejestracji nowego użytkownika}
+
+Okno rejestracji użytkownika powinno zawierać formularz po którego wypełnieniu użytkownik jest w stanie kliknąć znajdujący się poniżej przycisk zarejestruj. W formularzu powinny znajdować się jedynie pytanie o nazwę konta użytkownika jego mail oraz hasło. Front-end powinien na bieżąco komunikować się z back-endem w celu weryfikacji wprowadzanych danych tak oby użytkownik nie musiał klikać zarejestruj aby zweryfikować ich poprawność.
+
+\subsection{Opis funkcjonalności związanej z obsługą projektów użytkowników}
+
+Aplikacja po ukończeniu projektu powinna pozwalać zalogowanemu użytkowniki w łatwy sposób zapisać oraz wczytać zapisany projekt. W zapisanym projekcie powinny znaleźć się wszystkie niezbędne informacje pozwalające na wczytanie go w stanie identycznym jak w momencie kliknięcia przycisku zapisz. Jednakże aby projekt wczytał się poprawnie pliki wejściowe wykorzystane w projekcie takie jak zdjęcia muszą znajdować się w tych samych katalogach użytkownika jak w momencie zapisu w przeciwnym razie projekt zostanie wczytany tak jak gdyby pliki wejściowe nigdy nie zostały podane. Aplikacja powinna również pozwalać na łatwe zarządzanie projektami.
+
+\subsubsection{Tworzenie oraz wczytywanie projektów}
+
+Tworzenie oraz wczytywanie projektów powinno odbywać się w edytorze. W oknie edytora powinny zostać umieszczone 3 przyciski:
+\begin{itemize}
+    \item przycisk zapisz - wywołuje on okno zapisu projektu w którym użytkownik może wprowadzić metadane projektu takie jak tytuł projektu, oraz tagi umożliwiające łatwiejsze wyszukanie go,
+    \item przycisk szybki zapis - jeśli projekt został już wcześniej zapisany przycisk nadpisuje go, w innym wypadku przycisk zachowuje się tak samo jak przycisk zapisz,
+    \item przycisk wczytaj - wywołuje on okno zawierające listę wszystkich projektów użytkownika oraz wyszukiwarkę projektów która powinna wyszukiwać podanej przez użytkownika frazy w metadanych projektów i zwracać te najbardziej pasujące projekty. We wspomnianym oknie koło każdego wyszczególnionego projektu powinien znajdować się przycisk załaduj po kliknięciu którego aplikacja wczyta projekt.
+\end{itemize}
+
+\subsubsection{Zarządzanie projektami}
+
+Zarządzanie projektami powinno odbywać się w osobnym oknie lub na osobnej stronie Front-endu. Skrót do tego okna powinien zostać umieszczony w rozwijanym menu po kliknięciu ikony użytkownika lub/i jako osobny przycisk w edytorze. W oknie zarządzania projektami użytkownik powinien otrzymać listę projektów oraz ich oraz wyszukiwarkę projektów która powinna wyszukiwać podanej przez użytkownika frazy w metadanych projektów i zwracać te najbardziej pasujące projekty. Po kliknięciu na dowolny projekt z listy użytkownik powinien mieć dostęp do edycji niektórych metadanych projektu takich jak tytuł czy tagi. Oprócz edycji metadanych powinno być możliwe usuniecie projektu które będzie zabezpieczone hasłem użytkownika oraz zduplikowanie projektu.
+
+\end{document}

@@ -1,0 +1,18 @@
+.textInput {
+    position: absolute;
+    padding: 0;
+    margin: 0;
+    border: 0;
+}
+
+.textInput:hover {
+    border: none;
+}
+
+.textInput:focus {
+    outline: none;
+}
+
+.textInput::selection {
+    background: #586673;
+}

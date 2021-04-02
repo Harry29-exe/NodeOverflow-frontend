@@ -1,0 +1,39 @@
+.NumberSegment {
+}
+
+.NumberSegment input[type=number] {
+    -moz-appearance: textfield;
+}
+
+
+.NumberSegment input[type=number]:hover {
+    border: none;
+}
+
+.NumberSegment input[type=number]:focus {
+    border: none;
+    outline: none;
+}
+
+.NumberSegment input[type=number]::selection {
+    border: none;
+}
+
+.NumberSegment input::-webkit-outer-spin-button,
+.NumberSegment input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.NumberSegment input::selection {
+    background: var(--primary);
+}
+
+.NumberChangeButton {
+
+}
+
+.NumberChangeButton:hover {
+    cursor: pointer;
+}
+

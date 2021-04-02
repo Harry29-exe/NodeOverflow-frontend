@@ -1,0 +1,25 @@
+:root {
+    --primary: #586673;
+    --secondary: #2a9f95;
+    --thirdary: #3c454f;
+    --border: #334447;
+}
+
+body {
+    /*background-color: #6c7780;*/
+    background-color: #74858f;
+
+    font-family: 'Ubuntu', sans-serif;
+    font-weight: 400;
+}
+
+.App {
+    text-align: center;
+    overflow: hidden;
+
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+}

@@ -1,0 +1,26 @@
+input[type=number]:hover {
+    border: none;
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+input[type=number]:focus {
+    border: none;
+    outline: none;
+}
+
+input[type=number]::selection {
+    border: none;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input::selection {
+    background: var(--primary);
+}
