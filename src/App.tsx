@@ -12,6 +12,10 @@ import {ChakraProvider, extendTheme} from "@chakra-ui/react";
 import ExamplesPage from "./pages/ExamplesPage";
 import MainPage from "./pages/MainPage";
 
+export const PressedKeys: { keys: string[] } = {
+    keys: []
+}
+
 export const mainColors = {
     backgroundColor: "#54606d",
     headerColor: "#299b91",
@@ -43,6 +47,22 @@ const theme = extendTheme({
 })
 
 function App() {
+
+    let handleKeyDown = (event: any) => {
+        console.log("key down " + event.code);
+        if (!PressedKeys.keys.includes(event.code)) {
+            PressedKeys.keys.push(event.code);
+        }
+    }
+
+    let handleKeyUp = (event: any) => {
+        PressedKeys.keys = PressedKeys.keys.filter(k => k !== event.code);
+    }
+    window.removeEventListener("keydown", handleKeyDown);
+    window.removeEventListener("keyup", handleKeyUp);
+    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("keyup", handleKeyUp);
+
     return (
         <ChakraProvider theme={theme}>
             <Router>

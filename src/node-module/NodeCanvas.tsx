@@ -6,10 +6,6 @@ import {NodeCanvasViewProperties} from "./NodeCanvasViewProperties";
 import "./NodeCanvas.css"
 import {NodeModel} from "./node-atomic/NodeModel";
 
-export const PressedKeys: { keys: string[] } = {
-    keys: []
-}
-
 export class NodeCanvasState {
     public viewProperties: NodeCanvasViewProperties;
     public nodes: NodeModel[];
@@ -78,16 +74,6 @@ class NodeCanvas extends Component<NodeCanvasProps, NodeCanvasState> {
         this.setState({
             viewProperties: this.state.viewProperties
         });
-    }
-
-    handleKeyDown = (event: any) => {
-        if (!PressedKeys.keys.includes(event.code)) {
-            PressedKeys.keys.push(event.code);
-        }
-    }
-
-    handleKeyUp = (event: any) => {
-        PressedKeys.keys = PressedKeys.keys.filter(k => k !== event.code);
     }
 
     preventDefault = (event: any) => {
@@ -199,7 +185,6 @@ class NodeCanvas extends Component<NodeCanvasProps, NodeCanvasState> {
         let key = 0;
         return (
             <div onMouseEnter={this.disableScroll} onMouseLeave={this.enableScroll}
-                 onKeyDown={this.handleKeyDown} onKeyUp={this.handleKeyUp}
                  ref={this.canvasRef} className={"Background"} onWheel={this.handleScroll}
                  style={{
                      width: "100%",
