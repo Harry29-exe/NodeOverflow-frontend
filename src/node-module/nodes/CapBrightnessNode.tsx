@@ -72,7 +72,7 @@ export class ClampImageNodeVFun implements NodeValueFunction<ImageLikeData> {
 
     async getNodeValue(node: NodeModel, segmentIndex: number): Promise<ImageLikeData> {
         let imgSource = node.getSegmentLinks(3)[0].outputSegment;
-        let sourcePromise = imgSource.parent.getNodeValue(imgSource.index)
+        let sourcePromise = imgSource.parent.getNodeValue(imgSource.index);
         let value = await sourcePromise;
         if (!(value instanceof ImageLikeData)) {
             return Promise.reject("input value has to be of ImageLikeData");

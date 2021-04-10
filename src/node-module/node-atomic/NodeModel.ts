@@ -209,16 +209,18 @@ export class NodeModel {
         let segmentLinks: LinkModel[] = [];
         if (this._segments[segmentIndex].portType === PortType.OUTPUT) {
             this._links.forEach(l => {
-                if (l.outputSegment.index === segmentIndex) {
+                if (l.outputSegment.index === segmentIndex &&
+                    l.outputSegment.parent.id === this.id) {
                     segmentLinks.push(l);
                 }
-            })
+            });
         } else if (this._segments[segmentIndex].portType === PortType.INPUT) {
             this._links.forEach(l => {
-                if (l.inputSegment.index === segmentIndex) {
+                if (l.inputSegment.index === segmentIndex &&
+                    l.inputSegment.parent.id === this.id) {
                     segmentLinks.push(l);
                 }
-            })
+            });
         }
 
         return segmentLinks
