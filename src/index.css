@@ -61,6 +61,12 @@
     src: local('Open Sans'), url(resources/fonts/Ubuntu-Bold.ttf) format('truetype');
 }
 
+@font-face {
+    font-family: 'custom';
+    font-weight: 700;
+    font-style: normal;
+    src: local('Open Sans'), url(resources/fonts/custom-signs.ttf) format('truetype');
+}
 
 body {
     margin: 0;

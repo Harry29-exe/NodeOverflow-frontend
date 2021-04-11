@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import NodeModule from "./node-module/NodeModule";
-import Navbar from "./components/Navbar";
+import Navbar from "./components/navbar/Navbar";
 import {CreateImageInputNode} from "./node-module/nodes/ImageInputNode";
 import {CreateOutputNode} from "./node-module/nodes/OutputNode";
 import {NodeModel} from "./node-module/node-atomic/NodeModel";
@@ -14,6 +14,19 @@ import MainPage from "./pages/MainPage";
 
 export const PressedKeys: { keys: string[] } = {
     keys: []
+}
+
+export const Icons = {
+    image: '\uF1C5',
+    maximize: '\uE800',
+    minimize: '\uE801',
+    arrowDown: '\uE802',
+    arrowUp: '\uE805',
+    arrowLeft: '\uE803',
+    arrowRight: '\uE804',
+    doAgain: '\uE806',
+    loading: '\uE807'
+
 }
 
 export const mainColors = {
