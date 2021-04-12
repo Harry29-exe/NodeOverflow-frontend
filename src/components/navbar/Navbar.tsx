@@ -71,6 +71,10 @@ const Navbar: React.FunctionComponent = () => {
                 </Box>
 
                 <UserIcon size={40} margin="15px"/>
+
+                <Box w={16} h={12} bg="primary.400">
+
+                </Box>
             </Box>
         </Box>
     );

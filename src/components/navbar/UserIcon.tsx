@@ -1,18 +1,37 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Avatar, Box, Center, HTMLChakraProps} from "@chakra-ui/react";
+import BaseButton from "../BaseButton";
+
+const jwtToken: {token: string, payload: any} = {
+    token: "",
+    payload: ""
+}
+
+export const parseJwt = (token: string): any => {
+    let base64UrlPayload = token.split('.')[1];
+    let base64Payload = base64UrlPayload.replace(/-/g, '+').replace(/_/g, '/');
+    let jsonPayload = decodeURIComponent(atob(base64Payload).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+
+    return JSON.parse(jsonPayload);
+}
 
 export interface UserIconProps extends HTMLChakraProps<"div"> {
     size: number;
 }
 
 const UserIcon = (props: UserIconProps) => {
-    let canvasRef = React.createRef<HTMLCanvasElement>();
-
+    let [login, setLogin] = useState(false);
 
     return (
         <Center {...props} _hover={{transform: "scale(1.2)", cursor: "pointer"}}
                 borderRadius={ props.size/4 } overflow="hidden" transition="transform 0.3s 0s linear">
-            <img src={createAvatar( props.size, "KR")}/>
+            {login?
+                <img src={createAvatar(props.size, "KR")}/>
+                :
+                <BaseButton/>
+            }
         </Center>
     );
 }

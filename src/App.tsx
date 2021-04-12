@@ -56,6 +56,20 @@ const theme = extendTheme({
                 boxSizing: "content-box"
             }
         }
+    },
+    colors: {
+        primary: {
+            50: "#41f2e0",
+            100: "#3ee6d5",
+            200: "#37ccbd",
+            300: "#30b3a6",
+            400: "#29998e",
+            500: "#228077",
+            600: "#1c665f",
+            700: "#154d47",
+            800: "#0e332f",
+            900: "#071a18"
+        }
     }
 })
 
@@ -80,7 +94,7 @@ function App() {
         <ChakraProvider theme={theme}>
             <Router>
                 <div style={{
-                    position: "absolute", top: 0, height: "7vh",
+                    position: "absolute", top: 0, height: "60px",
                     width: "100vw", margin: 0, padding: 0
                 }}>
                     <Navbar/>
@@ -93,7 +107,7 @@ function App() {
 
                     <Route path={"/editor"}>
                         <div style={{
-                            position: "absolute", margin: 0, marginTop: "7vh", height: "93vh",
+                            position: "absolute", margin: 0, marginTop: "60px", height: "calc(100vh - 60px)",
                             width: "100vw", padding: 0
                         }}>
                             <NodeModule nodes={testNodes}/>
@@ -102,7 +116,7 @@ function App() {
 
                     <Route path={"/examples"}>
                         <div style={{
-                            position: "absolute", margin: 0, marginTop: "7vh", height: "93vh",
+                            position: "absolute", margin: 0, marginTop: "60px", height: "calc(100vh - 60px)",
                             width: "100vw", padding: 0
                         }}>
                             <ExamplesPage/>

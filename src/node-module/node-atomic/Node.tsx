@@ -5,6 +5,7 @@ import {NodeStorage} from "../NodeStorage";
 import {NodeCanvasViewProperties} from "../NodeCanvasViewProperties";
 import {NodeDimension, NodeModel, NodeStyle} from "./NodeModel";
 import {PressedKeys} from "../../App";
+import {Box} from "@chakra-ui/react";
 
 export class NodeComponentState {
     public x: number;
@@ -205,6 +206,7 @@ class Node extends PureComponent<NodeComponentProps, NodeComponentState> {
             }}>
                 <div style={{position: "absolute", top: this.props.node.dimensions.headHeight}}>
                 </div>
+
                 {this.props.node.segments.map(s => s.createView(this.props.storage, this.props.canvasViewProps))}
 
                 <div ref={this._nodeBackgroundRef} className={"nodeBackground"}
@@ -219,15 +221,15 @@ class Node extends PureComponent<NodeComponentProps, NodeComponentState> {
                              this.state.selected ? this.nodeStyle.headerColor :"#555e66")
                      }}>
 
-                    <span draggable="false" className={"header"} style={{
+                    <Box draggable="false" className={"header"} style={{
                         width: this.props.node.dimensions.width,
                         height: this.props.node.dimensions.headHeight,
                         color: this.nodeStyle.textColor,
                         fontWeight: this.nodeStyle.headerFontWeight,
-                        backgroundColor: this.nodeStyle.headerColor
-                    }}>
+                        // backgroundColor: this.nodeStyle.headerColor
+                    }} bg="primary.400">
                         {this.props.node.name}
-                    </span>
+                    </Box>
 
                 </div>
             </div>
