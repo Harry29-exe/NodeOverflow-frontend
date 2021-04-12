@@ -11,6 +11,7 @@ import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import {ChakraProvider, extendTheme} from "@chakra-ui/react";
 import ExamplesPage from "./pages/ExamplesPage";
 import MainPage from "./pages/MainPage";
+import Theme from "./theme/Theme";
 
 export const PressedKeys: { keys: string[] } = {
     keys: []
@@ -44,35 +45,6 @@ const testNodes: NodeModel[] = [
     CreateContrastNode(4, 100, 0)
 ]
 
-const theme = extendTheme({
-    styles: {
-        global: {
-            "html, body": {
-                bg: "#54606d",
-                fontFamily: "Ubuntu",
-                fontWeight: 300
-            },
-            "*, *::before, &after": {
-                boxSizing: "content-box"
-            }
-        }
-    },
-    colors: {
-        primary: {
-            50: "#41f2e0",
-            100: "#3ee6d5",
-            200: "#37ccbd",
-            300: "#30b3a6",
-            400: "#29998e",
-            500: "#228077",
-            600: "#1c665f",
-            700: "#154d47",
-            800: "#0e332f",
-            900: "#071a18"
-        }
-    }
-})
-
 function App() {
 
     let handleKeyDown = (event: any) => {
@@ -91,7 +63,7 @@ function App() {
     window.addEventListener("keyup", handleKeyUp);
 
     return (
-        <ChakraProvider theme={theme}>
+        <ChakraProvider theme={Theme}>
             <Router>
                 <div style={{
                     position: "absolute", top: 0, height: "60px",
