@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
-import {Avatar, Box, Center, HTMLChakraProps} from "@chakra-ui/react";
+import {Avatar, Box, Button, Center, HTMLChakraProps} from "@chakra-ui/react";
 import BaseButton from "../BaseButton";
+import colors from "../../theme/Colors";
 
 const jwtToken: {token: string, payload: any} = {
     token: "",
@@ -25,13 +26,21 @@ const UserIcon = (props: UserIconProps) => {
     let [login, setLogin] = useState(false);
 
     return (
-        <Center {...props} _hover={{transform: "scale(1.2)", cursor: "pointer"}}
-                borderRadius={ props.size/4 } overflow="hidden" transition="transform 0.3s 0s linear">
-            {login?
+        <Center>
+        { login?
+
+            <Center {...props} _hover={{transform: "scale(1.2)", cursor: "pointer"}}
+                    borderRadius={props.size / 4} overflow="hidden"
+                    transition="transform 0.3s 0s linear">
                 <img src={createAvatar(props.size, "KR")}/>
-                :
-                <BaseButton/>
-            }
+            </Center>
+
+        :
+
+            <Button variant={"primary"}>
+                Sign in
+            </Button>
+        }
         </Center>
     );
 }

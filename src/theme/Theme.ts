@@ -1,10 +1,8 @@
 import {extendTheme} from "@chakra-ui/react";
 import colors from "./Colors";
+import Button from "./Button";
 
-const styles =
-    // extendTheme(
-    {
-    // styles: {
+const styles = {
         global: {
             "html, body": {
                 bg: "#54606d",
@@ -15,14 +13,15 @@ const styles =
                 boxSizing: "content-box"
             }
         }
-    // }
-}
-// )
-;
+};
 
 const theme = {
     styles,
-    colors
+    colors,
+
+    components: {
+        Button,
+    },
 };
 
 export default extendTheme(theme);
