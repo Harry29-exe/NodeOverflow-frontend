@@ -20,7 +20,7 @@ const MainPage = () => {
     }
 
     return (
-        <Box onTouchStart={onTouchTest} width="100vw" height="100vh">
+        <Box onTouchStart={onTouchTest} pos={"absolute"} top={0} left={0} width="100%" height="%">
             Main page
         </Box>
     );

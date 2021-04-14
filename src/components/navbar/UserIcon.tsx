@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Avatar, Box, Button, Center, HTMLChakraProps} from "@chakra-ui/react";
+import {Avatar, Box, Button, ButtonGroup, Center, HTMLChakraProps} from "@chakra-ui/react";
 import BaseButton from "../BaseButton";
 import colors from "../../theme/Colors";
 
@@ -23,7 +23,7 @@ export interface UserIconProps extends HTMLChakraProps<"div"> {
 }
 
 const UserIcon = (props: UserIconProps) => {
-    let [login, setLogin] = useState(false);
+    let [login, setLogin] = useState(true);
 
     return (
         <Center>
@@ -36,13 +36,21 @@ const UserIcon = (props: UserIconProps) => {
             </Center>
 
         :
-
-            <Button variant={"primary"}>
-                Sign in
-            </Button>
+            <ButtonGroup variant={"primary"} size={"sm"} marginLeft={2} marginRight={2}>
+                <Button>
+                    Sign up
+                </Button>
+                <Button variant={"primarySolid"}>
+                    Sign in
+                </Button>
+            </ButtonGroup>
         }
         </Center>
     );
+}
+
+const isUserLogged = () => {
+
 }
 
 const createAvatar = (size: number, username: string): string => {

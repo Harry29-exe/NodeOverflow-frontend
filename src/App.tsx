@@ -45,6 +45,8 @@ const testNodes: NodeModel[] = [
     CreateContrastNode(4, 100, 0)
 ]
 
+const navbarSize = "50px";
+
 function App() {
 
     let handleKeyDown = (event: any) => {
@@ -66,7 +68,7 @@ function App() {
         <ChakraProvider theme={Theme}>
             <Router>
                 <div style={{
-                    position: "absolute", top: 0, height: "60px",
+                    position: "absolute", top: 0, height: navbarSize,
                     width: "100vw", margin: 0, padding: 0
                 }}>
                     <Navbar/>
@@ -74,12 +76,17 @@ function App() {
 
                 <Switch>
                     <Route exact path={"/"}>
+                        <div style={{
+                            position: "absolute", margin: 0, marginTop: navbarSize, height: `calc(100vh - ${navbarSize})`,
+                            width: "100vw", padding: 0
+                        }}>
                         <MainPage/>
+                        </div>
                     </Route>
 
                     <Route path={"/editor"}>
                         <div style={{
-                            position: "absolute", margin: 0, marginTop: "60px", height: "calc(100vh - 60px)",
+                            position: "absolute", margin: 0, marginTop: navbarSize, height: `calc(100vh - ${navbarSize})`,
                             width: "100vw", padding: 0
                         }}>
                             <NodeModule nodes={testNodes}/>
@@ -88,7 +95,7 @@ function App() {
 
                     <Route path={"/examples"}>
                         <div style={{
-                            position: "absolute", margin: 0, marginTop: "60px", height: "calc(100vh - 60px)",
+                            position: "absolute", margin: 0, marginTop: navbarSize, height: `calc(100vh - ${navbarSize})`,
                             width: "100vw", padding: 0
                         }}>
                             <ExamplesPage/>

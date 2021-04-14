@@ -12,14 +12,32 @@ const Button = {
             // boxShadow: "0 0 3px 5px primary.600",
         }),
         primary: (props: any) => ({
-            _focus: {boxShadow: "none"},
             border: "3px solid" + colors.primary["400"],
             bg: "transparent",
             _hover: {
-                boxShadow: "0 0 3px 3px " + colors.primary["400"],
-                bg: "rgba( 0, 0, 0, 0.2)",
+                bg: colors.primary["400"] + "44",
             },
-            transition: "box-shadow 0.3s 0s, background 0.3s 0s",
+            _focus: {
+                boxShadow: "none",
+            },
+            _active: {
+                bg: colors.primary["400"] + "88",
+            },
+            transition: "background 0.3s 0s",
+        }),
+        primarySolid: (props: any) => ({
+            border: "3px solid" + colors.primary["400"],
+            bg: colors.primary["400"],
+            _hover: {
+                bg: colors.primary["500"],
+            },
+            _focus: {
+                boxShadow: "none",
+            },
+            _active: {
+                bg: colors.primary["600"],
+            },
+            transition: "background 0.3s 0s",
         }),
     },
 }
