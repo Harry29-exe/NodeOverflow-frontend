@@ -16,7 +16,7 @@ export const CreateClampImageNode = (id: number, x?: number, y?: number): NodeMo
         new NodeDimension(180, 22, 26, 20), new ClampImageNodeVFun());
     node.addSegment(new OutputSegmentModel("image"));
     node.addSegment(new OptionSegmentModel("Cap at", "Max", ["Max", "Min"]))
-    node.addSegment(new NumericSliderSegmentModel("value", 255, PortType.INPUT, 0, 255,0));
+    node.addSegment(new NumericSliderSegmentModel("value", 255, PortType.INPUT, 0, 255, 0));
     node.addSegment(new InputSegmentModel("image"));
 
     return node;
@@ -43,7 +43,7 @@ export class CapBrightnessNFF implements NodeFactoryFunction<CapBrightnessNodeSa
         node.addSegment(new OutputSegmentModel("image"));
         node.addSegment(new OptionSegmentModel("Cap at", "Max", ["Max", "Min"]))
         node.addSegment(new NumericSliderSegmentModel("value", 255,
-            PortType.INPUT, 0, 255,0));
+            PortType.INPUT, 0, 255, 0));
         node.addSegment(new InputSegmentModel("image"));
 
         return node;
@@ -56,7 +56,7 @@ export class CapBrightnessNFF implements NodeFactoryFunction<CapBrightnessNodeSa
         node.addSegment(new OutputSegmentModel("image"));
         node.addSegment(new OptionSegmentModel("Cap at", save.capAt, ["Max", "Min"]))
         node.addSegment(new NumericSliderSegmentModel("value", 255,
-            PortType.INPUT, 0, 255,0));
+            PortType.INPUT, 0, 255, 0));
         node.addSegment(new InputSegmentModel("image"));
 
         return node;

@@ -12,7 +12,7 @@ export const CreateImageMixNode = (id: number, x?: number, y?: number): NodeMode
         new MixNodeVFun())
     node.addSegment(new OutputSegmentModel("image"));
     // node.addSegment(new OptionSegmentModel("Fit type", "center", ["center", "fit", "stretch", "tile"]));
-    node.addSegment(new NumericSliderSegmentModel("Mask/Mix factor", 0.5, PortType.INPUT, 0, 1,2));
+    node.addSegment(new NumericSliderSegmentModel("Mask/Mix factor", 0.5, PortType.INPUT, 0, 1, 2));
     node.addSegment(new InputSegmentModel("primary image"));
     node.addSegment(new InputSegmentModel("secondary image"));
     return node;

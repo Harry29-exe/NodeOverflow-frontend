@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import "./Navbar.css"
 import {mainColors} from "../../App";
 import {Link as RouterLink} from "react-router-dom";
-import {Box, Link, Image, Center} from "@chakra-ui/react";
+import {Box, Center, Image, Link} from "@chakra-ui/react";
 import UserIcon from "./UserIcon";
 import {RiFullscreenExitLine, RiFullscreenLine} from "react-icons/all";
 import logo from "../../resources/images/logo.svg";
@@ -34,7 +34,7 @@ const Navbar: React.FunctionComponent = () => {
             }}>
 
                 <Center h={"100%"} boxSizing={"border-box"} _hover={{background: "rgba(0,0,0,0.2)"}}
-                        padding={1} marginLeft={"10px"} transition={"background 0.3s 0s"} >
+                        padding={1} marginLeft={"10px"} transition={"background 0.3s 0s"}>
                     <Link as={RouterLink} to={"/"} h={"100%"}
                           _hover={{textStyle: "normal"}} _focus={{boxShadow: "none"}}>
                         <Image src={logo} h={"100%"}/>
@@ -55,9 +55,11 @@ const Navbar: React.FunctionComponent = () => {
                 left="70%" top={0} display="flex" justifyContent="flex-end" alignItems="center"
                 fontWeight={600} color="#fff" fontSize="3.5vh" h="100%"
             >
-                <Box bg="none" _hover={{color: mainColors.headerColor, cursor: "pointer",
-                    transform: fullscreenOn? "scale(1.2)": "scale(1)"}}
-                     transform={fullscreenOn? "scale(1)": "scale(1.2)"}
+                <Box bg="none" _hover={{
+                    color: mainColors.headerColor, cursor: "pointer",
+                    transform: fullscreenOn ? "scale(1.2)" : "scale(1)"
+                }}
+                     transform={fullscreenOn ? "scale(1)" : "scale(1.2)"}
                      onClick={() => {
                          toggleFullScreen();
                          setFullscreen(!fullscreenOn);
@@ -66,10 +68,10 @@ const Navbar: React.FunctionComponent = () => {
                      margin="15px">
 
                     {
-                    fullscreenOn?
-                    <RiFullscreenLine size="30px"/>
-                    :
-                    <RiFullscreenExitLine size="30px"/>
+                        fullscreenOn ?
+                            <RiFullscreenLine size="30px"/>
+                            :
+                            <RiFullscreenExitLine size="30px"/>
                     }
 
                 </Box>
@@ -80,7 +82,7 @@ const Navbar: React.FunctionComponent = () => {
     );
 }
 
-interface NavbarLinkProps extends React.ComponentProps<any>{
+interface NavbarLinkProps extends React.ComponentProps<any> {
     to: string;
 }
 

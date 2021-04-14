@@ -1,5 +1,3 @@
-import {extendTheme} from "@chakra-ui/react";
-
 const colors = {
     primary: {
         50: "#41f2e0",

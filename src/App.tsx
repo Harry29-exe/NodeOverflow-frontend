@@ -8,7 +8,7 @@ import {NodeModel} from "./node-module/node-atomic/NodeModel";
 import {CreateClampImageNode} from "./node-module/nodes/CapBrightnessNode";
 import {CreateContrastNode} from "./node-module/nodes/ContrastNode";
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
-import {ChakraProvider, extendTheme} from "@chakra-ui/react";
+import {ChakraProvider} from "@chakra-ui/react";
 import ExamplesPage from "./pages/ExamplesPage";
 import MainPage from "./pages/MainPage";
 import Theme from "./theme/Theme";
@@ -77,17 +77,25 @@ function App() {
                 <Switch>
                     <Route exact path={"/"}>
                         <div style={{
-                            position: "absolute", margin: 0, marginTop: navbarSize, height: `calc(100vh - ${navbarSize})`,
-                            width: "100vw", padding: 0
+                            position: "absolute",
+                            margin: 0,
+                            marginTop: navbarSize,
+                            height: `calc(100vh - ${navbarSize})`,
+                            width: "100vw",
+                            padding: 0
                         }}>
-                        <MainPage/>
+                            <MainPage/>
                         </div>
                     </Route>
 
                     <Route path={"/editor"}>
                         <div style={{
-                            position: "absolute", margin: 0, marginTop: navbarSize, height: `calc(100vh - ${navbarSize})`,
-                            width: "100vw", padding: 0
+                            position: "absolute",
+                            margin: 0,
+                            marginTop: navbarSize,
+                            height: `calc(100vh - ${navbarSize})`,
+                            width: "100vw",
+                            padding: 0
                         }}>
                             <NodeModule nodes={testNodes}/>
                         </div>
@@ -95,8 +103,12 @@ function App() {
 
                     <Route path={"/examples"}>
                         <div style={{
-                            position: "absolute", margin: 0, marginTop: navbarSize, height: `calc(100vh - ${navbarSize})`,
-                            width: "100vw", padding: 0
+                            position: "absolute",
+                            margin: 0,
+                            marginTop: navbarSize,
+                            height: `calc(100vh - ${navbarSize})`,
+                            width: "100vw",
+                            padding: 0
                         }}>
                             <ExamplesPage/>
                         </div>

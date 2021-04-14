@@ -1,4 +1,4 @@
-import React, {Component, PureComponent} from 'react';
+import React, {PureComponent} from 'react';
 import "./Node.css";
 import {DummyValueFunction} from "./NodeValueFunction";
 import {NodeStorage} from "../NodeStorage";
@@ -83,7 +83,7 @@ class Node extends PureComponent<NodeComponentProps, NodeComponentState> {
         let lastMoveTime = 0;
 
         const moveNode = (event: any) => {
-            if(Date.now() - lastMoveTime < 10) {
+            if (Date.now() - lastMoveTime < 10) {
                 return;
             }
             lastMoveTime = Date.now();
@@ -119,8 +119,7 @@ class Node extends PureComponent<NodeComponentProps, NodeComponentState> {
                 this.setState({selected: false});
                 window.removeEventListener("click", this.unselect);
             }
-        }
-        else if (!shiftPressed) {
+        } else if (!shiftPressed) {
             this.setState({selected: false});
             window.removeEventListener("click", this.unselect);
         }
@@ -142,7 +141,7 @@ class Node extends PureComponent<NodeComponentProps, NodeComponentState> {
         let lastMoveTime = 0;
 
         const moveNode = (event: any) => {
-            if(Date.now() - lastMoveTime < 10 || event.touches.length > 1) {
+            if (Date.now() - lastMoveTime < 10 || event.touches.length > 1) {
                 return;
             }
             lastMoveTime = Date.now();
@@ -170,13 +169,13 @@ class Node extends PureComponent<NodeComponentProps, NodeComponentState> {
     }
 
     touchUnselect = (event: any) => {
-        if(!this._nodeBackgroundRef.current ) {
+        if (!this._nodeBackgroundRef.current) {
             console.log("no ref");
             this.setState({selected: false, aboutToDelete: false});
             window.removeEventListener("touchstart", this.unselect);
         } else if (Date.now() - this.lastTouch > 10) {
             let nodeBox = this._nodeBackgroundRef.current.getBoundingClientRect();
-            let touch = event.touches[event.touches.length-1];
+            let touch = event.touches[event.touches.length - 1];
             if (touch.clientX < nodeBox.left || touch.clientX > nodeBox.left + nodeBox.width ||
                 touch.clientY < nodeBox.top || touch.clientY > nodeBox.top + nodeBox.height) {
                 console.log(`screenX: ${touch.screenX}, left: ${nodeBox.left}, width: ${nodeBox.width}`);
@@ -202,7 +201,7 @@ class Node extends PureComponent<NodeComponentProps, NodeComponentState> {
         return (
             <div className={"nodeWrapper"} style={{
                 transform: `translate(${this.state.x}px, ${this.state.y}px`
-                ,transition: `transform 0.01s 0 ease-out`
+                , transition: `transform 0.01s 0 ease-out`
             }}>
                 <div style={{position: "absolute", top: this.props.node.dimensions.headHeight}}>
                 </div>
@@ -217,8 +216,8 @@ class Node extends PureComponent<NodeComponentProps, NodeComponentState> {
                          height: this.height + "px",
                          borderRadius: this.props.node.dimensions.headHeight,
                          backgroundColor: this.nodeStyle.nodeBackgroundColor,
-                         boxShadow: "0 0 3px 2px " + (this.state.aboutToDelete? "#c21414":
-                             this.state.selected ? this.nodeStyle.headerColor :"#555e66")
+                         boxShadow: "0 0 3px 2px " + (this.state.aboutToDelete ? "#c21414" :
+                             this.state.selected ? this.nodeStyle.headerColor : "#555e66")
                      }}>
 
                     <Box draggable="false" className={"header"} style={{
