@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import Segment, {PortType, SegmentModel, SegmentProps} from "../Segment";
 import {NodeStorage} from "../../NodeStorage";
 import "./OptionSegment.css"
-import {mainColors} from "../../../App";
+import {mainColors} from "../../../../App";
 import {NodeCanvasViewProperties} from "../../NodeCanvasViewProperties";
 
 export class OptionSegmentProps extends SegmentProps<string> {

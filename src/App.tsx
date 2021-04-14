@@ -1,16 +1,16 @@
 import React from 'react';
 import './App.css';
-import NodeModule from "./node-module/NodeModule";
+import NodeModule from "./components/node-module/NodeModule";
 import Navbar from "./components/navbar/Navbar";
-import {CreateImageInputNode} from "./node-module/nodes/ImageInputNode";
-import {CreateOutputNode} from "./node-module/nodes/OutputNode";
-import {NodeModel} from "./node-module/node-atomic/NodeModel";
-import {CreateClampImageNode} from "./node-module/nodes/CapBrightnessNode";
-import {CreateContrastNode} from "./node-module/nodes/ContrastNode";
+import {CreateImageInputNode} from "./components/node-module/nodes/ImageInputNode";
+import {CreateOutputNode} from "./components/node-module/nodes/OutputNode";
+import {NodeModel} from "./components/node-module/node-atomic/NodeModel";
+import {CreateClampImageNode} from "./components/node-module/nodes/CapBrightnessNode";
+import {CreateContrastNode} from "./components/node-module/nodes/ContrastNode";
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import {ChakraProvider} from "@chakra-ui/react";
-import ExamplesPage from "./pages/ExamplesPage";
-import MainPage from "./pages/MainPage";
+import ExamplesPage from "./components/examples/ExamplesPage";
+import MainPage from "./components/main-page/MainPage";
 import Theme from "./theme/Theme";
 
 export const PressedKeys: { keys: string[] } = {

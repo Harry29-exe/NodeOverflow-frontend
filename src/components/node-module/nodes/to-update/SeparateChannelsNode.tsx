@@ -1,14 +1,14 @@
 import {NodeDimension, NodeModel} from "../../node-atomic/NodeModel";
 import {NodeValueFunction} from "../../node-atomic/NodeValueFunction";
-import {ChanelType, ImageLikeData} from "../../../image-manipulation/structs/ImageLikeData";
+import {ChanelType, ImageLikeData} from "../../../../image-manipulation/structs/ImageLikeData";
 import {OutputSegmentModel} from "../../node-atomic/segments/OutputSegment";
 import {InputSegmentModel} from "../../node-atomic/segments/InputSegment";
-import WorkerLoader from "../../../image-manipulation/WorkerLoader";
-import "../../../image-manipulation/workers/SeparateChannelsWorker"
+import WorkerLoader from "../../../../image-manipulation/WorkerLoader";
+import "../../../../image-manipulation/workers/SeparateChannelsWorker"
 import SeparateChannelsWorker, {
     createWorkerMessage,
     WorkerReturnType
-} from "../../../image-manipulation/workers/SeparateChannelsWorker";
+} from "../../../../image-manipulation/workers/SeparateChannelsWorker";
 
 export const CreateSeparateChannelsNode = (id: number, x?: number, y?: number): NodeModel => {
     let node = new NodeModel(id, "Separate channels", x ? x : 0, y ? y : 0,

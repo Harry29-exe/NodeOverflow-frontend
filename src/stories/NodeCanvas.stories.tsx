@@ -1,6 +1,6 @@
-import NodeCanvas, {NodeCanvasProps} from "../node-module/NodeCanvas";
-import {DefaultNodeStorage} from "../node-module/NodeStorage";
-import {NodeCanvasViewProperties} from "../node-module/NodeCanvasViewProperties";
+import NodeCanvas, {NodeCanvasProps} from "../components/node-module/NodeCanvas";
+import {DefaultNodeStorage} from "../components/node-module/NodeStorage";
+import {NodeCanvasViewProperties} from "../components/node-module/NodeCanvasViewProperties";
 import {Story} from "@storybook/react/types-6-0";
 
 export default {

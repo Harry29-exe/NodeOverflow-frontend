@@ -3,7 +3,7 @@ import {NodeModel} from "../node-module/node-atomic/NodeModel";
 import {LinkModel} from "../node-module/node-atomic/Link";
 import {Box, Flex, Heading, Text, VStack} from '@chakra-ui/react';
 import NodeModule from "../node-module/NodeModule";
-import {mainColors} from "../App";
+import {mainColors} from "../../App";
 
 export interface ExampleProps {
     name: string,

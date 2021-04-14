@@ -3,7 +3,7 @@ import {ImageSegmentModel} from "../node-atomic/segments/ImageSegment";
 import {PortType} from "../node-atomic/Segment";
 import {NodeValueFunction} from "../node-atomic/NodeValueFunction";
 import {NodeDimension, NodeModel} from "../node-atomic/NodeModel";
-import {ImageLikeData} from "../../image-manipulation/structs/ImageLikeData";
+import {ImageLikeData} from "../../../image-manipulation/structs/ImageLikeData";
 import {NodeFactoryFunction} from "./utils/NodeFactory";
 import {NodeSave} from "./utils/NodeSave";
 

@@ -1,8 +1,8 @@
 import React, {PureComponent} from 'react';
-import {mainColors} from "../App";
+import {mainColors} from "../../App";
 import "./NodeControlPanel.css"
-import {Button, ButtonContent} from "../components/Button";
-import {UnfoldingButton} from "../components/UnfoldingButton";
+import {Button, ButtonContent} from "../Button";
+import {UnfoldingButton} from "../UnfoldingButton";
 import {NodeStorage} from "./NodeStorage";
 import {NodeCanvasViewProperties} from "./NodeCanvasViewProperties";
 import {NodeFactoryFunction, NodeFactoryFunctionMap} from "./nodes/utils/NodeFactory";

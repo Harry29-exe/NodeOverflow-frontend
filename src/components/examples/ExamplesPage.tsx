@@ -1,7 +1,7 @@
 import {Box, Link} from '@chakra-ui/react';
 import React from 'react';
 import {Link as RouterLink, Route, Switch, useRouteMatch} from "react-router-dom";
-import Example from "../examples/Example";
+import Example from "./Example";
 import {CreateImageInputNode} from "../node-module/nodes/ImageInputNode";
 import {NodeFactory} from "../node-module/nodes/utils/NodeFactory";
 

@@ -48,7 +48,7 @@ const UserIcon = (props: UserIconProps) => {
 }
 
 const isUserLogged = () => {
-
+    // let authCookie = document.cookie..get('Authentication');
 }
 
 const createAvatar = (size: number, username: string): string => {

@@ -1,10 +1,10 @@
-import NodeModule from "../node-module/NodeModule";
-import {CreateImageInputNode} from "../node-module/nodes/ImageInputNode";
+import NodeModule from "../components/node-module/NodeModule";
+import {CreateImageInputNode} from "../components/node-module/nodes/ImageInputNode";
 import {Meta, Story} from "@storybook/react/types-6-0";
-import {CreateOutputNode} from "../node-module/nodes/OutputNode";
-import {LinkModel} from "../node-module/node-atomic/Link";
-import {CreateImageMixNode} from "../node-module/nodes/to-update/ImageMixNode";
-import {NodeModel} from "../node-module/node-atomic/NodeModel";
+import {CreateOutputNode} from "../components/node-module/nodes/OutputNode";
+import {LinkModel} from "../components/node-module/node-atomic/Link";
+import {CreateImageMixNode} from "../components/node-module/nodes/to-update/ImageMixNode";
+import {NodeModel} from "../components/node-module/node-atomic/NodeModel";
 
 export default {
     title: "Node/Wrappers/Node Module",

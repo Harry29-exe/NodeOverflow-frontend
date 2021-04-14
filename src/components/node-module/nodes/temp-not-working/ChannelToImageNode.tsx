@@ -1,8 +1,8 @@
 import {NodeDimension, NodeModel} from "../../node-atomic/NodeModel";
 import {SeparateChannelsNodeVFun} from "../to-update/SeparateChannelsNode";
 import {NodeValueFunction} from "../../node-atomic/NodeValueFunction";
-import WorkerLoader from "../../../image-manipulation/WorkerLoader"
-import ContrastWorker from "../../../image-manipulation/workers/ContrastWorker";
+import WorkerLoader from "../../../../image-manipulation/WorkerLoader"
+import ContrastWorker from "../../../../image-manipulation/workers/ContrastWorker";
 import {CreateNode} from "../utils/NodeFactory";
 
 export const CreateChannelToImageNode: CreateNode = (id: number, x?: number, y?: number): NodeModel => {
