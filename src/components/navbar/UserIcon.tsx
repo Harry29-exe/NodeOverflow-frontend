@@ -1,21 +1,6 @@
 import React, {useState} from 'react';
 import {Button, ButtonGroup, Center, HTMLChakraProps} from "@chakra-ui/react";
 
-const jwtToken: { token: string, payload: any } = {
-    token: "",
-    payload: ""
-}
-
-export const parseJwt = (token: string): any => {
-    let base64UrlPayload = token.split('.')[1];
-    let base64Payload = base64UrlPayload.replace(/-/g, '+').replace(/_/g, '/');
-    let jsonPayload = decodeURIComponent(atob(base64Payload).split('').map(function (c) {
-        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-    }).join(''));
-
-    return JSON.parse(jsonPayload);
-}
-
 export interface UserIconProps extends HTMLChakraProps<"div"> {
     size: number;
 }
@@ -45,10 +30,6 @@ const UserIcon = (props: UserIconProps) => {
             }
         </Center>
     );
-}
-
-const isUserLogged = () => {
-    // let authCookie = document.cookie..get('Authentication');
 }
 
 const createAvatar = (size: number, username: string): string => {
