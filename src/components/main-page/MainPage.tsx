@@ -1,6 +1,7 @@
 import {Box, Image} from '@chakra-ui/react';
 import React from 'react';
 import background from "../../resources/images/background.png"
+import Navbar from "../navbar/Navbar";
 
 const MainPage = () => {
 
@@ -21,8 +22,10 @@ const MainPage = () => {
     }
 
     return (
-        <Box onTouchStart={onTouchTest} pos={"absolute"} top={0} left={0} width="100%" height="%">
-            <Box h={"300px"} w={"100vw"}>
+        <Box onTouchStart={onTouchTest} pos={"absolute"} top={0} left={0} width="100vw" height="vh">
+            <Navbar height={"50px"}/>
+
+            <Box h={`calc(100vh - "50px`} w={"100vw"}>
                 <Image src={background} h={"100%"} w={"100%"} objectFit={"cover"}/>
             </Box>
         </Box>

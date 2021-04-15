@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import "./Navbar.css"
 import {mainColors} from "../../App";
 import {Link as RouterLink} from "react-router-dom";
 import {Box, Center, Image, Link} from "@chakra-ui/react";
@@ -18,11 +17,15 @@ const toggleFullScreen = () => {
     }
 }
 
-const Navbar: React.FunctionComponent = () => {
+interface NavbarProps {
+    height: number | string;
+}
+
+const Navbar: React.FunctionComponent<NavbarProps> = ( props: NavbarProps) => {
     const [fullscreenOn, setFullscreen] = useState(true);
 
     return (
-        <Box position="absolute" top={0} left={0} width="100%" height="100%"
+        <Box position="absolute" top={0} left={0} width="100vw" height={props.height}
              margin={0} padding={0} fontSize={"xl"} bg={"gray.700"}
              boxSizing={"border-box"} borderBottomWidth={"2px"} borderBottomColor={"primary.400"}
         >

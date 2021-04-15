@@ -1,33 +1,14 @@
 import React from 'react';
 import './App.css';
-import NodeModule from "./components/node-module/NodeModule";
-import Navbar from "./components/navbar/Navbar";
-import {CreateImageInputNode} from "./components/node-module/nodes/ImageInputNode";
-import {CreateOutputNode} from "./components/node-module/nodes/OutputNode";
-import {NodeModel} from "./components/node-module/node-atomic/NodeModel";
-import {CreateClampImageNode} from "./components/node-module/nodes/CapBrightnessNode";
-import {CreateContrastNode} from "./components/node-module/nodes/ContrastNode";
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import {ChakraProvider} from "@chakra-ui/react";
 import ExamplesPage from "./components/examples/ExamplesPage";
 import MainPage from "./components/main-page/MainPage";
 import Theme from "./theme/Theme";
+import EditorPage from "./components/node-module/EditorPage";
 
 export const PressedKeys: { keys: string[] } = {
     keys: []
-}
-
-export const Icons = {
-    image: '\uF1C5',
-    maximize: '\uE800',
-    minimize: '\uE801',
-    arrowDown: '\uE802',
-    arrowUp: '\uE805',
-    arrowLeft: '\uE803',
-    arrowRight: '\uE804',
-    doAgain: '\uE806',
-    loading: '\uE807'
-
 }
 
 export const mainColors = {
@@ -37,13 +18,6 @@ export const mainColors = {
     segmentColor: "#3c454f",
     color: "#f7f7f7",
 }
-
-const testNodes: NodeModel[] = [
-    CreateImageInputNode(1, -360, -60),
-    CreateOutputNode(2, 220, 80),
-    CreateClampImageNode(3, 0, 0),
-    CreateContrastNode(4, 100, 0)
-]
 
 const navbarSize = "50px";
 
@@ -67,51 +41,17 @@ function App() {
     return (
         <ChakraProvider theme={Theme}>
             <Router>
-                <div style={{
-                    position: "absolute", top: 0, height: navbarSize,
-                    width: "100vw", margin: 0, padding: 0
-                }}>
-                    <Navbar/>
-                </div>
-
                 <Switch>
                     <Route exact path={"/"}>
-                        <div style={{
-                            position: "absolute",
-                            margin: 0,
-                            marginTop: navbarSize,
-                            height: `calc(100vh - ${navbarSize})`,
-                            width: "100vw",
-                            padding: 0
-                        }}>
-                            <MainPage/>
-                        </div>
+                        <MainPage/>
                     </Route>
 
                     <Route path={"/editor"}>
-                        <div style={{
-                            position: "absolute",
-                            margin: 0,
-                            marginTop: navbarSize,
-                            height: `calc(100vh - ${navbarSize})`,
-                            width: "100vw",
-                            padding: 0
-                        }}>
-                            <NodeModule nodes={testNodes}/>
-                        </div>
+                        <EditorPage/>
                     </Route>
 
                     <Route path={"/examples"}>
-                        <div style={{
-                            position: "absolute",
-                            margin: 0,
-                            marginTop: navbarSize,
-                            height: `calc(100vh - ${navbarSize})`,
-                            width: "100vw",
-                            padding: 0
-                        }}>
-                            <ExamplesPage/>
-                        </div>
+                        <ExamplesPage/>
                     </Route>
                 </Switch>
             </Router>
