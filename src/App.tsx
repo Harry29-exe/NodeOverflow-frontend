@@ -1,11 +1,14 @@
 import React from 'react';
 import './App.css';
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
-import {ChakraProvider} from "@chakra-ui/react";
+import {Box, ChakraProvider} from "@chakra-ui/react";
 import ExamplesPage from "./components/examples/ExamplesPage";
 import MainPage from "./components/main-page/MainPage";
 import Theme from "./theme/Theme";
 import EditorPage from "./components/node-module/EditorPage";
+import {AuthContext} from "./logic/auth/AuthContext";
+import {JwtToken} from "./logic/auth/JwtToken";
+import Navbar from "./components/navbar/Navbar";
 
 export const PressedKeys: { keys: string[] } = {
     keys: []
@@ -40,21 +43,29 @@ function App() {
 
     return (
         <ChakraProvider theme={Theme}>
-            <Router>
-                <Switch>
-                    <Route exact path={"/"}>
-                        <MainPage/>
-                    </Route>
+            <AuthContext.Provider value={new JwtToken("")}>
 
-                    <Route path={"/editor"}>
-                        <EditorPage/>
-                    </Route>
+                <Router>
+                    <Navbar height={"50px"}/>
+                    <Box pos={"absolute"} top={"50px"} left={0}
+                         w={"100vw"} h={"calc(100vh - 50px)"}>
+                        <Switch>
+                            <Route exact path={"/"}>
+                                <MainPage/>
+                            </Route>
 
-                    <Route path={"/examples"}>
-                        <ExamplesPage/>
-                    </Route>
-                </Switch>
-            </Router>
+                            <Route path={"/editor"}>
+                                <EditorPage/>
+                            </Route>
+
+                            <Route path={"/examples"}>
+                                <ExamplesPage/>
+                            </Route>
+                        </Switch>
+                    </Box>
+                </Router>
+
+            </AuthContext.Provider>
         </ChakraProvider>
     );
 }

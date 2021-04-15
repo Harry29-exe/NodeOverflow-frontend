@@ -4,7 +4,6 @@ import {Link as RouterLink, Route, Switch, useRouteMatch} from "react-router-dom
 import Example from "./Example";
 import {CreateImageInputNode} from "../node-module/nodes/ImageInputNode";
 import {NodeFactory} from "../node-module/nodes/utils/NodeFactory";
-import Navbar from "../navbar/Navbar";
 
 
 interface ExamplesMainPageProps {
@@ -21,35 +20,31 @@ const ExamplesPage = (props: any) => {
     console.log(testLoaded);
 
     return (
-        <Box>
-            <Navbar height={"50px"}/>
+        <Box position="absolute" top={0} left={0} width="100%" height="100%">
 
-            <Box position="absolute" top={"50px"} left={0} width="100vw" height="calc(100vh - 50px)">
+            <Box position="absolute" top={0} left={"0"} width="150px" height="inherit" bg="#008800">
+                <Link as={RouterLink} to={`${url}`}>
+                    /
+                </Link>
+                <br/>
+                <Link as={RouterLink} to={`${url}/ex1`}>
+                    ex1
+                </Link>
+            </Box>
 
-                <Box position="absolute" top={0} left={"0"} width="150px" height="inherit" bg="#008800">
-                    <Link as={RouterLink} to={`${url}`}>
-                        /
-                    </Link>
-                    <br/>
-                    <Link as={RouterLink} to={`${url}/ex1`}>
-                        ex1
-                    </Link>
-                </Box>
+            <Box position="absolute" top={0} left="150px" width="calc(100% - 150px);" height="inherit" bg="#666666">
+                <Switch>
+                    <Route exact path={`${path}/`}>
+                        <Example nodeModels={[]} linkModels={[]} name="empty"
+                                 description="short description but with a lot of sense"/>
+                    </Route>
 
-                <Box position="absolute" top={0} left="150px" width="calc(100% - 150px);" height="inherit" bg="#666666">
-                    <Switch>
-                        <Route exact path={`${path}/`}>
-                            <Example nodeModels={[]} linkModels={[]} name="empty"
-                                     description="short description but with a lot of sense"/>
-                        </Route>
-
-                        <Route exact path={`${path}/ex1`}>
-                            <Example nodeModels={[CreateImageInputNode(1)]} linkModels={[]} name="ex1"
-                                     description="long description with a lot of sens and probably not a lot of anything else becouse I'm writing very
-                                 much whatever only to test if this thin works correctly "/>
-                        </Route>
-                    </Switch>
-                </Box>
+                    <Route exact path={`${path}/ex1`}>
+                        <Example nodeModels={[CreateImageInputNode(1)]} linkModels={[]} name="ex1"
+                                 description="long description with a lot of sens and probably not a lot of anything else becouse I'm writing very
+                             much whatever only to test if this thin works correctly "/>
+                    </Route>
+                </Switch>
             </Box>
         </Box>
     );

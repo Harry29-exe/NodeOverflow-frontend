@@ -1,6 +1,5 @@
 import React from 'react';
 import {Box} from "@chakra-ui/react";
-import Navbar from "../navbar/Navbar";
 import NodeModule from "./NodeModule";
 import {NodeModel} from "./node-atomic/NodeModel";
 import {CreateImageInputNode} from "./nodes/ImageInputNode";
@@ -17,13 +16,10 @@ const testNodes: NodeModel[] = [
 
 const EditorPage = () => {
     return (
-        <Box pos="absolute" left={0} top={0} w={"100vw"} h={"100vh"}>
-            <Navbar height={"50px"}/>
-            <Box pos={"absolute"} top={"50px"} h={"calc(100vh - 50px)"}
-                w={"100vw"}>
-                <NodeModule nodes={testNodes}/>
-            </Box>
+        <Box pos={"absolute"} top={0} h={"100%"} w={"100%"}>
+            <NodeModule nodes={testNodes}/>
         </Box>
+
     );
 };
 
