@@ -2,9 +2,9 @@ import React, {useState} from 'react';
 import {mainColors} from "../../App";
 import {Link as RouterLink} from "react-router-dom";
 import {Box, Center, Image, Link} from "@chakra-ui/react";
-import UserIcon from "./UserIcon";
 import {RiFullscreenExitLine, RiFullscreenLine} from "react-icons/all";
 import logo from "../../resources/images/logo.svg";
+import UserNavbarSection from "./UserNavbarSection";
 
 const toggleFullScreen = () => {
     let toggleOn = document.fullscreenElement;
@@ -79,7 +79,7 @@ const Navbar: React.FunctionComponent<NavbarProps> = ( props: NavbarProps) => {
 
                 </Box>
 
-                <UserIcon size={35} margin="15px"/>
+                <UserNavbarSection/>
             </Box>
         </Box>
     );

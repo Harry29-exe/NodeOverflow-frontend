@@ -1,6 +1,7 @@
-import {jwtToken} from "./AuthStorage";
-
 export const parseJwt = (token: string): any => {
+    if (token === "") {
+        return {};
+    }
     let base64UrlPayload = token.split('.')[1];
     let base64Payload = base64UrlPayload.replace(/-/g, '+').replace(/_/g, '/');
     let jsonPayload = decodeURIComponent(atob(base64Payload).split('').map(function (c) {
@@ -10,15 +11,15 @@ export const parseJwt = (token: string): any => {
     return JSON.parse(jsonPayload);
 }
 
-export const isUserLogged = (): boolean => {
-    if (jwtToken.token !== "") {
-        return true
-    }
-
-    let authCookie = document.cookie.split('; ')
-        .find(cookie => cookie.startsWith('Authentication'));
-    return typeof authCookie === "string";
-}
+// export const isUserLogged = (auth: ContextType): boolean => {
+//     if (jwtToken.token !== "") {
+//         return true
+//     }
+//
+//     let authCookie = document.cookie.split('; ')
+//         .find(cookie => cookie.startsWith('Authentication'));
+//     return typeof authCookie === "string";
+// }
 
 export const getUsername = (): string => {
     return "";
