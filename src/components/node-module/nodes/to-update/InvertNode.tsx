@@ -1,8 +1,8 @@
 import {CreateNode} from "../utils/NodeFactory";
 import {NodeDimension, NodeModel} from "../../node-atomic/NodeModel";
 import {NodeValueFunction} from "../../node-atomic/NodeValueFunction";
-import {ImageLikeData} from "../../../../image-manipulation/structs/ImageLikeData";
-import {InvertImageWorker} from "../../../../image-manipulation/workers/InvertWorker";
+import {ImageLikeData} from "../../../../logic/image-manipulation/structs/ImageLikeData";
+import {InvertImageWorker} from "../../../../logic/image-manipulation/workers/InvertWorker";
 import {OutputSegmentModel} from "../../node-atomic/segments/OutputSegment";
 import {InputSegmentModel} from "../../node-atomic/segments/InputSegment";
 

@@ -1,13 +1,13 @@
 import {NodeDimension, NodeModel} from "../node-atomic/NodeModel";
 import {CreateNode, NodeFactoryFunction} from "./utils/NodeFactory";
 import {NodeValueFunction} from "../node-atomic/NodeValueFunction";
-import {ImageLikeData} from "../../../image-manipulation/structs/ImageLikeData";
+import {ImageLikeData} from "../../../logic/image-manipulation/structs/ImageLikeData";
 import {OutputSegmentModel} from "../node-atomic/segments/OutputSegment";
 import {NumericSliderSegmentModel} from "../node-atomic/segments/NumericSliderSegment";
 import {PortType} from "../node-atomic/Segment";
 import {InputSegmentModel} from "../node-atomic/segments/InputSegment";
-import "../../../image-manipulation/workers/ContrastWorker";
-import {ContrastImageWorker} from "../../../image-manipulation/workers/ContrastWorker";
+import "../../../logic/image-manipulation/workers/ContrastWorker";
+import {ContrastImageWorker} from "../../../logic/image-manipulation/workers/ContrastWorker";
 import {NodeSave} from "./utils/NodeSave";
 
 export const CreateContrastNode: CreateNode = (id: number, x?: number, y?: number): NodeModel => {
