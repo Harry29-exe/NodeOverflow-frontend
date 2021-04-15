@@ -6,8 +6,6 @@ import ExamplesPage from "./components/examples/ExamplesPage";
 import MainPage from "./components/main-page/MainPage";
 import Theme from "./theme/Theme";
 import EditorPage from "./components/node-module/EditorPage";
-import {AuthContext} from "./logic/auth/AuthContext";
-import {JwtToken} from "./logic/auth/JwtToken";
 import Navbar from "./components/navbar/Navbar";
 
 export const PressedKeys: { keys: string[] } = {
@@ -43,7 +41,7 @@ function App() {
 
     return (
         <ChakraProvider theme={Theme}>
-            <AuthContext.Provider value={new JwtToken("")}>
+            {/*<AuthContext.Provider value={new JwtToken("")}>*/}
 
                 <Router>
                     <Navbar height={"50px"}/>
@@ -65,7 +63,7 @@ function App() {
                     </Box>
                 </Router>
 
-            </AuthContext.Provider>
+            {/*</AuthContext.Provider>*/}
         </ChakraProvider>
     );
 }

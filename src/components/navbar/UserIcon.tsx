@@ -1,33 +1,16 @@
-import React, {useState} from 'react';
-import {Button, ButtonGroup, Center, HTMLChakraProps} from "@chakra-ui/react";
+import React from 'react';
+import {Center, HTMLChakraProps} from "@chakra-ui/react";
 
 export interface UserIconProps extends HTMLChakraProps<"div"> {
     size: number;
 }
 
 const UserIcon = (props: UserIconProps) => {
-    let [login, setLogin] = useState(true);
-
     return (
-        <Center>
-            {login ?
-
-                <Center {...props} _hover={{transform: "scale(1.2)", cursor: "pointer"}}
-                        borderRadius={props.size / 4} overflow="hidden"
-                        transition="transform 0.3s 0s linear">
-                    <img src={createAvatar(props.size, "KR")}/>
-                </Center>
-
-                :
-                <ButtonGroup variant={"primary"} size={"sm"} marginLeft={2} marginRight={2}>
-                    <Button>
-                        Sign up
-                    </Button>
-                    <Button variant={"primarySolid"}>
-                        Sign in
-                    </Button>
-                </ButtonGroup>
-            }
+        <Center {...props} _hover={{transform: "scale(1.2)", cursor: "pointer"}}
+                borderRadius={props.size / 4} overflow="hidden"
+                transition="transform 0.3s 0s linear">
+            <img src={createAvatar(props.size, "KR")}/>
         </Center>
     );
 }
