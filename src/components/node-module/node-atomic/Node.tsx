@@ -4,8 +4,8 @@ import {DummyValueFunction} from "./NodeValueFunction";
 import {NodeStorage} from "../NodeStorage";
 import {NodeCanvasViewProperties} from "../NodeCanvasViewProperties";
 import {NodeDimension, NodeModel, NodeStyle} from "./NodeModel";
-import {PressedKeys} from "../../../App";
 import {Box} from "@chakra-ui/react";
+import {PressedKeys} from "../../../logic/GlobalKeyListener";
 
 export class NodeComponentState {
     public x: number;

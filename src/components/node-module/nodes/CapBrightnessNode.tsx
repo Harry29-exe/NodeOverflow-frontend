@@ -1,7 +1,10 @@
 import {NodeDimension, NodeModel} from "../node-atomic/NodeModel";
 import {NodeValueFunction} from "../node-atomic/NodeValueFunction";
 import "../../../logic/image-manipulation/workers/CapBrightnessWorker";
-import {CapBrightnessImageWorker, CapBrightnessParams} from "../../../logic/image-manipulation/workers/CapBrightnessWorker";
+import {
+    CapBrightnessImageWorker,
+    CapBrightnessParams
+} from "../../../logic/image-manipulation/workers/CapBrightnessWorker";
 import {OutputSegmentModel} from "../node-atomic/segments/OutputSegment";
 import {InputSegmentModel} from "../node-atomic/segments/InputSegment";
 import {PortType} from "../node-atomic/Segment";

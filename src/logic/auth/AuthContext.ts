@@ -1,15 +1,26 @@
+import {JwtAuthContext} from "./JwtToken";
+import React from "react";
+
 export interface AuthInfo {
     username: string;
 }
 
-export interface AuthContextObject<UserObject extends AuthInfo> {
+export interface AuthContext<UserObject extends AuthInfo> {
     isUserLogged(): boolean;
 
-    login(username: string, password: string): void;
+    login(username: string, password: string, dontLogout: boolean): Promise<LoginStatus>;
+
+    tryResumeLastSessions(): boolean;
 
     logout(): void;
 
-    user: UserObject | null;
+    authInfo: UserObject | null;
 }
 
-// export const AuthContext = React.createContext<AuthContextObject>();
+export enum LoginStatus {
+    OK,
+    BAD_CREDENTIALS,
+    FAIL
+}
+
+export const AuthContext = React.createContext<AuthContext<any>>(new JwtAuthContext());

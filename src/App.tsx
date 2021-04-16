@@ -1,16 +1,17 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './App.css';
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import {Box, ChakraProvider} from "@chakra-ui/react";
 import ExamplesPage from "./components/examples/ExamplesPage";
 import MainPage from "./components/main-page/MainPage";
-import Theme from "./theme/Theme";
 import EditorPage from "./components/node-module/EditorPage";
 import Navbar from "./components/navbar/Navbar";
+import theme from "./theme/theme";
+import {FullScreenContext} from './logic/FullScreenContext';
+import {initGlobalKeyListener} from "./logic/GlobalKeyListener";
+import {JwtAuthContext} from "./logic/auth/JwtToken";
+import {AuthContext} from './logic/auth/AuthContext';
 
-export const PressedKeys: { keys: string[] } = {
-    keys: []
-}
 
 export const mainColors = {
     backgroundColor: "#54606d",
@@ -20,50 +21,41 @@ export const mainColors = {
     color: "#f7f7f7",
 }
 
-const navbarSize = "50px";
-
 function App() {
-
-    let handleKeyDown = (event: any) => {
-        console.log("key down " + event.code);
-        if (!PressedKeys.keys.includes(event.code)) {
-            PressedKeys.keys.push(event.code);
-        }
-    }
-
-    let handleKeyUp = (event: any) => {
-        PressedKeys.keys = PressedKeys.keys.filter(k => k !== event.code);
-    }
-    window.removeEventListener("keydown", handleKeyDown);
-    window.removeEventListener("keyup", handleKeyUp);
-    window.addEventListener("keydown", handleKeyDown);
-    window.addEventListener("keyup", handleKeyUp);
+    let [onFullscreen, setFullscreen] = useState(false);
+    initGlobalKeyListener();
 
     return (
-        <ChakraProvider theme={Theme}>
-            {/*<AuthContext.Provider value={new JwtToken("")}>*/}
+        <ChakraProvider theme={theme}>
+            <FullScreenContext.Provider value={{onFullscreen: onFullscreen, toggleFullscreen: setFullscreen}}>
+                <AuthContext.Provider value={new JwtAuthContext()}>
 
-                <Router>
-                    <Navbar height={"50px"}/>
-                    <Box pos={"absolute"} top={"50px"} left={0}
-                         w={"100vw"} h={"calc(100vh - 50px)"}>
-                        <Switch>
-                            <Route exact path={"/"}>
-                                <MainPage/>
-                            </Route>
+                    <Router>
+                        {!onFullscreen &&
+                        <Navbar height={"50px"}/>
+                        }
 
-                            <Route path={"/editor"}>
-                                <EditorPage/>
-                            </Route>
+                        <Box pos={"absolute"} left={0} w={"100vw"}
+                             h={onFullscreen ? "100vh" : "calc(100vh - 50px)"}
+                             top={onFullscreen ? 0 : "50px"}>
+                            <Switch>
+                                <Route exact path={"/"}>
+                                    <MainPage/>
+                                </Route>
 
-                            <Route path={"/examples"}>
-                                <ExamplesPage/>
-                            </Route>
-                        </Switch>
-                    </Box>
-                </Router>
+                                <Route path={"/editor"}>
+                                    <EditorPage/>
+                                </Route>
 
-            {/*</AuthContext.Provider>*/}
+                                <Route path={"/examples"}>
+                                    <ExamplesPage/>
+                                </Route>
+                            </Switch>
+                        </Box>
+                    </Router>
+
+                </AuthContext.Provider>
+            </FullScreenContext.Provider>
         </ChakraProvider>
     );
 }

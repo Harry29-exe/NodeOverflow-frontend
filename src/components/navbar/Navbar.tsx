@@ -21,7 +21,7 @@ interface NavbarProps {
     height: number | string;
 }
 
-const Navbar: React.FunctionComponent<NavbarProps> = ( props: NavbarProps) => {
+const Navbar: React.FunctionComponent<NavbarProps> = (props: NavbarProps) => {
     const [fullscreenOn, setFullscreen] = useState(true);
 
     return (

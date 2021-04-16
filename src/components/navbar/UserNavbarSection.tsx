@@ -1,17 +1,23 @@
 import React, {useState} from 'react';
 import {Button, ButtonGroup, Center, HTMLChakraProps} from "@chakra-ui/react";
 import UserIcon from "./UserIcon";
-import LoginWindow from "./LoginWindow";
+import LoginRegisterWindow from "./LoginRegisterWindow";
 
 export interface UserNavbarSectionProps extends HTMLChakraProps<"div"> {
 }
 
+interface LoginRegisterWindowState {
+    open: boolean;
+    type: "login" | "register";
+}
 
 export const UserNavbarSection = (props: UserNavbarSectionProps) => {
-    let [loginWidowOpen, setLoginWindow] = useState(false);
+    let [loginRegisterWidowState, setWindowState] = useState<LoginRegisterWindowState>({
+        open: false, type: "login"
+    });
     let logged = false;
     const onClose = (): void => {
-        setLoginWindow(false);
+        setWindowState({open: false, type: "login"});
     }
 
     return (
@@ -20,16 +26,16 @@ export const UserNavbarSection = (props: UserNavbarSectionProps) => {
                 <UserIcon size={35}/>
                 :
                 <ButtonGroup variant={"primary"} size={"sm"} marginLeft={2} marginRight={2}>
-                    <Button>
+                    <Button onClick={() => setWindowState({open: true, type: "register"})}>
                         Sign up
                     </Button>
-                    <Button variant={"primarySolid"} onClick={() => setLoginWindow(true)}>
+                    <Button onClick={() => setWindowState({open: true, type: "login"})} variant={"primarySolid"}>
                         Sign in
                     </Button>
                 </ButtonGroup>
             }
-            {loginWidowOpen ?
-                <LoginWindow onClose={onClose}/>
+            {loginRegisterWidowState.open ?
+                <LoginRegisterWindow onClose={onClose} type={loginRegisterWidowState.type}/>
                 :
                 <div/>
             }

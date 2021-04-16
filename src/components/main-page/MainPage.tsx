@@ -22,7 +22,7 @@ const MainPage = () => {
 
     return (
         <Box h={'100%'} w={'100%'}>
-            <Image src={background} h={"300px"} w={"100%"} objectFit={"cover"}/>
+            <Image src={background} maxH={"300px"} w={"100%"} objectFit={"cover"}/>
         </Box>
     );
 };
