@@ -27,6 +27,7 @@ export interface LoginRegisterWindowProps {
 const LoginRegisterWindow = (props: LoginRegisterWindowProps) => {
     const {isOpen, onOpen, onClose} = useDisclosure({defaultIsOpen: true, onClose: props.onClose});
     const [typeEqLogin, changeType] = useState(props.type === 'login');
+    const [error, setError] = useState<String | null>(null);
     const authContext = useContext(AuthContext);
     let username = '';
     let email = '';
@@ -43,9 +44,9 @@ const LoginRegisterWindow = (props: LoginRegisterWindowProps) => {
             )
     }
 
-    const attemptToRegister = () => {
-        let status = register({username: username, email: email, password: password});
-        if (status === "ok") {
+    const attemptToRegister = async () => {
+        let status = await register({username: username, email: email, password: password});
+        if (status === 200) {
             onClose();
         }
     }
