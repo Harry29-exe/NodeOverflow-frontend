@@ -11,6 +11,10 @@ export const parseJwt = (token: string): any => {
     return JSON.parse(jsonPayload);
 }
 
+export const tryRestoreSession = (): string => {
+    return "";
+}
+
 // export const isUserLogged = (auth: ContextType): boolean => {
 //     if (jwtToken.token !== "") {
 //         return true

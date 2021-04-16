@@ -1,7 +1,8 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {Button, ButtonGroup, Center, HTMLChakraProps} from "@chakra-ui/react";
 import UserIcon from "./UserIcon";
 import LoginRegisterWindow from "./LoginRegisterWindow";
+import {AuthContext} from "../../logic/auth/AuthContext";
 
 export interface UserNavbarSectionProps extends HTMLChakraProps<"div"> {
 }
@@ -15,15 +16,15 @@ export const UserNavbarSection = (props: UserNavbarSectionProps) => {
     let [loginRegisterWidowState, setWindowState] = useState<LoginRegisterWindowState>({
         open: false, type: "login"
     });
-    let logged = false;
+    let authContext = useContext(AuthContext);
     const onClose = (): void => {
         setWindowState({open: false, type: "login"});
     }
 
     return (
         <Center>
-            {logged ?
-                <UserIcon size={35}/>
+            {authContext.isLogged ?
+                <UserIcon size={35} marginRight={3}/>
                 :
                 <ButtonGroup variant={"primary"} size={"sm"} marginLeft={2} marginRight={2}>
                     <Button onClick={() => setWindowState({open: true, type: "register"})}>

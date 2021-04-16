@@ -1,19 +1,10 @@
 import {parseJwt} from "./AuthUtils";
-import {AuthContext, AuthInfo, LoginStatus} from "./AuthContext";
+import {AbstractAuthContext, AuthInfo, LoginStatus} from "./AuthContext";
 import {authServerAddress} from "../addresses/AuthServerAddress";
 
 //TODO it's only temporary implementation
-export class JwtAuthContext implements AuthContext<JwtToken> {
+export class JwtAuthContext extends AbstractAuthContext<JwtToken> {
     private refreshIsON: boolean = false;
-    authInfo: JwtToken | null = null;
-
-    isUserLogged(): boolean {
-        return this.authInfo !== null;
-    }
-
-    tryResumeLastSessions(): boolean {
-        return false;
-    }
 
     async login(username: string, password: string, dontLogout: boolean = false): Promise<LoginStatus> {
         let response = await fetch(authServerAddress + "/api/login",
@@ -33,16 +24,18 @@ export class JwtAuthContext implements AuthContext<JwtToken> {
     }
 
     logout(): void {
-        this.authInfo = null;
+        this._authInfo = null;
     }
 
     private handleServerResponse(response: Response) {
-        debugger;
-        console.log(response.headers);
-        response.headers.forEach(console.log);
         let token = response.headers.get("Authorization");
         if (typeof token === "string") {
-            this.authInfo = new JwtToken(token);
+            try {
+                this._authInfo = new JwtToken(token);
+                this.setIsLogged(true)
+            } catch (e: any) {
+                throw new Error();
+            }
         } else {
             throw new Error();
         }
