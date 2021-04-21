@@ -1,20 +1,31 @@
 import {parseJwt} from "./AuthUtils";
-import {AbstractAuthContext, AuthInfo, LoginStatus} from "./AuthContext";
+import {AbstractAuthContext, Authentication, AuthState, LoginStatus} from "./AuthContext";
 import {authServerAddress} from "../addresses/AuthServerAddress";
 
 //TODO it's only temporary implementation
 export class JwtAuthContext extends AbstractAuthContext<JwtToken> {
-    private refreshIsON: boolean = false;
+    private tokenRefreshActive: boolean;
+
+    constructor(authState: AuthState<JwtToken>) {
+        super(authState);
+        this.tokenRefreshActive = !!authState.authInfo;
+        if (this.tokenRefreshActive) {
+
+        }
+    }
 
     async login(username: string, password: string, dontLogout: boolean = false): Promise<LoginStatus> {
         let response = await fetch(authServerAddress + "/api/login",
             {
                 method: 'POST',
-                // referrerPolicy: 'no-referrer',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
                 body: JSON.stringify({username: username, password: password})
             });
 
         try {
+            console.log(response);
             this.handleServerResponse(response);
         } catch (e: any) {
             return LoginStatus.FAIL;
@@ -24,15 +35,15 @@ export class JwtAuthContext extends AbstractAuthContext<JwtToken> {
     }
 
     logout(): void {
-        this._authInfo = null;
+        this.authState.updateAuth();
     }
 
     private handleServerResponse(response: Response) {
         let token = response.headers.get("Authorization");
         if (typeof token === "string") {
             try {
-                this._authInfo = new JwtToken(token);
-                this.setIsLogged(true)
+                this.authState.updateAuth(new JwtToken(token));
+                this.tokenRefreshActive = false;
             } catch (e: any) {
                 throw new Error();
             }
@@ -40,9 +51,16 @@ export class JwtAuthContext extends AbstractAuthContext<JwtToken> {
             throw new Error();
         }
     }
+
+    private refreshToken() {
+        if (!this.tokenRefreshActive) {
+            return;
+        }
+
+    }
 }
 
-export class JwtToken implements AuthInfo {
+export class JwtToken implements Authentication {
     private _token: string;
     private _payload: any;
 

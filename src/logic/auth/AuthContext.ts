@@ -1,45 +1,36 @@
 import React from "react";
 
-export interface AuthInfo {
+export interface Authentication {
     username: string;
 }
 
-export class LoggedState {
-    public isLogged: boolean;
-    public setIsLogged: (v: boolean) => void;
+export class AuthState<AuthObject extends Authentication> {
+    public readonly authInfo?: AuthObject;
+    public updateAuth: (v?: AuthObject) => void;
 
-    constructor(isLogged: boolean, setIsLogged: (v: boolean) => void) {
-        this.isLogged = isLogged;
-        this.setIsLogged = setIsLogged;
+    constructor(updateAuth: (v?: AuthObject) => void, authInfo?: AuthObject) {
+        this.authInfo = authInfo;
+        this.updateAuth = updateAuth;
     }
 }
 
-export abstract class AbstractAuthContext<Info extends AuthInfo> {
-    protected _authInfo: Info | null;
-    private _isLogged: boolean;
-    private _setIsLogged: (v: boolean) => void;
+export abstract class AbstractAuthContext<AuthObject extends Authentication> {
+    protected authState: AuthState<AuthObject>
 
-    constructor(loggedState: LoggedState, userObject?: Info) {
-        this._authInfo = userObject ? userObject : null;
-        this._isLogged = loggedState.isLogged;
-        this._setIsLogged = loggedState.setIsLogged;
+    constructor(authState: AuthState<AuthObject>) {
+        this.authState = authState;
     }
 
     abstract login(username: string, password: string, dontLogout: boolean): Promise<LoginStatus>;
 
     abstract logout(): void;
 
-    protected setIsLogged(isLogged: boolean) {
-        this._isLogged = isLogged;
-        this._setIsLogged(isLogged);
-    }
-
     get isLogged(): boolean {
-        return this._isLogged;
+        return !!this.authState.authInfo;
     }
 
-    get authInfo(): Info | null {
-        return this._authInfo;
+    get authInfo(): AuthObject | undefined {
+        return this.authState.authInfo;
     }
 }
 

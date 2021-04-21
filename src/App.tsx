@@ -9,8 +9,9 @@ import Navbar from "./components/navbar/Navbar";
 import theme from "./theme/theme";
 import {FullScreenContext} from './logic/FullScreenContext';
 import {initGlobalKeyListener} from "./logic/GlobalKeyListener";
-import {JwtAuthContext} from "./logic/auth/JwtAuthContext";
-import {AuthContext, LoggedState} from './logic/auth/AuthContext';
+import {JwtAuthContext, JwtToken} from "./logic/auth/JwtAuthContext";
+import {AuthContext, AuthState} from './logic/auth/AuthContext';
+import SettingsPage from "./components/user-settings/SettingsPage";
 
 
 export const mainColors = {
@@ -21,16 +22,20 @@ export const mainColors = {
     color: "#f7f7f7",
 }
 
+const providers = (props: React.PropsWithChildren<any>) => {
+
+}
+
 function App() {
     let [onFullscreen, setFullscreen] = useState(false);
-    let [userIsLogged, setUserLoginStatus] = useState(false);
+    let [authentication, updateAuthentication] = useState<JwtToken | undefined>(undefined);
     initGlobalKeyListener();
 
     return (
         <ChakraProvider theme={theme}>
             <FullScreenContext.Provider value={{onFullscreen: onFullscreen, toggleFullscreen: setFullscreen}}>
-                <AuthContext.Provider value={new JwtAuthContext(new LoggedState(userIsLogged, setUserLoginStatus))}>
-
+                <AuthContext.Provider
+                    value={new JwtAuthContext(new AuthState<JwtToken>(updateAuthentication, authentication))}>
                     <Router>
                         {!onFullscreen &&
                         <Navbar height={"50px"}/>
@@ -50,6 +55,10 @@ function App() {
 
                                 <Route path={"/examples"}>
                                     <ExamplesPage/>
+                                </Route>
+
+                                <Route path={"/settings"}>
+                                    <SettingsPage/>
                                 </Route>
                             </Switch>
                         </Box>

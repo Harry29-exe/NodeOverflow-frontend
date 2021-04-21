@@ -1,6 +1,7 @@
 import {extendTheme} from "@chakra-ui/react";
 import colors from "./Colors";
 import Button from "./Button";
+import Menu from "./Menu"
 import {styles} from "./Styles";
 
 export default extendTheme(
@@ -13,5 +14,6 @@ export default extendTheme(
         colors,
         components: {
             Button,
+            Menu,
         },
     });
