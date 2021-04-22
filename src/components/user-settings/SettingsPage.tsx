@@ -1,35 +1,37 @@
 import React from 'react';
-import {Box, Center, Flex, Input, Text, VStack} from "@chakra-ui/react";
+import {Center, Flex, VStack} from "@chakra-ui/react";
+import {Route, Switch, useRouteMatch} from "react-router-dom";
+import UserSettings from "./UserSettings";
+import SettingsNavbar from "./SettingsNavbar";
+import ProjectSettings from "./ProjectSettings";
 
 const SettingsPage = () => {
+    let {path, url} = useRouteMatch();
+
     return (
-        <Center w="100%" h="100%">
-            <Flex minW="80%" minH={"75%"} border={"2px solid #888"} borderRadius={"lg"} overflow="hidden">
-                <VStack w={["85px", "100px", "200px", "250px"]} bg="gray.700">
-                    <Box>Option1</Box>
-                    <Box>Option2</Box>
-                    <Box>Option3</Box>
-                    <Box>Option4</Box>
-                </VStack>
+        <VStack w="100%" h="100%">
+            <Flex w="80%" h={"92%"} overflow="auto"
+                  alignItems="flex-start" justifyContent={["center", null, "flex-start"]} marginTop="4%"
+                  flexFlow={["row wrap", null, "row nowrap"]}>
+                <SettingsNavbar/>
 
-                <Center flexGrow={1}>
-                    <VStack margin={4}>
-                        <Text fontSize="lg" fontWeight="bold">Username</Text>
-                        <Input placeholder="Username" size="lg" maxW={"100%"}
-                               boxSizing="border-box"/>
+                <Center marginLeft={4} marginTop={[6, 0]}>
+                    <Switch>
+                        <Route exact path={"/settings"}>
+                            <UserSettings/>
+                        </Route>
 
+                        <Route path={`${path}/user-settings`}>
+                            <UserSettings/>
+                        </Route>
 
-                        <Text fontSize="lg" fontWeight="bold">Email</Text>
-                        <Input placeholder="Username" size="lg" maxW={"100%"}
-                               boxSizing="border-box"/>
-
-                        <Text fontSize="lg" fontWeight="bold">Password</Text>
-                        <Input placeholder="Password" size="lg" maxW={"100%"}
-                               boxSizing="border-box"/>
-                    </VStack>
+                        <Route path={`${path}/project-settings`}>
+                            <ProjectSettings/>
+                        </Route>
+                    </Switch>
                 </Center>
             </Flex>
-        </Center>
+        </VStack>
     );
 };
 

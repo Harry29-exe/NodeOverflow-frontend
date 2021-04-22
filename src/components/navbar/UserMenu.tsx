@@ -20,17 +20,12 @@ const UserMenu = (props: UserMenuProps) => {
             </MenuButton>
 
             <MenuList fontSize={"lg"} fontWeight="bold">
-                <MenuItem>
-                    we
-                </MenuItem>
-
                 <MenuItem as={RouterLink} to="/settings">
                     Settings
-
                 </MenuItem>
 
-                <MenuItem>
-                    Item2
+                <MenuItem as={RouterLink} to="/settings/user-settings">
+                    Account settings
                 </MenuItem>
 
                 <MenuDivider/>

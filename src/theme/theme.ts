@@ -3,10 +3,12 @@ import colors from "./Colors";
 import Button from "./Button";
 import Menu from "./Menu"
 import {styles} from "./Styles";
+import {breakpoints} from "./Breakpoints";
 
 export default extendTheme(
     {
         styles,
+        breakpoints,
         config: {
             initialColorMode: "dark",
             useSystemColorMode: false,
