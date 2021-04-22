@@ -66,7 +66,7 @@ export class NodeControlPanel extends PureComponent<{ storage: NodeStorage, view
                 backgroundColor: mainColors.segmentColor,
                 fontWeight: 400,
                 boxShadow: "0 3px 3px 1px " + mainColors.borderColor,
-                zIndex: 1000
+                zIndex: 10
             }}>
 
                 {this.createBreakElement()}

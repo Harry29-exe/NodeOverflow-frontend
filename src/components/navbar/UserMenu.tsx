@@ -24,24 +24,18 @@ const UserMenu = (props: UserMenuProps) => {
                     we
                 </MenuItem>
 
-                <MenuItem as={RouterLink} to="/settings"
-                    // fontSize={"lg"} fontWeight="bold"
-                >
+                <MenuItem as={RouterLink} to="/settings">
                     Settings
 
                 </MenuItem>
 
-                <MenuItem
-                    // fontSize={"lg"} fontWeight="bold"
-                >
+                <MenuItem>
                     Item2
                 </MenuItem>
 
                 <MenuDivider/>
 
-                <MenuItem onClick={() => authContext.logout()}
-                    // fontSize={"lg"} fontWeight="bold"
-                >
+                <MenuItem onClick={() => authContext.logout()}>
                     Logout
                 </MenuItem>
             </MenuList>

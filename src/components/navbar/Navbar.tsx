@@ -2,8 +2,9 @@ import React, {useState} from 'react';
 import {mainColors} from "../../App";
 import {Link as RouterLink} from "react-router-dom";
 import {Box, Center, Image, Link} from "@chakra-ui/react";
-import {RiFullscreenExitLine, RiFullscreenLine} from "react-icons/all";
+import {HiMenu, RiFullscreenExitLine, RiFullscreenLine} from "react-icons/all";
 import logo from "../../resources/images/logo.svg";
+import mobileLogo from "../../resources/images/logo_mobile.svg";
 import UserNavbarSection from "./UserNavbarSection";
 
 const toggleFullScreen = () => {
@@ -22,19 +23,25 @@ interface NavbarProps {
 }
 
 const Navbar: React.FunctionComponent<NavbarProps> = (props: NavbarProps) => {
-    const [fullscreenOn, setFullscreen] = useState(true);
-
     return (
         <Box position="absolute" top={0} left={0} width="100vw" height={props.height}
              margin={0} padding={0} fontSize={"xl"} bg={"gray.700"}
              boxSizing={"border-box"} borderBottomWidth={"2px"} borderBottomColor={"primary.400"}
         >
+            <LeftNavbarSide/>
 
-            <Box style={{
-                position: "absolute", width: "70%", height: "inherit",
-                left: 0, top: 0, display: "flex", justifyContent: "flex-start", alignItems: "center",
-                fontWeight: 600, color: "#fff"
-            }}>
+            <RightNavbarSide/>
+        </Box>
+    );
+}
+
+const LeftNavbarSide = () => {
+    return (
+        <>
+            <Box position="absolute" width="70%" height="inherit"
+                 left={0} top={0} display={["none", "none", "flex"]}
+                 justifyContent="flex-start" alignItems="center"
+                 fontWeight={600} color="#fff">
 
                 <Center h={"100%"} boxSizing={"border-box"} _hover={{background: "rgba(0,0,0,0.2)"}}
                         padding={1} marginLeft={"10px"} transition={"background 0.3s 0s"}>
@@ -47,43 +54,61 @@ const Navbar: React.FunctionComponent<NavbarProps> = (props: NavbarProps) => {
                 <NavbarLink to={"/editor"}>
                     Editor
                 </NavbarLink>
-
                 <NavbarLink to={"/examples"}>
                     Examples
                 </NavbarLink>
             </Box>
 
-            <Box
-                position="absolute" w={"30%"} height="inherit"
-                left="70%" top={0} display="flex" justifyContent="flex-end" alignItems="center"
-                fontWeight={600} color="#fff" fontSize="3.5vh" h="100%"
-            >
-                <Box bg="none" _hover={{
-                    color: mainColors.headerColor, cursor: "pointer",
-                    transform: fullscreenOn ? "scale(1.2)" : "scale(1)"
-                }}
-                     transform={fullscreenOn ? "scale(1)" : "scale(1.2)"}
-                     onClick={() => {
-                         toggleFullScreen();
-                         setFullscreen(!fullscreenOn);
-                     }}
-                     onTouchEnd={toggleFullScreen} transition="transform 0.3s 0s linear"
-                     margin="15px">
+            <Box position="absolute" width="70%" height="inherit"
+                 left={0} top={0} display={["flex", "flex", "none"]}
+                 justifyContent="flex-start" alignItems="center"
+                 fontWeight={600} color="#fff">
 
-                    {
-                        fullscreenOn ?
-                            <RiFullscreenLine size="30px"/>
-                            :
-                            <RiFullscreenExitLine size="30px"/>
-                    }
+                <Center h={"100%"} boxSizing={"border-box"} _hover={{background: "rgba(0,0,0,0.2)"}}
+                        padding={1} marginLeft={"10px"} transition={"background 0.3s 0s"}>
+                    <Link as={RouterLink} to={"/"} h={"100%"}
+                          _hover={{textStyle: "normal"}} _focus={{boxShadow: "none"}}>
+                        <Image src={mobileLogo} h={"100%"}/>
+                    </Link>
+                </Center>
 
-                </Box>
-
-                <UserNavbarSection/>
+                <HiMenu fontSize={"35px"}/>
             </Box>
-        </Box>
-    );
+        </>
+    )
 }
+
+const RightNavbarSide = () => {
+    const [fullscreenOn, setFullscreen] = useState(true);
+
+    return (
+        <Box position="absolute" w={"30%"} height="inherit"
+             left="70%" top={0} display="flex" justifyContent="flex-end" alignItems="center"
+             fontWeight={600} color="#fff" fontSize="3.5vh" h="100%">
+            <Box bg="none" _hover={{
+                color: mainColors.headerColor, cursor: "pointer",
+                transform: fullscreenOn ? "scale(1.2)" : "scale(1)"
+            }}
+                 transform={fullscreenOn ? "scale(1)" : "scale(1.2)"}
+                 onClick={() => {
+                     toggleFullScreen();
+                     setFullscreen(!fullscreenOn);
+                 }}
+                 onTouchEnd={toggleFullScreen} transition="transform 0.3s 0s linear"
+                 margin="15px">
+                {
+                    fullscreenOn ?
+                        <RiFullscreenLine size="30px"/>
+                        :
+                        <RiFullscreenExitLine size="30px"/>
+                }
+            </Box>
+
+            <UserNavbarSection/>
+        </Box>
+    )
+}
+
 
 interface NavbarLinkProps extends React.ComponentProps<any> {
     to: string;

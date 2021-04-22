@@ -1,1 +1,1 @@
-export const authServerAddress = "http://localhost:8080"
+export const authServerAddress = "http://192.168.0.105:8080"
