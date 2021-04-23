@@ -2,7 +2,11 @@ import React, {PropsWithChildren, useState} from 'react';
 import {Box, Link, StackDivider, VStack} from "@chakra-ui/react";
 import {Link as RouterLink, useRouteMatch} from "react-router-dom";
 
-const SettingsNavbar = () => {
+interface SettingsNavbarProps {
+    pathsWithNames: string[][];
+}
+
+const SettingsNavbar = (props: SettingsNavbarProps) => {
     let {path, url} = useRouteMatch();
     let [newPath, changePath] = useState<string>(path);
 
@@ -19,16 +23,11 @@ const SettingsNavbar = () => {
 
             <Box m={0} w={"100%"} borderTop={"1px solid"} borderColor="inherit"/>
 
-            <SettingsLink to={"/settings/user-settings"}
-                          currentPath={newPath} changePath={changePath}>
-                Account settings
-            </SettingsLink>
-
-            <SettingsLink to="/settings/project-settings"
-                          currentPath={newPath} changePath={changePath}>
-                Project settings
-
-            </SettingsLink>
+            {props.pathsWithNames.map(p => (
+                <SettingsLink to={p[0]} currentPath={newPath} changePath={changePath}>
+                    {p[1]}
+                </SettingsLink>))
+            }
 
         </VStack>
     );

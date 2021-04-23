@@ -1,0 +1,1 @@
+export type ChangeSettingsStatus = "notInitialized" | "inProgress" | "fail" | "success";

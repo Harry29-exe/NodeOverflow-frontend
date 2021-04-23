@@ -2,6 +2,7 @@ import React from "react";
 
 export interface Authentication {
     username: string;
+    id: number;
 }
 
 export class AuthState<AuthObject extends Authentication> {

@@ -4,12 +4,15 @@ import {authServerAddress} from "../addresses/AuthServerAddress";
 
 //TODO it's only temporary implementation
 export class JwtAuthContext extends AbstractAuthContext<JwtToken> {
-    private tokenRefreshActive: boolean;
+    private tokenRefreshActive: boolean = false;
 
     constructor(authState: AuthState<JwtToken>) {
         super(authState);
-        this.tokenRefreshActive = !!authState.authInfo;
-        if (this.tokenRefreshActive) {
+        if (!!authState.authInfo) {
+            this.tokenRefreshActive = true;
+            document.cookie = `jwt=${authState.authInfo.token}`;
+
+        } else {
 
         }
     }
@@ -25,7 +28,6 @@ export class JwtAuthContext extends AbstractAuthContext<JwtToken> {
             });
 
         try {
-            console.log(response);
             this.handleServerResponse(response);
         } catch (e: any) {
             return LoginStatus.FAIL;
@@ -70,9 +72,24 @@ export class JwtToken implements Authentication {
         this._payload = parseJwt(token);
     }
 
+    get id(): number {
+        return this._payload.id;
+    }
+
+    get timeBeforeExpire(): number {
+        return Date.now() - this._payload.exp;
+    }
+
+    get expirationDate(): number {
+        return this._payload.exp;
+    }
+
+    get email(): string {
+        return this._payload.email;
+    }
 
     get username(): string {
-        return "";
+        return this._payload.sub;
     }
 
     get token(): string {

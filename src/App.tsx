@@ -11,7 +11,7 @@ import {FullScreenContext} from './logic/FullScreenContext';
 import {initGlobalKeyListener} from "./logic/GlobalKeyListener";
 import {JwtAuthContext, JwtToken} from "./logic/auth/JwtAuthContext";
 import {AuthContext, AuthState} from './logic/auth/AuthContext';
-import SettingsPage from "./components/user-settings/SettingsPage";
+import SettingsPage from "./components/settings/SettingsPage";
 
 
 export const mainColors = {
