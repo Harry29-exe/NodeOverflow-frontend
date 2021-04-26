@@ -1,10 +1,10 @@
-import React, {PureComponent} from 'react';
+import React, {useEffect, useState} from 'react';
 import "./Node.css";
 import {DummyValueFunction} from "./NodeValueFunction";
 import {NodeStorage} from "../NodeStorage";
 import {NodeCanvasViewProperties} from "../NodeCanvasViewProperties";
-import {NodeDimension, NodeModel, NodeStyle} from "./NodeModel";
-import {Box} from "@chakra-ui/react";
+import {NodeDimension, NodeModel} from "../../../logic/node-editor/NodeModel";
+import {Box, useStyleConfig} from "@chakra-ui/react";
 import {PressedKeys} from "../../../logic/GlobalKeyListener";
 
 export class NodeComponentState {
@@ -44,41 +44,27 @@ export function createDefaultNode(id: number, name: string, x?: number, y?: numb
         new DummyValueFunction());
 }
 
-class Node extends PureComponent<NodeComponentProps, NodeComponentState> {
-    private _nodeBackgroundRef = React.createRef<HTMLDivElement>();
-    private readonly width: number;
-    private readonly height: number;
-    private readonly nodeStyle: NodeStyle;
-    private lastTouch: number = 0;
+const Node = (props: NodeComponentProps) => {
+    const nodeBackgroundRef = React.createRef<HTMLDivElement>();
+    const [state, setState] = useState<NodeComponentState>(
+        new NodeComponentState(props.node.x, props.node.y,
+            props.selected ? props.selected : false, false));
+    const style = useStyleConfig("Node", undefined);
+    let lastTouch: number = 0;
+    let dim = props.node.dimensions;
+    let height = props.node.height;
 
-    constructor(props: NodeComponentProps) {
-        super(props);
-        let node = this.props.node;
-        this.width = node.dimensions.width;
-        this.height = (node.dimensions.headHeight
-            + node.dimensions.segmentHeight * node.segments.length
-            + node.dimensions.footerHeight);
-        this.nodeStyle = props.node.style;
-
-        this.state = new NodeComponentState(
-            this.props.node.x,
-            this.props.node.y,
-            props.selected ? props.selected : false,
-            false);
-    }
-
-    deleteNodeListener = (event: any) => {
-        if (this.state.selected && (event.code === "Backspace" || event.code === "Delete")) {
-
-            this.props.storage.handleRemoveNode(this.props.node);
+    const deleteNodeListener = (event: any) => {
+        if (state.selected && (event.code === "Backspace" || event.code === "Delete")) {
+            props.storage.handleRemoveNode(props.node);
         }
     }
 
-    handleClick = (event: any) => {
+    const handleClick = (event: any) => {
         event.preventDefault();
-        this.setState({selected: true});
-
-        this.props.storage.handleUpdateNode(this.props.node);
+        state.selected = true
+        setState(state);
+        props.storage.handleUpdateNode(props.node);
         let mouseX = event.clientX, mouseY = event.clientY;
         let lastMoveTime = 0;
 
@@ -87,16 +73,18 @@ class Node extends PureComponent<NodeComponentProps, NodeComponentState> {
                 return;
             }
             lastMoveTime = Date.now();
-            let x = this.state.x - (mouseX - event.clientX) / this.props.canvasViewProps.scale;
-            let y = this.state.y - (mouseY - event.clientY) / this.props.canvasViewProps.scale;
+            let x = state.x - (mouseX - event.clientX) / props.canvasViewProps.scale;
+            let y = state.y - (mouseY - event.clientY) / props.canvasViewProps.scale;
 
-            this.setState({x: x, y: y});
-            this.props.node.x = x;
-            this.props.node.y = y;
+            state.x = x;
+            state.y = y;
+            setState(state);
+            props.node.x = x;
+            props.node.y = y;
 
             mouseX = event.clientX;
             mouseY = event.clientY;
-            this.props.storage.handleUpdateNode(this.props.node);
+            props.storage.handleUpdateNode(props.node);
         }
 
         const cleanUp = (event: any) => {
@@ -104,40 +92,44 @@ class Node extends PureComponent<NodeComponentProps, NodeComponentState> {
             window.removeEventListener("mouseup", cleanUp);
         }
 
-        window.addEventListener("click", this.unselect);
+        window.addEventListener("click", unselect);
         window.addEventListener("mousemove", moveNode);
         window.addEventListener("mouseup", cleanUp);
     }
 
-    unselect = (event: any) => {
+    const unselect = (event: any) => {
         let shiftPressed = PressedKeys.keys.includes("ShiftLeft");
         console.log(PressedKeys.keys);
-        if (this._nodeBackgroundRef.current && !shiftPressed) {
-            let nodeBox = this._nodeBackgroundRef.current.getBoundingClientRect();
+        if (nodeBackgroundRef.current && !shiftPressed) {
+            let nodeBox = nodeBackgroundRef.current.getBoundingClientRect();
             if (event.clientX < nodeBox.left || event.clientX > nodeBox.left + nodeBox.width ||
                 event.clientY < nodeBox.top || event.clientY > nodeBox.top + nodeBox.height) {
-                this.setState({selected: false});
-                window.removeEventListener("click", this.unselect);
+                state.selected = false;
+                setState(state);
+                window.removeEventListener("click", unselect);
             }
         } else if (!shiftPressed) {
-            this.setState({selected: false});
-            window.removeEventListener("click", this.unselect);
+            state.selected = false;
+            setState(state);
+            window.removeEventListener("click", unselect);
         }
     }
 
-    handleTouch = (event: any) => {
+    const handleTouch = (event: any) => {
         event.preventDefault();
-        this.props.storage.handleUpdateNode(this.props.node);
-        this.setState({selected: true});
+        props.storage.handleUpdateNode(props.node);
+        state.selected = true;
+        setState(state);
         let screenX = event.touches[0].clientX;
         let screenY = event.touches[0].clientY;
-        if (this.state.aboutToDelete) {
-            this.props.storage.handleRemoveNode(this.props.node);
-        } else if (Date.now() - this.lastTouch < 500) {
-            this.setState({aboutToDelete: true});
-            console.log(Date.now() - this.lastTouch);
+        if (state.aboutToDelete) {
+            props.storage.handleRemoveNode(props.node);
+        } else if (Date.now() - lastTouch < 500) {
+            state.aboutToDelete = true;
+            setState(state);
+            console.log(Date.now() - lastTouch);
         }
-        this.lastTouch = Date.now();
+        lastTouch = Date.now();
         let lastMoveTime = 0;
 
         const moveNode = (event: any) => {
@@ -146,16 +138,18 @@ class Node extends PureComponent<NodeComponentProps, NodeComponentState> {
             }
             lastMoveTime = Date.now();
             let touch = event.touches[0];
-            let x = this.state.x - (screenX - touch.screenX) / this.props.canvasViewProps.scale;
-            let y = this.state.y - (screenY - touch.screenY) / this.props.canvasViewProps.scale;
+            let x = state.x - (screenX - touch.screenX) / props.canvasViewProps.scale;
+            let y = state.y - (screenY - touch.screenY) / props.canvasViewProps.scale;
 
-            this.setState({x: x, y: y});
-            this.props.node.x = x;
-            this.props.node.y = y;
+            state.x = x;
+            state.y = y;
+            setState(state);
+            props.node.x = x;
+            props.node.y = y;
 
             screenX = touch.screenX;
             screenY = touch.screenY;
-            this.props.storage.handleUpdateNode(this.props.node);
+            props.storage.handleUpdateNode(props.node);
         }
 
         const cleanUp = (event: any) => {
@@ -163,77 +157,78 @@ class Node extends PureComponent<NodeComponentProps, NodeComponentState> {
             window.removeEventListener("touchend", cleanUp);
         }
 
-        window.addEventListener("touchstart", this.touchUnselect);
+        window.addEventListener("touchstart", touchUnselect);
         window.addEventListener("touchmove", moveNode);
         window.addEventListener("touchend", cleanUp);
     }
 
-    touchUnselect = (event: any) => {
-        if (!this._nodeBackgroundRef.current) {
+    const touchUnselect = (event: any) => {
+        if (!nodeBackgroundRef.current) {
             console.log("no ref");
-            this.setState({selected: false, aboutToDelete: false});
-            window.removeEventListener("touchstart", this.unselect);
-        } else if (Date.now() - this.lastTouch > 10) {
-            let nodeBox = this._nodeBackgroundRef.current.getBoundingClientRect();
+            state.selected = false;
+            state.aboutToDelete = false;
+            setState(state);
+            window.removeEventListener("touchstart", unselect);
+        } else if (Date.now() - lastTouch > 10) {
+            let nodeBox = nodeBackgroundRef.current.getBoundingClientRect();
             let touch = event.touches[event.touches.length - 1];
             if (touch.clientX < nodeBox.left || touch.clientX > nodeBox.left + nodeBox.width ||
                 touch.clientY < nodeBox.top || touch.clientY > nodeBox.top + nodeBox.height) {
-                console.log(`screenX: ${touch.screenX}, left: ${nodeBox.left}, width: ${nodeBox.width}`);
-                console.log(`screenY: ${touch.screenY}, top: ${nodeBox.top}, height: ${nodeBox.height}`);
-                console.log(`${this.props.node.id}`);
-                this.setState({selected: false, aboutToDelete: false});
-                window.removeEventListener("touchstart", this.unselect);
+                state.selected = false;
+                state.aboutToDelete = false;
+                setState(state);
+                window.removeEventListener("touchstart", unselect);
             }
         }
     }
 
-    componentDidMount() {
-        window.addEventListener("keydown", this.deleteNodeListener);
-    }
+    useEffect(() => {
+        window.addEventListener("keydown", deleteNodeListener);
 
-    componentWillUnmount() {
-        window.removeEventListener("keydown", this.deleteNodeListener);
-        window.removeEventListener("touchstart", this.touchUnselect);
-        window.removeEventListener("click", this.unselect);
-    }
+        return () => {
+            window.removeEventListener("keydown", deleteNodeListener);
+            window.removeEventListener("touchstart", touchUnselect);
+            window.removeEventListener("click", unselect);
+        };
+    }, [props]);
 
-    render() {
-        return (
-            <div className={"nodeWrapper"} style={{
-                transform: `translate(${this.state.x}px, ${this.state.y}px`
-                , transition: `transform 0.01s 0 ease-out`
-            }}>
-                <div style={{position: "absolute", top: this.props.node.dimensions.headHeight}}>
-                </div>
 
-                {this.props.node.segments.map(s => s.createView(this.props.storage, this.props.canvasViewProps))}
+    return (
+        <Box className={"nodeWrapper"}
+             transform={`translate(${state.x}px, ${state.y}px`}
+             transition={`transform 0.01s 0 ease-out`}>
 
-                <div ref={this._nodeBackgroundRef} className={"nodeBackground"}
-                     onMouseDown={this.handleClick}
-                     onTouchStart={this.handleTouch}
-                     style={{
-                         width: this.width + "px",
-                         height: this.height + "px",
-                         borderRadius: this.props.node.dimensions.headHeight,
-                         backgroundColor: this.nodeStyle.nodeBackgroundColor,
-                         boxShadow: "0 0 3px 2px " + (this.state.aboutToDelete ? "#c21414" :
-                             this.state.selected ? this.nodeStyle.headerColor : "#555e66")
-                     }}>
-
-                    <Box draggable="false" className={"header"} style={{
-                        width: this.props.node.dimensions.width,
-                        height: this.props.node.dimensions.headHeight,
-                        color: this.nodeStyle.textColor,
-                        fontWeight: this.nodeStyle.headerFontWeight,
-                        // backgroundColor: this.nodeStyle.headerColor
-                    }} bg="primary.400">
-                        {this.props.node.name}
-                    </Box>
-
-                </div>
+            <div style={{position: "absolute", top: props.node.dimensions.headHeight}}>
             </div>
-        );
-    }
+
+            {props.node.segments.map(s => s.createView(props.storage, props.canvasViewProps))}
+
+            <Box ref={nodeBackgroundRef} className={"nodeBackground"}
+                 onMouseDown={handleClick}
+                 onTouchStart={handleTouch}
+                 width={`${dim.width}px`}
+                 height={`${height}px`}
+                 borderRadius={props.node.dimensions.headHeight}
+                 backgroundColor="gray.400"
+                 boxShadow={"0 0 3px 2px " + (state.aboutToDelete ? "#c21414" :
+                     state.selected ? "primary.400" : "#555e66")}
+            >
+
+                <Box draggable="false" className={"header"} style={{
+                    width: props.node.dimensions.width,
+                    height: props.node.dimensions.headHeight,
+                    color: "#fff",
+                    fontWeight: 400,
+                    // backgroundColor: this.nodeStyle.headerColor
+                }} bg="primary.400">
+                    {props.node.name}
+                </Box>
+
+            </Box>
+
+        </Box>
+    );
+
 }
 
 export default Node;

@@ -1,4 +1,4 @@
-import {NodeDimension, NodeModel} from "../../node-atomic/NodeModel";
+import {NodeDimension, NodeModel} from "../../../../logic/node-editor/NodeModel";
 import {SeparateChannelsNodeVFun} from "../to-update/SeparateChannelsNode";
 import {NodeValueFunction} from "../../node-atomic/NodeValueFunction";
 import WorkerLoader from "../../../../logic/image-manipulation/WorkerLoader"

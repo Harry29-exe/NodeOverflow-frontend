@@ -1,7 +1,7 @@
 import {extendTheme} from "@chakra-ui/react";
 import colors from "./Colors";
-import Button from "./Button";
-import Menu from "./Menu"
+import Button from "./components/default/Button";
+import Menu from "./components/default/Menu";
 import {styles} from "./Styles";
 import {breakpoints} from "./Breakpoints";
 

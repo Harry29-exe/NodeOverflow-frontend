@@ -25,7 +25,17 @@ const colors = {
     },
     gray: {
         750: "#3f4959",
-    }
+    },
+    other: {
+        100: "#576471",
+        200: "#3c454f",
+    },
 };
 
 export default colors;
+
+/**
+ backgroundColor: "#3c454f",
+
+
+ **/

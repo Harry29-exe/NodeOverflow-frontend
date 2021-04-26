@@ -1,5 +1,5 @@
 import {CreateNode} from "../utils/NodeFactory";
-import {NodeDimension, NodeModel} from "../../node-atomic/NodeModel";
+import {NodeDimension, NodeModel} from "../../../../logic/node-editor/NodeModel";
 import {NodeValueFunction} from "../../node-atomic/NodeValueFunction";
 import {ImageLikeData} from "../../../../logic/image-manipulation/structs/ImageLikeData";
 import {InvertImageWorker} from "../../../../logic/image-manipulation/workers/InvertWorker";

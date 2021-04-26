@@ -1,5 +1,5 @@
 import React from 'react';
-import {NodeModel} from "../node-module/node-atomic/NodeModel";
+import {NodeModel} from "../../logic/node-editor/NodeModel";
 import {LinkModel} from "../node-module/node-atomic/Link";
 import {Box, Flex, Heading, Text, VStack} from '@chakra-ui/react';
 import NodeModule from "../node-module/NodeModule";

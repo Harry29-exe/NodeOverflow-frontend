@@ -1,5 +1,5 @@
 import {FileToLoad} from "./FileToLoad";
-import {NodeDimension, NodeModel} from "../../node-atomic/NodeModel";
+import {NodeDimension, NodeModel} from "../../../../logic/node-editor/NodeModel";
 
 export class NodeSave {
     public readonly id: number;

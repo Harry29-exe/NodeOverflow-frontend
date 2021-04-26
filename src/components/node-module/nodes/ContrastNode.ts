@@ -1,4 +1,4 @@
-import {NodeDimension, NodeModel} from "../node-atomic/NodeModel";
+import {NodeDimension, NodeModel} from "../../../logic/node-editor/NodeModel";
 import {CreateNode, NodeFactoryFunction} from "./utils/NodeFactory";
 import {NodeValueFunction} from "../node-atomic/NodeValueFunction";
 import {ImageLikeData} from "../../../logic/image-manipulation/structs/ImageLikeData";

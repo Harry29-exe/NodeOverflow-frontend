@@ -1,4 +1,4 @@
-import {NodeDimension, NodeModel} from "../../node-atomic/NodeModel";
+import {NodeDimension, NodeModel} from "../../../../logic/node-editor/NodeModel";
 import {OutputSegmentModel} from "../../node-atomic/segments/OutputSegment";
 import {PortType} from "../../node-atomic/Segment";
 import {ImageInputNodeVFun} from "../ImageInputNode";

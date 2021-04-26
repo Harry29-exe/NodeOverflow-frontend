@@ -4,7 +4,7 @@ import {PortType} from "../../node-atomic/Segment";
 import {OptionSegmentModel} from "../../node-atomic/segments/OptionSegment";
 import {NumberSegmentModel} from "../../node-atomic/segments/NumberSegment";
 import {InputSegmentModel} from "../../node-atomic/segments/InputSegment";
-import {NodeDimension, NodeModel} from "../../node-atomic/NodeModel";
+import {NodeDimension, NodeModel} from "../../../../logic/node-editor/NodeModel";
 
 export const CreateResizeImageNode = (id: number, x?: number, y?: number): NodeModel => {
     let node = new NodeModel(id, "Resize image", x ? x : 0, y ? y : 0,

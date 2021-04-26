@@ -7,7 +7,7 @@ import RenderWindow from "./RenderWindow";
 import NodeControlPanel from "./NodeControlPanel";
 import {DefaultNodeStorage, NodeStorageListener} from "./NodeStorage";
 import {NodeCanvasViewProperties} from "./NodeCanvasViewProperties";
-import {NodeModel} from "./node-atomic/NodeModel";
+import {NodeModel} from "../../logic/node-editor/NodeModel";
 import {mainColors} from "../../App";
 
 export interface NodeModuleProps {

@@ -1,6 +1,6 @@
 import {PortType, SegmentModel} from "./node-atomic/Segment";
 import {LinkModel} from "./node-atomic/Link";
-import {NodeModel} from "./node-atomic/NodeModel";
+import {NodeModel} from "../../logic/node-editor/NodeModel";
 
 export interface NodeStorageListener {
     (nodes: NodeModel[], links: LinkModel[]): void;

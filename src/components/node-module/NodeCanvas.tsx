@@ -4,7 +4,7 @@ import Link, {LinkModel} from "./node-atomic/Link";
 import {NodeStorage, NodeStorageListener} from "./NodeStorage";
 import {NodeCanvasViewProperties} from "./NodeCanvasViewProperties";
 import "./NodeCanvas.css"
-import {NodeModel} from "./node-atomic/NodeModel";
+import {NodeModel} from "../../logic/node-editor/NodeModel";
 
 export class NodeCanvasState {
     public viewProperties: NodeCanvasViewProperties;

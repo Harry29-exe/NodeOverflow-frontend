@@ -71,8 +71,8 @@ export class ImageSegment extends Segment<ImageData | null, SegmentProps<ImageDa
             marginLeft: dim.width * this.segmentStyle.percentageOffsetLeft,
             marginTop: dim.segmentHeight * this.segmentStyle.percentageOffsetTop,
 
-            color: this.nodeStyle.textColor,
-            fontWeight: this.nodeStyle.labelsFontWeight,
+            color: "#fff",
+            fontWeight: 400,
             fontSize: dim.segmentHeight * this.segmentStyle.fontSizeToSegmentHeight,
             userSelect: "none"
         } as React.CSSProperties;
@@ -87,15 +87,15 @@ export class ImageSegment extends Segment<ImageData | null, SegmentProps<ImageDa
             height: dim.segmentHeight * (1 - this.segmentStyle.percentageOffsetTop),
             paddingLeft: "6px",
             borderRadius: dim.segmentHeight / 2,
-            backgroundColor: this.nodeStyle.segmentColor,
+            backgroundColor: "#3c454f",
             marginLeft: dim.width * this.segmentStyle.percentageOffsetLeft,
             marginTop: dim.segmentHeight * this.segmentStyle.percentageOffsetTop,
             overflow: "hidden",
 
             textAlign: "left",
             whiteSpace: "nowrap",
-            color: this.nodeStyle.textColor,
-            fontWeight: this.nodeStyle.labelsFontWeight,
+            color: "#fff",
+            fontWeight: 300,
             fontSize: dim.segmentHeight * this.segmentStyle.fontSizeToSegmentHeight
         } as React.CSSProperties
     }

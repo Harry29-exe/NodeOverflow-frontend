@@ -2,7 +2,7 @@ import {OutputSegmentModel} from "../node-atomic/segments/OutputSegment";
 import {ImageSegmentModel} from "../node-atomic/segments/ImageSegment";
 import {PortType} from "../node-atomic/Segment";
 import {NodeValueFunction} from "../node-atomic/NodeValueFunction";
-import {NodeDimension, NodeModel} from "../node-atomic/NodeModel";
+import {NodeDimension, NodeModel} from "../../../logic/node-editor/NodeModel";
 import {ImageLikeData} from "../../../logic/image-manipulation/structs/ImageLikeData";
 import {NodeFactoryFunction} from "./utils/NodeFactory";
 import {NodeSave} from "./utils/NodeSave";

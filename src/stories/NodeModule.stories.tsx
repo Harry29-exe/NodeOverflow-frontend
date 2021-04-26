@@ -4,7 +4,7 @@ import {Meta, Story} from "@storybook/react/types-6-0";
 import {CreateOutputNode} from "../components/node-module/nodes/OutputNode";
 import {LinkModel} from "../components/node-module/node-atomic/Link";
 import {CreateImageMixNode} from "../components/node-module/nodes/to-update/ImageMixNode";
-import {NodeModel} from "../components/node-module/node-atomic/NodeModel";
+import {NodeModel} from "../logic/node-editor/NodeModel";
 
 export default {
     title: "Node/Wrappers/Node Module",

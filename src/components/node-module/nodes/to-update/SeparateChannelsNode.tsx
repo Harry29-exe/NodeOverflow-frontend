@@ -1,4 +1,4 @@
-import {NodeDimension, NodeModel} from "../../node-atomic/NodeModel";
+import {NodeDimension, NodeModel} from "../../../../logic/node-editor/NodeModel";
 import {NodeValueFunction} from "../../node-atomic/NodeValueFunction";
 import {ChanelType, ImageLikeData} from "../../../../logic/image-manipulation/structs/ImageLikeData";
 import {OutputSegmentModel} from "../../node-atomic/segments/OutputSegment";

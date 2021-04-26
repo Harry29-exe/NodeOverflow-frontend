@@ -1,31 +1,12 @@
-import {NodeValueFunction} from "./NodeValueFunction";
-import {PortType, SegmentModel} from "./Segment";
-import {LinkModel} from "./Link";
-import {PlaceholderSegmentModel} from "./segments/PlaceholderSegment";
+import {NodeValueFunction} from "../../components/node-module/node-atomic/NodeValueFunction";
+import {PortType, SegmentModel} from "../../components/node-module/node-atomic/Segment";
+import {LinkModel} from "../../components/node-module/node-atomic/Link";
+import {PlaceholderSegmentModel} from "../../components/node-module/node-atomic/segments/PlaceholderSegment";
 
-export class SegmentStyle {
-    public percentageOffsetTop: number = 0.15;
-    public percentageOffsetLeft: number = 0.08;
-    public fontSizeToSegmentHeight: number = 0.55;
-}
-
-export class NodeStyle {
-    public allowHeaderColorOverwriting: boolean = false;
-    public allowPortColorOverwriting: boolean = false;
-    public nodeBackgroundColor: string = "#54606d";
-    public headerColor: string = "#299b91";
-    // public borderColor: string = "#334447";
-    public borderColor: string = "#283537";
-    public segmentColor: string = "#3c454f";
-    public inputPortColor: string = "#299b91";
-    public outputPortColor: string = "#299b91";
-    public textColor: string = "#f7f7f7";
-
-    public fontFamily: string = "Ubuntu, sans-serif";
-    public headerFontWeight: number = 400;
-    public labelsFontWeight: number = 300;
-
-    public segmentStyle = new SegmentStyle();
+export const SegmentStyle = {
+    percentageOffsetTop: 0.15,
+    percentageOffsetLeft: 0.08,
+    fontSizeToSegmentHeight: 0.55,
 }
 
 export class NodeDimension {
@@ -86,16 +67,12 @@ export class NodeDimension {
 export class NodeViewProperties {
     private _selected: boolean = false;
     private _rolledUp: boolean = false;
-    private readonly _nodeStyle: NodeStyle = defaultNodeStyle;
     private readonly _dimensions: NodeDimension;
     private _x: number;
     private _y: number;
 
 
-    constructor(dimensions: NodeDimension, x: number, y: number, nodeStyle?: NodeStyle) {
-        if (nodeStyle) {
-            this._nodeStyle = nodeStyle;
-        }
+    constructor(dimensions: NodeDimension, x: number, y: number) {
         this._dimensions = dimensions;
         this._x = x;
         this._y = y;
@@ -111,10 +88,6 @@ export class NodeViewProperties {
 
     set selected(value: boolean) {
         this._selected = value;
-    }
-
-    get nodeStyle(): NodeStyle {
-        return this._nodeStyle;
     }
 
     get x(): number {
@@ -154,14 +127,13 @@ export class NodeModel {
                 x: number, y: number,
                 dimensions: NodeDimension,
                 valueFunction: NodeValueFunction<any>,
-                nodeStyle?: NodeStyle,
                 segments?: SegmentModel<any>[],) {
         this.id = id;
         this.name = name;
 
         this._valueFunction = valueFunction;
         this._viewProperties = new NodeViewProperties(
-            dimensions, x, y, nodeStyle);
+            dimensions, x, y);
 
         if (segments != null) {
             segments.forEach(s => this.addSegment(s));
@@ -273,17 +245,7 @@ export class NodeModel {
         return this._segments;
     }
 
-    get nodeStyle(): NodeStyle {
-        return this._viewProperties.nodeStyle;
-    }
-
-    get style(): NodeStyle {
-        return this._viewProperties.nodeStyle;
-    }
-
     get viewProperties(): NodeViewProperties {
         return this._viewProperties;
     }
 }
-
-export const defaultNodeStyle = new NodeStyle();

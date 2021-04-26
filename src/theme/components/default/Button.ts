@@ -1,4 +1,4 @@
-import colors from "./Colors";
+import colors from "../../Colors";
 
 const Button = {
     baseStyle: {

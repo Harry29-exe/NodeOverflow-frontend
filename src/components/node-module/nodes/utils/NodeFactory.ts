@@ -1,4 +1,4 @@
-import {NodeDimension, NodeModel} from "../../node-atomic/NodeModel";
+import {NodeDimension, NodeModel} from "../../../../logic/node-editor/NodeModel";
 import {NodeSave} from "./NodeSave";
 import {CapBrightnessNFF} from "../CapBrightnessNode";
 import {ContrastNFF} from "../ContrastNode";

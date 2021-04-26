@@ -4,6 +4,7 @@ import {PortType, SegmentModel} from "./Segment";
 import LinkTemporary from "./LinkTemporary";
 import {NodeStorage} from "../NodeStorage";
 import {NodeCanvasViewProperties} from "../NodeCanvasViewProperties";
+import {SegmentStyle} from "../../../logic/node-editor/NodeModel";
 
 class Props {
     public parent: SegmentModel<any>;
@@ -130,7 +131,7 @@ class Port extends Component<Props, State> {
 
     createStyle() {
         let dim = this.props.parent.parentDimensions;
-        let style = this.props.parent.parent.style.segmentStyle;
+        let style = SegmentStyle;
         let size = dim.segmentHeight - 2 * style.percentageOffsetTop * dim.segmentHeight;
         return {
             top: this.props.topPosition,
