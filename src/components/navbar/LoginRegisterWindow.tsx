@@ -24,17 +24,20 @@ export interface LoginRegisterWindowProps {
     type: "login" | "register";
 }
 
+const vars = {
+    username: '',
+    email: '',
+    password: ''
+}
+
 const LoginRegisterWindow = (props: LoginRegisterWindowProps) => {
     const {isOpen, onOpen, onClose} = useDisclosure({defaultIsOpen: true, onClose: props.onClose});
     const [typeEqLogin, changeType] = useState(props.type === 'login');
     const [error, setError] = useState<String | null>(null);
     const authContext = useContext(AuthContext);
-    let username = '';
-    let email = '';
-    let password = '';
 
     const attemptToLogin = () => {
-        authContext.login(username, password, true)
+        authContext.login(vars.username, vars.password, true)
             .then(
                 value => {
                     if (value === LoginStatus.OK) {
@@ -45,7 +48,7 @@ const LoginRegisterWindow = (props: LoginRegisterWindowProps) => {
     }
 
     const attemptToRegister = async () => {
-        let status = await register({username: username, email: email, password: password});
+        let status = await register({username: vars.username, email: vars.email, password: vars.password});
         if (status === 200) {
             onClose();
         }
@@ -63,17 +66,17 @@ const LoginRegisterWindow = (props: LoginRegisterWindowProps) => {
                     <Stack spacing={3} w={"100%"}>
                         <Text fontSize="lg" fontWeight="bold">Username</Text>
                         <Input placeholder="Username" size="lg" maxW={"100%"}
-                               boxSizing="border-box" onChange={(e: any) => username = e.target.value}/>
+                               boxSizing="border-box" onChange={(e: any) => vars.username = e.target.value}/>
                         {!typeEqLogin &&
                         <>
                             <Text fontSize="lg" fontWeight="bold">Email</Text>
-                            <Input placeholder="Username" size="lg" maxW={"100%"}
-                                   boxSizing="border-box" onChange={(e: any) => username = e.target.value}/>
+                            <Input placeholder="Email" size="lg" maxW={"100%"}
+                                   boxSizing="border-box" onChange={(e: any) => vars.email = e.target.value}/>
                         </>
                         }
                         <Text fontSize="lg" fontWeight="bold">Password</Text>
-                        <Input placeholder="Password" size="lg" maxW={"100%"}
-                               boxSizing="border-box" onChange={(e: any) => password = e.target.value}/>
+                        <Input placeholder="Password" size="lg" maxW={"100%"} type="password"
+                               boxSizing="border-box" onChange={(e: any) => vars.password = e.target.value}/>
                     </Stack>
                 </ModalBody>
 

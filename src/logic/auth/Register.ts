@@ -10,6 +10,9 @@ export const register = async (requestBody: RegisterRequestBody): Promise<number
     let response = await fetch(authServerAddress + '/api/register',
         {
             method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
             body: JSON.stringify(requestBody)
         });
 

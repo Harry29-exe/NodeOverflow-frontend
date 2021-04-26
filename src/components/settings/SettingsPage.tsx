@@ -1,9 +1,9 @@
 import React, {useContext} from 'react';
 import {Box, Center, Flex, VStack} from "@chakra-ui/react";
 import {Route, Switch, useRouteMatch} from "react-router-dom";
-import AccountSettings from "./AccountSettings";
+import AccountSettings from "./settings-subpages/AccountSettings";
 import SettingsNavbar from "./SettingsNavbar";
-import ProjectSettings from "./ProjectSettings";
+import ProjectSettings from "./settings-subpages/ProjectSettings";
 import VeryLongSettings from "./VeryLongSettings";
 import {AuthContext} from "../../logic/auth/AuthContext";
 

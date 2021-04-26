@@ -13,7 +13,16 @@ export class JwtAuthContext extends AbstractAuthContext<JwtToken> {
             document.cookie = `jwt=${authState.authInfo.token}`;
 
         } else {
+            try {
+                let cookies = document.cookie.split(';')
+                let jwtCookie = (cookies.filter(c => c.startsWith('jwt')))[0].split('=')[1];
+                let jwt = new JwtToken(jwtCookie);
+                if (jwt.timeBeforeExpire > 60 * 1000) {
+                    this.authState.updateAuth(jwt);
+                }
+            } catch (e: any) {
 
+            }
         }
     }
 
@@ -37,6 +46,7 @@ export class JwtAuthContext extends AbstractAuthContext<JwtToken> {
     }
 
     logout(): void {
+        document.cookie = "jwt= ;"
         this.authState.updateAuth();
     }
 

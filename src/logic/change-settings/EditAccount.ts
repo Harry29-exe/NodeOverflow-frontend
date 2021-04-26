@@ -30,6 +30,25 @@ export const changeEmail = async (authContext: AbstractAuthContext<any>,
 
 export const changePassword = async (authContext: AbstractAuthContext<any>,
                                      oldPassword: string, newPassword: string,
-                                     resListener: ResponseListener) => {
+                                     responseListener: ResponseListener) => {
+    let body = {
+        id: authContext.authInfo.id,
+        password: oldPassword,
+        newPassword: newPassword
+    }
+    let response = await fetch(authServerAddress + "/api/user", {
+        method: 'PATCH',
+        body: JSON.stringify(body),
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': authContext.authInfo.token,
+        },
+    });
+
+    let responseBody = JSON.stringify(response.body);
+    responseListener({
+        status: httpCodeToSettingsCode(response.status),
+        message: responseBody === "{}" ? undefined : responseBody
+    });
 
 }

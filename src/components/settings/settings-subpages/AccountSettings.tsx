@@ -1,10 +1,10 @@
 import React, {useContext, useState} from 'react';
 import {Button, ButtonGroup, FormControl, FormHelperText, FormLabel, HStack, Input, VStack} from "@chakra-ui/react";
-import SettingsHeader from './SettingsHeader';
-import {AbstractAuthContext, AuthContext} from "../../logic/auth/AuthContext";
-import {changeEmail, changePassword} from "../../logic/change-settings/EditAccount";
-import {ChangeSettingsResponse} from "../../logic/change-settings/ChangeSettingsResponse";
-import ResultAlert from "./ResultAlert";
+import SettingsHeader from '../SettingsHeader';
+import {AbstractAuthContext, AuthContext} from "../../../logic/auth/AuthContext";
+import {changeEmail, changePassword} from "../../../logic/change-settings/EditAccount";
+import {ChangeSettingsResponse} from "../../../logic/change-settings/ChangeSettingsResponse";
+import ResultAlert from "../ResultAlert";
 
 const AccountSettings = () => {
     let authContext = useContext(AuthContext);
@@ -21,7 +21,7 @@ const AccountSettings = () => {
 };
 
 const GeneralSettings = (props: { authContext: AbstractAuthContext<any> }) => {
-    let [result, setResult] = useState<ChangeSettingsResponse>({status: "notInitialized", message: ""})
+    let [result, setResult] = useState<ChangeSettingsResponse>({status: "notInitialized", message: ""});
     const updateGeneralSettings = () => {
         let emailElement = document.getElementById("email");
         let newEmail: string;
@@ -56,10 +56,15 @@ const GeneralSettings = (props: { authContext: AbstractAuthContext<any> }) => {
 }
 
 const PasswordSettings = (props: { authContext: AbstractAuthContext<any> }) => {
+    let [result, setResult] = useState<ChangeSettingsResponse>({status: "notInitialized", message: ""});
     const updatePassword = () => {
+        debugger;
         let oldPassword = (document.getElementById("oldPassword") as HTMLInputElement).value;
         let newPassword = (document.getElementById("newPassword") as HTMLInputElement).value;
         let repeatedNewPassword = (document.getElementById("repeatedNewPassword") as HTMLInputElement).value;
+        if (newPassword != repeatedNewPassword) {
+            return;
+        }
 
         changePassword(props.authContext, oldPassword, newPassword, (val: any) => {
         });
