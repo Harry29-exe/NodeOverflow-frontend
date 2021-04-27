@@ -1,10 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import "./Node.css";
 import {DummyValueFunction} from "./NodeValueFunction";
 import {NodeStorage} from "../NodeStorage";
 import {NodeCanvasViewProperties} from "../NodeCanvasViewProperties";
 import {NodeDimension, NodeModel} from "../../../logic/node-editor/NodeModel";
-import {Box, useStyleConfig} from "@chakra-ui/react";
+import {Box, Center, useMultiStyleConfig} from "@chakra-ui/react";
 import {PressedKeys} from "../../../logic/GlobalKeyListener";
 
 export class NodeComponentState {
@@ -45,11 +45,11 @@ export function createDefaultNode(id: number, name: string, x?: number, y?: numb
 }
 
 const Node = (props: NodeComponentProps) => {
-    const nodeBackgroundRef = React.createRef<HTMLDivElement>();
+    const nodeBackgroundRef = useRef<HTMLDivElement>(null);
     const [state, setState] = useState<NodeComponentState>(
         new NodeComponentState(props.node.x, props.node.y,
             props.selected ? props.selected : false, false));
-    const style = useStyleConfig("Node", undefined);
+    const style = useMultiStyleConfig("Node", undefined);
     let lastTouch: number = 0;
     let dim = props.node.dimensions;
     let height = props.node.height;
@@ -62,7 +62,7 @@ const Node = (props: NodeComponentProps) => {
 
     const handleClick = (event: any) => {
         event.preventDefault();
-        state.selected = true
+        state.selected = true;
         setState(state);
         props.storage.handleUpdateNode(props.node);
         let mouseX = event.clientX, mouseY = event.clientY;
@@ -99,13 +99,14 @@ const Node = (props: NodeComponentProps) => {
 
     const unselect = (event: any) => {
         let shiftPressed = PressedKeys.keys.includes("ShiftLeft");
-        console.log(PressedKeys.keys);
+
         if (nodeBackgroundRef.current && !shiftPressed) {
             let nodeBox = nodeBackgroundRef.current.getBoundingClientRect();
             if (event.clientX < nodeBox.left || event.clientX > nodeBox.left + nodeBox.width ||
                 event.clientY < nodeBox.top || event.clientY > nodeBox.top + nodeBox.height) {
                 state.selected = false;
                 setState(state);
+
                 window.removeEventListener("click", unselect);
             }
         } else if (!shiftPressed) {
@@ -190,43 +191,49 @@ const Node = (props: NodeComponentProps) => {
             window.removeEventListener("touchstart", touchUnselect);
             window.removeEventListener("click", unselect);
         };
-    }, [props]);
+    }, [props.node.id]);
 
 
     return (
-        <Box className={"nodeWrapper"}
-             transform={`translate(${state.x}px, ${state.y}px`}
-             transition={`transform 0.01s 0 ease-out`}>
+        <div style={{
+            position: 'absolute', width: 0, height: 0
+            , transform: `translate(${state.x}px, ${state.y}px)`
+            , transition: `transform 0.01s 0 ease-out`
+        }}>
 
-            <div style={{position: "absolute", top: props.node.dimensions.headHeight}}>
+            <div style={{position: "absolute", top: dim.headHeight}}>
             </div>
 
             {props.node.segments.map(s => s.createView(props.storage, props.canvasViewProps))}
 
-            <Box ref={nodeBackgroundRef} className={"nodeBackground"}
+            <Box ref={nodeBackgroundRef}
                  onMouseDown={handleClick}
                  onTouchStart={handleTouch}
+                 pos='absolute' top={0} left={0} overflow='hidden'
+                 opacity={0.9} zIndex={-1} ml='-1px' mt='-1px'
+                 border='2px solid' borderColor={'#3c454f'}
                  width={`${dim.width}px`}
                  height={`${height}px`}
-                 borderRadius={props.node.dimensions.headHeight}
-                 backgroundColor="gray.400"
+                 borderRadius={dim.headHeight}
+                 backgroundColor="gray.600"
                  boxShadow={"0 0 3px 2px " + (state.aboutToDelete ? "#c21414" :
                      state.selected ? "primary.400" : "#555e66")}
             >
-
-                <Box draggable="false" className={"header"} style={{
-                    width: props.node.dimensions.width,
-                    height: props.node.dimensions.headHeight,
-                    color: "#fff",
-                    fontWeight: 400,
-                    // backgroundColor: this.nodeStyle.headerColor
-                }} bg="primary.400">
+                <Center draggable='false' user-select='none'
+                        pos='absolute' left={0} top={0}
+                        boxShadow={"0 0 0 1px #3c454f"}
+                        width={`${dim.width}px`}
+                        height={`${dim.headHeight}px`}
+                        color={"#fff"} fontWeight={400} bg="primary.400"
+                        _hover={{cursor: 'default', userSelect: 'none'}}
+                        _selection={{userSelect: 'none'}}
+                >
                     {props.node.name}
-                </Box>
+                </Center>
 
             </Box>
 
-        </Box>
+        </div>
     );
 
 }

@@ -3,6 +3,7 @@ import Port from "./Port";
 import {NodeStorage} from "../NodeStorage";
 import {NodeCanvasViewProperties} from "../NodeCanvasViewProperties";
 import {NodeDimension, NodeModel, SegmentStyle} from "../../../logic/node-editor/NodeModel";
+import {NodeStyle} from "./NodeStyle";
 
 export enum PortType {
     INPUT,
@@ -24,12 +25,12 @@ export class SegmentProps<T> {
 
 export abstract class Segment<Type, Props extends SegmentProps<Type>, State> extends Component<Props, State> {
     protected topPosition: number;
+    protected nodeStyle = NodeStyle;
     protected segmentStyle = SegmentStyle;
 
     constructor(props: Props) {
         super(props);
         this.topPosition = this.props.segment.index * this.props.segment.parentDimensions.segmentHeight + this.props.segment.parentDimensions.headHeight;
-        this.segmentStyle = SegmentStyle;
     }
 
     protected createOutputLabelStyle(): React.CSSProperties {
@@ -50,10 +51,10 @@ export abstract class Segment<Type, Props extends SegmentProps<Type>, State> ext
             justifyContent: "flex-end",
             alignItems: "center",
 
-            fontFamily: "Ubuntu",
-            fontWeight: 400,
+            fontFamily: this.nodeStyle.fontFamily,
+            fontWeight: this.nodeStyle.labelsFontWeight,
             fontSize: dim.segmentHeight * this.segmentStyle.fontSizeToSegmentHeight,
-            color: "#fff",
+            color: this.nodeStyle.textColor,
             userSelect: "none"
 
         } as React.CSSProperties
@@ -78,10 +79,10 @@ export abstract class Segment<Type, Props extends SegmentProps<Type>, State> ext
             alignItems: "center",
             overflow: "hidden",
 
-            fontFamily: "Ubuntu",
-            fontWeight: 400,
+            fontFamily: this.nodeStyle.fontFamily,
+            fontWeight: this.nodeStyle.labelsFontWeight,
             fontSize: dim.segmentHeight * this.segmentStyle.fontSizeToSegmentHeight,
-            color: "#fff",
+            color: this.nodeStyle.textColor,
             userSelect: "none"
 
         } as React.CSSProperties
@@ -104,9 +105,9 @@ export abstract class Segment<Type, Props extends SegmentProps<Type>, State> ext
             justifyContent: "flex-start",
             alignItems: "flex-start",
 
-            fontFamily: "Ubuntu",
-            fontWeight: 400,
-            color: "#fff",
+            fontFamily: this.nodeStyle.fontFamily,
+            fontWeight: this.nodeStyle.labelsFontWeight,
+            color: this.nodeStyle.textColor,
             userSelect: "none",
             pointerEvents: "none",
             fontSize: dim.segmentHeight * this.segmentStyle.fontSizeToSegmentHeight,

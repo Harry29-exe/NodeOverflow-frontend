@@ -62,8 +62,8 @@ export class NumberSegment extends Segment<number, NumberSegmentProps, any> {
             justifyContent: isLeft ? "flex-end" : "flex-start",
             userSelect: "none",
 
-            fontWeight: this.props.segment.parent.nodeStyle.labelsFontWeight,
-            color: this.props.segment.parent.nodeStyle.headerColor,
+            fontWeight: this.nodeStyle.labelsFontWeight,
+            color: this.nodeStyle.headerColor,
             cursor: "pointer"
         } as React.CSSProperties;
     }

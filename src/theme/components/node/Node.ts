@@ -1,10 +1,16 @@
 const Node = {
-    parts: ["node", "item"],
+    parts: ["node", "header", "background"],
     baseStyle: {
-        node: {},
+        node: {
+            color: "#fff"
+        },
+
         header: {
+            bg: "primary.400"
+        },
+        background: {
             bg: "gray.500"
-        }
+        },
     }
 }
 
