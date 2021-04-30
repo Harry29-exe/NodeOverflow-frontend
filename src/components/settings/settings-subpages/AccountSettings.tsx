@@ -66,8 +66,7 @@ const PasswordSettings = (props: { authContext: AbstractAuthContext<any> }) => {
             return;
         }
 
-        changePassword(props.authContext, oldPassword, newPassword, (val: any) => {
-        });
+        changePassword(props.authContext, oldPassword, newPassword, (val: any) => {});
     }
     return (
         <VStack w={"100%"}>
@@ -90,8 +89,13 @@ const PasswordSettings = (props: { authContext: AbstractAuthContext<any> }) => {
 
             <HStack w={"100%"} justifyContent="flex-start" alignContent={"center"}>
                 <ButtonGroup marginTop={4} size={"sm"}>
-                    <Button variant={"primarySolid"}>Apply changes</Button>
-                    <Button variant={"primary"} onClick={() => updatePassword()}>Discard changes</Button>
+                    <Button variant={"primarySolid"} onClick={() => updatePassword()}>
+                        Apply changes
+                    </Button>
+
+                    <Button variant={"primary"}>
+                        Discard changes
+                    </Button>
                 </ButtonGroup>
             </HStack>
         </VStack>
