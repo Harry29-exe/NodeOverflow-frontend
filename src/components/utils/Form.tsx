@@ -1,8 +1,8 @@
 import React from 'react';
 import {Alert, Box, BoxProps, Flex, FlexProps} from "@chakra-ui/react";
-import {FormattedResponse} from "../../logic/utils/FormattedResponse";
+import {RequestResult} from "../../logic/utils/RequestResult";
 
-type FromProps = FlexProps & {response?: FormattedResponse}
+type FromProps = FlexProps & {response?: RequestResult}
 
 const Form = (props: FromProps) => {
     const {response, children, ...rest} = props;

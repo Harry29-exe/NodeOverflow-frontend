@@ -3,8 +3,8 @@ import {Button, ButtonGroup, FormControl, FormHelperText, FormLabel, HStack, Inp
 import SettingsHeader from '../SettingsHeader';
 import {AbstractAuthContext, AuthContext} from "../../../logic/auth/AuthContext";
 import {changeEmail, changePassword} from "../../../logic/change-settings/EditAccount";
-import {ChangeSettingsResponse} from "../../../logic/change-settings/ChangeSettingsResponse";
 import ResultAlert from "../ResultAlert";
+import {BasicRequestResult, RequestResult, RequestStatus} from "../../../logic/utils/RequestResult";
 
 const AccountSettings = () => {
     let authContext = useContext(AuthContext);
@@ -21,7 +21,7 @@ const AccountSettings = () => {
 };
 
 const GeneralSettings = (props: { authContext: AbstractAuthContext<any> }) => {
-    let [result, setResult] = useState<ChangeSettingsResponse>({status: "notInitialized", message: ""});
+    let [reqStatus, setReqStatus] = useState<RequestResult>(new BasicRequestResult(RequestStatus.NOT_INIT));
     const updateGeneralSettings = () => {
         let emailElement = document.getElementById("email");
         let newEmail: string;
@@ -30,7 +30,7 @@ const GeneralSettings = (props: { authContext: AbstractAuthContext<any> }) => {
         } else {
             newEmail = "";
         }
-        changeEmail(props.authContext, newEmail, setResult);
+        changeEmail(props.authContext, newEmail, setReqStatus);
     }
 
     return (
@@ -50,13 +50,16 @@ const GeneralSettings = (props: { authContext: AbstractAuthContext<any> }) => {
                 </ButtonGroup>
             </HStack>
 
-            <ResultAlert status={result.status} message={result.message}/>
+            <ResultAlert requestStatus={reqStatus}
+                         close={() => setReqStatus(
+                             new BasicRequestResult(RequestStatus.NOT_INIT)
+                         )}/>
         </VStack>
     )
 }
 
 const PasswordSettings = (props: { authContext: AbstractAuthContext<any> }) => {
-    let [result, setResult] = useState<ChangeSettingsResponse>({status: "notInitialized", message: ""});
+    let [reqStatus, setReqStatus] = useState<RequestResult>(new BasicRequestResult(RequestStatus.NOT_INIT));
     const updatePassword = () => {
         debugger;
         let oldPassword = (document.getElementById("oldPassword") as HTMLInputElement).value;

@@ -1,17 +1,18 @@
-import {ResponseListener} from "./ChangeSettingsResponse";
 import {authServerAddress} from "../addresses/AuthServerAddress";
 import {AbstractAuthContext} from "../auth/AuthContext";
+import {RequestResult, RequestStatus} from "../utils/RequestResult";
 
 const httpCodeToSettingsCode = (code: number) => {
     if (code < 300) {
-        return "success";
+        return RequestStatus.SUCCESS;
     } else {
-        return "fail"
+        return RequestStatus.FAIL;
     }
 }
 
 export const changeEmail = async (authContext: AbstractAuthContext<any>,
-                                  newEmail: string, resListener: ResponseListener) => {
+                                  newEmail: string,
+                                  responseListener: (reqStatus: RequestResult) => void) => {
     let body = {
         id: authContext.authInfo.id,
         email: newEmail,
@@ -25,12 +26,15 @@ export const changeEmail = async (authContext: AbstractAuthContext<any>,
         },
     });
 
-    resListener({status: httpCodeToSettingsCode(response.status), message: JSON.stringify(response.body)})
+    responseListener({
+        status: httpCodeToSettingsCode(response.status),
+        message: JSON.stringify(response.body)
+    });
 }
 
 export const changePassword = async (authContext: AbstractAuthContext<any>,
                                      oldPassword: string, newPassword: string,
-                                     responseListener: ResponseListener) => {
+                                     responseListener: (reqStatus: RequestResult) => void) => {
     let body = {
         id: authContext.authInfo.id,
         password: oldPassword,
@@ -50,5 +54,4 @@ export const changePassword = async (authContext: AbstractAuthContext<any>,
         status: httpCodeToSettingsCode(response.status),
         message: responseBody === "{}" ? undefined : responseBody
     });
-
 }

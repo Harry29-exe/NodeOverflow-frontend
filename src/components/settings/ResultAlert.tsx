@@ -1,27 +1,39 @@
 import React from 'react';
-import {ChangeSettingsStatus} from "../../logic/change-settings/ChangeSettingsStatus";
-import {Alert, AlertIcon, Progress} from "@chakra-ui/react";
+import {Alert, AlertDescription, AlertIcon, AlertTitle, Box, CloseButton, Progress} from "@chakra-ui/react";
+import {RequestResult} from "../../logic/utils/RequestResult";
 
-const ResultAlert = (props: { status: ChangeSettingsStatus, message?: string }) => {
-    switch (props.status) {
-        case "notInitialized":
+type ChangeSettingsStatus = "notInitialized" | "inProgress" | "fail" | "success";
+
+const ResultAlert = (props: {requestStatus: RequestResult, close: () => void}) => {
+    let reqStatus = props.requestStatus;
+    switch (reqStatus.status) {
+        case "Not initialized":
             return <div/>;
-        case "inProgress":
+        case "In progress":
             return <Progress size={"xl"} isIndeterminate maxW={"100%"}/>;
-        case "fail":
+        case "Fail":
+        case "Success":
             return (
-                <Alert status={"error"} boxSizing={"border-box"}>
+                <Alert status={reqStatus.status === "Fail"? "error": "success"} boxSizing={"border-box"}>
                     <AlertIcon/>
-                    {props.message ? props.message : "Something went wrong"}
+                    <Box>
+                        <AlertTitle>
+                            {reqStatus.titleMessage? reqStatus.titleMessage: reqStatus.status}
+                        </AlertTitle>
+                        {reqStatus.message ?
+                            <AlertDescription>
+                                {reqStatus.message}
+                            </AlertDescription>
+                            :
+                            <div/>
+                        }
+                    </Box>
+                    <CloseButton position="absolute" right="8px" top="8px"
+                                 onClick={() => {props.close();} }/>
                 </Alert>
             );
-        case "success":
-            return (
-                <Alert status={"success"} boxSizing={"border-box"}>
-                    <AlertIcon/>
-                    {props.message ? props.message : "Settings has been successfully edited."}
-                </Alert>
-            );
+        default:
+            return <div/>;
     }
 };
 
