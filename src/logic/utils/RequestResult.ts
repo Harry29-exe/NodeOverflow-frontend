@@ -1,14 +1,20 @@
 export enum RequestStatus {
     NOT_INIT='Not initialized',
-    SUCCESS='Success',
-    FAIL='Fail',
-    IN_PROGRESS='In progress'
+    SUCCESS = 'Success',
+    FAIL = 'Fail',
+    IN_PROGRESS = 'In progress'
 }
 
 export interface RequestResult {
     status: RequestStatus;
     titleMessage?: string;
     message?: string;
+}
+
+export const notInitialized = (): RequestResult => {
+    return {
+        status: RequestStatus.NOT_INIT
+    };
 }
 
 export class BasicRequestResult implements RequestResult {

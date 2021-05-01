@@ -1,7 +1,7 @@
 import React, {useContext} from 'react';
 import {Box, Center, Flex, VStack} from "@chakra-ui/react";
 import {Route, Switch, useRouteMatch} from "react-router-dom";
-import AccountSettings from "./settings-subpages/AccountSettings";
+import AccountSettings from "./settings-subpages/account/AccountSettings";
 import SettingsNavbar from "./SettingsNavbar";
 import ProjectSettings from "./settings-subpages/ProjectSettings";
 import VeryLongSettings from "./VeryLongSettings";

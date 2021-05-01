@@ -10,15 +10,20 @@ const ResultAlert = (props: {requestStatus: RequestResult, close: () => void}) =
         case "Not initialized":
             return <div/>;
         case "In progress":
-            return <Progress size={"xl"} isIndeterminate maxW={"100%"}/>;
+            return (
+                <Box
+                    borderRadius={5} overflow="hidden">
+                    <Progress size="md" isIndeterminate/>
+                </Box>);
         case "Fail":
         case "Success":
             return (
-                <Alert status={reqStatus.status === "Fail"? "error": "success"} boxSizing={"border-box"}>
+                <Alert status={reqStatus.status === "Fail" ? "error" : "success"}
+                       borderRadius={"md"} boxSizing={"border-box"} w={"100%"}>
                     <AlertIcon/>
                     <Box>
                         <AlertTitle>
-                            {reqStatus.titleMessage? reqStatus.titleMessage: reqStatus.status}
+                            {reqStatus.titleMessage ? reqStatus.titleMessage : reqStatus.status}
                         </AlertTitle>
                         {reqStatus.message ?
                             <AlertDescription>

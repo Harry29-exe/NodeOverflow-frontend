@@ -10,9 +10,9 @@ const httpCodeToSettingsCode = (code: number) => {
     }
 }
 
-export const changeEmail = async (authContext: AbstractAuthContext<any>,
-                                  newEmail: string,
-                                  responseListener: (reqStatus: RequestResult) => void) => {
+export const changeEmail = async (
+    authContext: AbstractAuthContext<any>,
+    newEmail: string): Promise<RequestResult> => {
     let body = {
         id: authContext.authInfo.id,
         email: newEmail,
@@ -26,15 +26,15 @@ export const changeEmail = async (authContext: AbstractAuthContext<any>,
         },
     });
 
-    responseListener({
+    return {
         status: httpCodeToSettingsCode(response.status),
         message: JSON.stringify(response.body)
-    });
+    };
 }
 
-export const changePassword = async (authContext: AbstractAuthContext<any>,
-                                     oldPassword: string, newPassword: string,
-                                     responseListener: (reqStatus: RequestResult) => void) => {
+export const changePassword = async (
+    authContext: AbstractAuthContext<any>,
+    oldPassword: string, newPassword: string) => {
     let body = {
         id: authContext.authInfo.id,
         password: oldPassword,
@@ -50,7 +50,8 @@ export const changePassword = async (authContext: AbstractAuthContext<any>,
     });
 
     let responseBody = JSON.stringify(response.body);
-    responseListener({
+
+    return ({
         status: httpCodeToSettingsCode(response.status),
         message: responseBody === "{}" ? undefined : responseBody
     });
