@@ -2,7 +2,17 @@ import {AbstractAuthContext} from "../../../../logic/auth/AuthContext";
 import React, {useState} from "react";
 import {BasicRequestResult, notInitialized, RequestResult, RequestStatus} from "../../../../logic/utils/RequestResult";
 import {changePassword} from "../../../../logic/change-settings/EditAccount";
-import {Button, ButtonGroup, FormControl, FormHelperText, FormLabel, HStack, Input, VStack} from "@chakra-ui/react";
+import {
+    Button,
+    ButtonGroup,
+    Center,
+    FormControl,
+    FormHelperText,
+    FormLabel,
+    HStack,
+    Input,
+    VStack
+} from "@chakra-ui/react";
 import SettingsHeader from "../../SettingsHeader";
 import ResultAlert from "../../../utils/ResultAlert";
 
@@ -41,7 +51,10 @@ export const PasswordSettings = (props: { authContext: AbstractAuthContext<any> 
                 <FormHelperText>Repeat your new password</FormHelperText>
             </FormControl>
 
-            <ResultAlert requestStatus={reqStatus} close={() => setReqStatus(notInitialized())}/>
+            <Center maxW="80%">
+                <ResultAlert requestStatus={reqStatus}
+                             close={() => setReqStatus(notInitialized())}/>
+            </Center>
 
             <HStack w={"100%"} justifyContent="flex-start" alignContent={"center"}>
                 <ButtonGroup marginTop={4} size={"sm"}>

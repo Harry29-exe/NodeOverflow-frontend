@@ -2,7 +2,17 @@ import {AbstractAuthContext} from "../../../../logic/auth/AuthContext";
 import React, {useState} from "react";
 import {BasicRequestResult, notInitialized, RequestResult, RequestStatus} from "../../../../logic/utils/RequestResult";
 import {changeEmail} from "../../../../logic/change-settings/EditAccount";
-import {Button, ButtonGroup, FormControl, FormHelperText, FormLabel, HStack, Input, VStack} from "@chakra-ui/react";
+import {
+    Box,
+    Button,
+    ButtonGroup,
+    FormControl,
+    FormHelperText,
+    FormLabel,
+    HStack,
+    Input,
+    VStack
+} from "@chakra-ui/react";
 import SettingsHeader from "../../SettingsHeader";
 import ResultAlert from "../../../utils/ResultAlert";
 
@@ -33,7 +43,10 @@ export const GeneralSettings = (props: { authContext: AbstractAuthContext<any> }
                 <FormHelperText>Enter your new email</FormHelperText>
             </FormControl>
 
-            <ResultAlert requestStatus={reqStatus} close={() => setReqStatus(notInitialized())}/>
+            <Box w="80%" alignSelf="flex-start">
+                <ResultAlert requestStatus={reqStatus}
+                             close={() => setReqStatus(notInitialized())}/>
+            </Box>
 
             <HStack w={"100%"} justifyContent="flex-start" alignContent={"center"}>
                 <ButtonGroup marginTop={4} size={"sm"}>

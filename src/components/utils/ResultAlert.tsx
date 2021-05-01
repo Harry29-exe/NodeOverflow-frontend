@@ -11,9 +11,9 @@ const ResultAlert = (props: {requestStatus: RequestResult, close: () => void}) =
             return <div/>;
         case "In progress":
             return (
-                <Box
-                    borderRadius={5} overflow="hidden">
-                    <Progress size="md" isIndeterminate/>
+                <Box w={"100%"} borderRadius={5}
+                     overflow="hidden">
+                    <Progress size="sm" isIndeterminate/>
                 </Box>);
         case "Fail":
         case "Success":

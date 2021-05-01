@@ -47,7 +47,7 @@ export class JwtAuthContext extends AbstractAuthContext<JwtToken> {
 
     logout(): void {
         document.cookie = "jwt= ;"
-        this.authState.updateAuth();
+        this.authState.updateAuth(undefined);
     }
 
     private handleServerResponse(response: Response) {
