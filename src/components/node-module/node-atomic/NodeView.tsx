@@ -196,11 +196,12 @@ const NodeView = (props: NodeComponentProps) => {
         }}>
             {/*<div style={{position: "absolute", top: dim.headHeight}}>*/}
             {/*</div>*/}
-            <VStack mt={`${dim.headHeight}px`} w={`${dim.width}px`}>
+            <VStack mt={`${dim.headHeight}px`} w={`${dim.width}px`} pointerEvents="none">
                 {props.node.segments.map(s => s.createView(props.storage, props.canvasViewProps))}
             </VStack>
 
             <Box ref={nodeBackgroundRef}
+                 onClick={() => console.log("box")}
                  onMouseDown={handleClick}
                  onTouchStart={handleTouch}
                  sx={style.background}
@@ -221,9 +222,7 @@ const NodeView = (props: NodeComponentProps) => {
                 >
                     {props.node.name}
                 </Center>
-
             </Box>
-
         </div>
     );
 }

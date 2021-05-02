@@ -5,11 +5,15 @@ import Port from "../Port";
 
 const OutputSegmentView = (props: { model: SegmentModel<any> }) => {
     return (
-        <Flex ref={props.model.ref} w="100%">
+        <Flex ref={props.model.ref} w="100%"
+              userSelect="none" pointerEvents="none">
             <Port/>
-            <Center alignSelf="center" justifySelf="center">
+
+            <Center alignSelf="center" justifySelf="center"
+                    pointerEvents="auto" onClick={() => console.log("flex")}>
                 {props.model.label}
             </Center>
+
         </Flex>
     );
 };
