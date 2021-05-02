@@ -3,7 +3,7 @@ import "./Node.css";
 import {NodeStorage} from "../NodeStorage";
 import {NodeCanvasViewProperties} from "../NodeCanvasViewProperties";
 import {NodeModel} from "../../../logic/node-editor/node/NodeModel";
-import {Box, Center, useMultiStyleConfig} from "@chakra-ui/react";
+import {Box, Center, useMultiStyleConfig, VStack} from "@chakra-ui/react";
 import {PressedKeys} from "../../../logic/GlobalKeyListener";
 
 class NodeComponentState {
@@ -82,7 +82,9 @@ const NodeView = (props: NodeComponentProps) => {
 
             mouseX = event.clientX;
             mouseY = event.clientY;
-            props.storage.handleUpdateNode(props.node);
+
+            props.node.links.forEach(link => link.update());
+            // props.storage.handleUpdateNode(props.node);
         }
 
         const cleanUp = (event: any) => {
@@ -142,7 +144,9 @@ const NodeView = (props: NodeComponentProps) => {
 
             screenX = touch.screenX;
             screenY = touch.screenY;
-            props.storage.handleUpdateNode(props.node);
+
+            props.node.links.forEach(link => link.update());
+            // props.storage.handleUpdateNode(props.node);
         }
 
         const cleanUp = (event: any) => {
@@ -185,17 +189,16 @@ const NodeView = (props: NodeComponentProps) => {
 
     const style = useMultiStyleConfig("Node", undefined);
 
+
     return (
-        <div style={{
-            position: 'absolute', width: 0, height: 0
-            , transform: `translate(${state.x}px, ${state.y}px)`
-            , transition: `transform 0.01s 0 linear`
+        <div className={"Node"} style={{
+            transform: `translate(${state.x}px, ${state.y}px)`
         }}>
-
-            <div style={{position: "absolute", top: dim.headHeight}}>
-            </div>
-
-            {props.node.segments.map(s => s.createView(props.storage, props.canvasViewProps))}
+            {/*<div style={{position: "absolute", top: dim.headHeight}}>*/}
+            {/*</div>*/}
+            <VStack mt={`${dim.headHeight}px`} w={`${dim.width}px`}>
+                {props.node.segments.map(s => s.createView(props.storage, props.canvasViewProps))}
+            </VStack>
 
             <Box ref={nodeBackgroundRef}
                  onMouseDown={handleClick}

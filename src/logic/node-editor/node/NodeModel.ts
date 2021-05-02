@@ -14,7 +14,7 @@ export abstract class NodeModel {
     public readonly id: number;
     public abstract readonly name: string;
     private readonly _viewProperties: NodeViewProperties;
-    protected _segments: SegmentModel<any>[] = [];
+    protected abstract _segments: SegmentModel<any>[];
     private _links: LinkModel[] = [];
 
     constructor(save: NodeSave)

@@ -1,4 +1,16 @@
-export const we = 'we';
+import React from 'react';
+import {Box} from "@chakra-ui/react";
+
+const Port = () => {
+    return (
+        <Box alignSelf="flex-start" justifySelf="center"
+             w="25px" h="25px" bg={"blue.500"} transform="translate(-50%, 0px)">
+
+        </Box>
+    );
+};
+
+export default Port;
 
 
 //

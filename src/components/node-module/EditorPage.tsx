@@ -2,11 +2,11 @@ import React from 'react';
 import {Box} from "@chakra-ui/react";
 import NodeModule from "./NodeModule";
 import {NodeModel} from "../../logic/node-editor/node/NodeModel";
-import {InputNode} from "../../logic/node-editor/node/implementations/InputNode";
+import {InputNodeModel} from "../../logic/node-editor/node/implementations/InputNodeModel";
 import {NodeDimension} from "../../logic/node-editor/node/NodeDimension";
 
 const testNodes: NodeModel[] = [
-    new InputNode(0, 0, 0, new NodeDimension(160, 22, 26, 22)),
+    new InputNodeModel(0, 0, 0, new NodeDimension(160, 22, 26, 22)),
 ]
 
 const EditorPage = () => {

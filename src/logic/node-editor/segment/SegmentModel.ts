@@ -14,9 +14,9 @@ export abstract class SegmentModel<InputType> {
     private readonly _changeValueListener?: (newValue: InputType) => void;
     protected _value: InputType;
 
-    protected constructor(index: number, parent: NodeModel, value: InputType,
-                          hasInputPort: boolean, hasOutputPort: boolean,
-                          changeValueListener?: (newValue: InputType) => void
+    constructor(index: number, parent: NodeModel, value: InputType,
+                hasInputPort: boolean, hasOutputPort: boolean,
+                changeValueListener?: (newValue: InputType) => void
     ) {
         this._parent = parent;
         this._index = index;
