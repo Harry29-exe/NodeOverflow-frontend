@@ -37,7 +37,7 @@ class RenderWindow extends Component<Props, { lastUpdate: number }> {
 
     paintOutput(outputNode: NodeModel) {
         try {
-            outputNode.getNodeValue(0).then(
+            outputNode.getOutputValue(0).then(
                 value => this.paintCanvas(value),
                 reason => console.log("something went wrong")
             );

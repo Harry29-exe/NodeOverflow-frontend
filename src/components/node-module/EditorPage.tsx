@@ -2,16 +2,11 @@ import React from 'react';
 import {Box} from "@chakra-ui/react";
 import NodeModule from "./NodeModule";
 import {NodeModel} from "../../logic/node-editor/node/NodeModel";
-import {CreateImageInputNode} from "./nodes/ImageInputNode";
-import {CreateOutputNode} from "./nodes/OutputNode";
-import {CreateClampImageNode} from "./nodes/CapBrightnessNode";
-import {CreateContrastNode} from "./nodes/ContrastNode";
+import {InputNode} from "../../logic/node-editor/node/implementations/InputNode";
+import {NodeDimension} from "../../logic/node-editor/node/NodeDimension";
 
 const testNodes: NodeModel[] = [
-    CreateImageInputNode(1, -360, -60),
-    CreateOutputNode(2, 220, 80),
-    CreateClampImageNode(3, 0, 0),
-    CreateContrastNode(4, 100, 0)
+    new InputNode(0, 0, 0, new NodeDimension(160, 22, 26, 22)),
 ]
 
 const EditorPage = () => {

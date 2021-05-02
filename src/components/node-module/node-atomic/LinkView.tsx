@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {LinkModel} from "../../../logic/node-editor/LinkModel";
 
-class Link extends Component<{ link: LinkModel }> {
+class LinkView extends Component<{ link: LinkModel }> {
 
     handleClick = (event: any) => {
         event.preventDefault();
@@ -27,11 +27,12 @@ class Link extends Component<{ link: LinkModel }> {
         if (!outputSegment.ref.current || !inputSegment.ref.current) {
             throw new Error();
         }
-        let outputX =
-            let
-        outputY = this.props.link.outputSegment.calcPortTopOffsetToCenter();
-        let inputX = this.props.link.inputSegment.calcPortLeftOffsetToCenter();
-        let inputY = this.props.link.inputSegment.calcPortTopOffsetToCenter();
+        let outputBox = outputSegment.ref.current.getBoundingClientRect();
+        let inputBox = inputSegment.ref.current.getBoundingClientRect();
+        let outputX = outputBox.left;
+        let outputY = outputBox.top;
+        let inputX = inputBox.left;
+        let inputY = inputBox.top;
         return (
             <div style={{width: 0, height: 0}}>
                 <svg
@@ -64,4 +65,4 @@ class Link extends Component<{ link: LinkModel }> {
     }
 }
 
-export default Link;
+export default LinkView;

@@ -74,7 +74,10 @@ export class NodeModule extends Component<NodeModuleProps, NodeModuleState> {
 
                 {!this.props.disableControlPanel ?
                     <div style={{position: "absolute", width: "100%", height: "4.5%"}}>
-                        <NodeControlPanel storage={this.storage} viewProps={this.nodeCanvasViewProps}/>
+                        <NodeControlPanel
+                            //TODO
+                            // storage={this.storage} viewProps={this.nodeCanvasViewProps}
+                        />
                     </div>
                     :
                     <div style={{

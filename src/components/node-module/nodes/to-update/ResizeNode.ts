@@ -1,25 +1,27 @@
-import {DummyValueFunction} from "../../node-atomic/NodeValueFunction";
-import {OutputSegmentModel} from "../../node-atomic/segments/OutputSegment";
-import {OptionSegmentModel} from "../../node-atomic/segments/OptionSegment";
-import {NumberSegmentModel} from "../../node-atomic/segments/NumberSegment";
-import {InputSegmentModel} from "../../node-atomic/segments/InputSegment";
-import {NodeModel} from "../../../../logic/node-editor/node/NodeModel";
-import {NodeDimension} from "../../../../logic/node-editor/node/NodeDimension";
-import {PortType} from "../../../../logic/node-editor/segment/SegmentModel";
+export const we = 'we';
 
-export const CreateResizeImageNode = (id: number, x?: number, y?: number): NodeModel => {
-    let node = new NodeModel(id, "Resize image", x ? x : 0, y ? y : 0,
-        new NodeDimension(180, 20, 26, 20),
-        // new ResizeImageNodeVFun());
-        new DummyValueFunction());
-    node.addSegment(new OutputSegmentModel("image"));
-    node.addSegment(new OptionSegmentModel("Resize type", "Percentage", ["Percentage", "Pixels"]));
-    node.addSegment(new InputSegmentModel("Image"));
-    node.addSegment(new NumberSegmentModel("Width", 100, PortType.INPUT));
-    node.addSegment(new NumberSegmentModel("Height", 100, PortType.INPUT));
-
-    return node;
-}
+// import {DummyValueFunction} from "../../node-atomic/NodeValueFunction";
+// import {OutputSegmentModel} from "../../node-atomic/segments/OutputSegment";
+// import {OptionSegmentModel} from "../../node-atomic/segments/OptionSegment";
+// import {NumberSegmentModel} from "../../node-atomic/segments/NumberSegment";
+// import {InputSegmentModel} from "../../node-atomic/segments/InputSegment";
+// import {NodeModel} from "../../../../logic/node-editor/node/NodeModel";
+// import {NodeDimension} from "../../../../logic/node-editor/node/NodeDimension";
+// import {PortType} from "../../../../logic/node-editor/segment/SegmentModel";
+//
+// export const CreateResizeImageNode = (id: number, x?: number, y?: number): NodeModel => {
+//     let node = new NodeModel(id, "Resize image", x ? x : 0, y ? y : 0,
+//         new NodeDimension(180, 20, 26, 20),
+//         // new ResizeImageNodeVFun());
+//         new DummyValueFunction());
+//     node.addSegment(new OutputSegmentModel("image"));
+//     node.addSegment(new OptionSegmentModel("Resize type", "Percentage", ["Percentage", "Pixels"]));
+//     node.addSegment(new InputSegmentModel("Image"));
+//     node.addSegment(new NumberSegmentModel("Width", 100, PortType.INPUT));
+//     node.addSegment(new NumberSegmentModel("Height", 100, PortType.INPUT));
+//
+//     return node;
+// }
 
 // export class ResizeImageNodeVFun implements NodeValueFunction<ImageData> {
 //     getNodeValue(node: NodeModel, segmentIndex: number): ImageData {

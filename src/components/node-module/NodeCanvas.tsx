@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import Node from "./node-atomic/Node";
-import Link from "./node-atomic/Link";
+import NodeView from "./node-atomic/NodeView";
+import LinkView from "./node-atomic/LinkView";
 import {NodeStorage, NodeStorageListener} from "./NodeStorage";
 import {NodeCanvasViewProperties} from "./NodeCanvasViewProperties";
 import "./NodeCanvas.css"
@@ -210,14 +210,14 @@ class NodeCanvas extends Component<NodeCanvasProps, NodeCanvasState> {
                     transition: `transform 0.05s 0 linear`
                 }}>
 
-                    {this.state.nodes.map(n => <Node key={n.id} node={n}
-                                                     canvasViewProps={this.state.viewProperties}
-                                                     storage={this.props.storage}/>)
+                    {this.state.nodes.map(n => <NodeView key={n.id} node={n}
+                                                         canvasViewProps={this.state.viewProperties}
+                                                         storage={this.props.storage}/>)
                     }
 
                     {
                         this.state.links.map(
-                            l => <Link link={l} key={key++}/>)
+                            l => <LinkView link={l} key={key++}/>)
                     }
                 </div>
 

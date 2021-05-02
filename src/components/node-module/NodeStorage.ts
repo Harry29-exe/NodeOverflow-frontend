@@ -1,5 +1,5 @@
 import {NodeModel} from "../../logic/node-editor/node/NodeModel";
-import {PortType, SegmentModel} from "../../logic/node-editor/segment/SegmentModel";
+import {SegmentModel} from "../../logic/node-editor/segment/SegmentModel";
 import {LinkModel} from "../../logic/node-editor/LinkModel";
 
 export interface NodeStorageListener {
@@ -112,19 +112,21 @@ export class DefaultNodeStorage implements NodeStorage {
         let i = 0;
         while (i < nodes.length && inputSegment == null) {
             for (let j = 0; j < nodes[i].segments.length; j++) {
-                if (nodes[i].segments[j].portType !== PortType.INPUT) {
-                    continue;
-                }
+                //TODO
+                // if (nodes[i].segments[j].portType !== PortType.INPUT) {
+                //     continue;
+                // }
                 let portSize = nodes[i].dimensions.segmentHeight;
-                let xMin = nodes[i].segments[j].calcPortLeftOffsetToCenter() - portSize / 2;
-                let xMax = xMin + portSize;
-                let yMin = nodes[i].segments[j].calcPortTopOffsetToCenter() - portSize / 2;
-                let yMax = yMin + portSize;
-                if (targetX >= xMin && targetX <= xMax &&
-                    targetY >= yMin && targetY <= yMax) {
-                    inputSegment = nodes[i].segments[j];
-                    break;
-                }
+                //TODO
+                // let xMin = nodes[i].segments[j].calcPortLeftOffsetToCenter() - portSize / 2;
+                // let xMax = xMin + portSize;
+                // let yMin = nodes[i].segments[j].calcPortTopOffsetToCenter() - portSize / 2;
+                // let yMax = yMin + portSize;
+                // if (targetX >= xMin && targetX <= xMax &&
+                //     targetY >= yMin && targetY <= yMax) {
+                //     inputSegment = nodes[i].segments[j];
+                //     break;
+                // }
             }
             i++;
         }

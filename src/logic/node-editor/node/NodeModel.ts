@@ -14,14 +14,14 @@ export abstract class NodeModel {
     public readonly id: number;
     public abstract readonly name: string;
     private readonly _viewProperties: NodeViewProperties;
-    private _segments: SegmentModel<any, any>[] = [];
+    protected _segments: SegmentModel<any>[] = [];
     private _links: LinkModel[] = [];
 
     constructor(save: NodeSave)
     constructor(id: number, x: number, y: number, dimensions: NodeDimension)
     constructor(saveOrId: number | NodeSave, x?: number, y?: number, dimensions?: NodeDimension) {
         if (typeof saveOrId === "number") {
-            if (!x || !y || !dimensions) {
+            if (x === undefined || y === undefined || dimensions === undefined) {
                 throw new Error("Illegal constructor");
             }
             this.id = saveOrId;
@@ -104,7 +104,7 @@ export abstract class NodeModel {
             this.segments.length * dim.segmentHeight;
     }
 
-    get segments(): SegmentModel<any, any>[] {
+    get segments(): SegmentModel<any>[] {
         return this._segments;
     }
 

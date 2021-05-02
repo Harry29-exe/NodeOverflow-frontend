@@ -49,7 +49,7 @@ export class NodeComponentProps {
     }
 }
 
-const Node = (props: NodeComponentProps) => {
+const NodeView = (props: NodeComponentProps) => {
     const nodeBackgroundRef = useRef<HTMLDivElement>(null);
     const [state, setState] = useReducer(nodeStateReducer, createNodeComponentState(props));
     let lastTouch: number = 0;
@@ -225,4 +225,4 @@ const Node = (props: NodeComponentProps) => {
     );
 }
 
-export default Node;
+export default NodeView;
