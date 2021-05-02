@@ -1,8 +1,9 @@
-import {NodeDimension, NodeModel} from "../../../../logic/node-editor/NodeModel";
+import {NodeModel} from "../../../../logic/node-editor/node/NodeModel";
 import {OutputSegmentModel} from "../../node-atomic/segments/OutputSegment";
-import {PortType} from "../../node-atomic/Segment";
 import {ImageInputNodeVFun} from "../ImageInputNode";
 import {HTTPImageSegmentModel} from "../../node-atomic/segments/HTTPImageSegment";
+import {NodeDimension} from "../../../../logic/node-editor/node/NodeDimension";
+import {PortType} from "../../../../logic/node-editor/segment/SegmentModel";
 
 export const CreateHTTPImageInputNode = (id: number, x?: number, y?: number): NodeModel => {
     let node = new NodeModel(id, "HTTP Image input", x ? x : 0, y ? y : 0,

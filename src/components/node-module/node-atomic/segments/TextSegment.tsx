@@ -1,10 +1,11 @@
 import React from 'react';
 import "./TextSegment.css";
-import Segment, {PortType, SegmentModel, SegmentProps} from "../Segment";
+import SegmentViewWrapper, {SegmentProps} from "../SegmentViewWrapper";
 import {NodeStorage} from "../../NodeStorage";
 import {NodeCanvasViewProperties} from "../../NodeCanvasViewProperties";
+import {PortType, SegmentModel} from "../../../../logic/node-editor/segment/SegmentModel";
 
-export class TextSegment extends Segment<string, SegmentProps<string>, { clicked: boolean, value: string }> {
+export class TextSegment extends SegmentViewWrapper<string, SegmentProps<string>, { clicked: boolean, value: string }> {
     constructor(props: SegmentProps<string>) {
         super(props);
         this.state = {clicked: false, value: this.props.segment.value};

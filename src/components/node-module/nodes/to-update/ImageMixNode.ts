@@ -1,9 +1,10 @@
 import {NodeValueFunction} from "../../node-atomic/NodeValueFunction";
 import {OutputSegmentModel} from "../../node-atomic/segments/OutputSegment";
 import {InputSegmentModel} from "../../node-atomic/segments/InputSegment";
-import {PortType} from "../../node-atomic/Segment";
 import {NumericSliderSegmentModel} from "../../node-atomic/segments/NumericSliderSegment";
-import {NodeDimension, NodeModel} from "../../../../logic/node-editor/NodeModel";
+import {NodeModel} from "../../../../logic/node-editor/node/NodeModel";
+import {NodeDimension} from "../../../../logic/node-editor/node/NodeDimension";
+import {PortType} from "../../../../logic/node-editor/segment/SegmentModel";
 
 
 export const CreateImageMixNode = (id: number, x?: number, y?: number): NodeModel => {

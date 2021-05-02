@@ -1,10 +1,11 @@
 import {CreateNode} from "../utils/NodeFactory";
-import {NodeDimension, NodeModel} from "../../../../logic/node-editor/NodeModel";
+import {NodeModel} from "../../../../logic/node-editor/node/NodeModel";
 import {NodeValueFunction} from "../../node-atomic/NodeValueFunction";
 import {ImageLikeData} from "../../../../logic/image-manipulation/structs/ImageLikeData";
 import {InvertImageWorker} from "../../../../logic/image-manipulation/workers/InvertWorker";
 import {OutputSegmentModel} from "../../node-atomic/segments/OutputSegment";
 import {InputSegmentModel} from "../../node-atomic/segments/InputSegment";
+import {NodeDimension} from "../../../../logic/node-editor/node/NodeDimension";
 
 export const CreateInvertNode: CreateNode = (id: number, x?: number, y?: number): NodeModel => {
     let node = new NodeModel(id, "Invert node", x ? x : 0, y ? y : 0,

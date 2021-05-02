@@ -1,14 +1,15 @@
-import {NodeDimension, NodeModel} from "../../../logic/node-editor/NodeModel";
+import {NodeModel} from "../../../logic/node-editor/node/NodeModel";
 import {CreateNode, NodeFactoryFunction} from "./utils/NodeFactory";
 import {NodeValueFunction} from "../node-atomic/NodeValueFunction";
 import {ImageLikeData} from "../../../logic/image-manipulation/structs/ImageLikeData";
 import {OutputSegmentModel} from "../node-atomic/segments/OutputSegment";
 import {NumericSliderSegmentModel} from "../node-atomic/segments/NumericSliderSegment";
-import {PortType} from "../node-atomic/Segment";
 import {InputSegmentModel} from "../node-atomic/segments/InputSegment";
 import "../../../logic/image-manipulation/workers/ContrastWorker";
 import {ContrastImageWorker} from "../../../logic/image-manipulation/workers/ContrastWorker";
 import {NodeSave} from "./utils/NodeSave";
+import {NodeDimension} from "../../../logic/node-editor/node/NodeDimension";
+import {PortType} from "../../../logic/node-editor/segment/SegmentModel";
 
 export const CreateContrastNode: CreateNode = (id: number, x?: number, y?: number): NodeModel => {
     let node = new NodeModel(id, "Contrast", x ? x : 0, y ? y : 0,

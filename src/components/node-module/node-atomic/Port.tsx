@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 import "./Port.css"
-import {PortType, SegmentModel} from "./Segment";
 import LinkTemporary from "./LinkTemporary";
 import {NodeStorage} from "../NodeStorage";
 import {NodeCanvasViewProperties} from "../NodeCanvasViewProperties";
-import {SegmentStyle} from "../../../logic/node-editor/NodeModel";
+import {SegmentStyle} from "../../../logic/node-editor/node/NodeModel";
+import {PortType, SegmentModel} from "../../../logic/node-editor/segment/SegmentModel";
 
 class Props {
     public parent: SegmentModel<any>;

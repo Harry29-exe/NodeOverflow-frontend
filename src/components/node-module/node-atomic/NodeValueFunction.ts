@@ -1,4 +1,4 @@
-import {NodeModel} from "../../../logic/node-editor/NodeModel";
+import {NodeModel} from "../../../logic/node-editor/node/NodeModel";
 
 export interface NodeValueFunction<T> {
     getNodeValue(node: NodeModel, segmentIndex: number): Promise<T>;

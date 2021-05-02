@@ -1,9 +1,10 @@
 import React from 'react';
-import Segment, {PortType, SegmentModel, SegmentProps} from "../Segment";
+import SegmentViewWrapper, {SegmentProps} from "../SegmentViewWrapper";
 import {NodeStorage} from "../../NodeStorage";
 import {NodeCanvasViewProperties} from "../../NodeCanvasViewProperties";
+import {PortType, SegmentModel} from "../../../../logic/node-editor/segment/SegmentModel";
 
-class OutputSegment extends Segment<null, SegmentProps<null>, any> {
+class OutputSegment extends SegmentViewWrapper<null, SegmentProps<null>, any> {
 
     render() {
         return (

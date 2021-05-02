@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {PortType, SegmentModel} from "./Segment";
+import {LinkModel} from "../../../logic/node-editor/LinkModel";
 
 class Link extends Component<{ link: LinkModel }> {
 
@@ -21,8 +21,15 @@ class Link extends Component<{ link: LinkModel }> {
     }
 
     render() {
-        let outputX = this.props.link.outputSegment.calcPortLeftOffsetToCenter();
-        let outputY = this.props.link.outputSegment.calcPortTopOffsetToCenter();
+        let outputSegment = this.props.link.outputSegment;
+        let inputSegment = this.props.link.inputSegment;
+        // @ts-ignore
+        if (!outputSegment.ref.current || !inputSegment.ref.current) {
+            throw new Error();
+        }
+        let outputX =
+            let
+        outputY = this.props.link.outputSegment.calcPortTopOffsetToCenter();
         let inputX = this.props.link.inputSegment.calcPortLeftOffsetToCenter();
         let inputY = this.props.link.inputSegment.calcPortTopOffsetToCenter();
         return (
@@ -54,36 +61,6 @@ class Link extends Component<{ link: LinkModel }> {
                 </svg>
             </div>
         );
-    }
-}
-
-export class LinkModel {
-    private _outputSegment: SegmentModel<any>;
-    private _inputSegment: SegmentModel<any>;
-
-    constructor(outputSegment: SegmentModel<any>, inputSegment: SegmentModel<any>) {
-        if (outputSegment.portType === PortType.OUTPUT &&
-            inputSegment.portType === PortType.INPUT) {
-            this._outputSegment = outputSegment;
-            this._inputSegment = inputSegment;
-        } else {
-            throw new Error("Invalid port's types");
-        }
-    }
-
-    equals(link: LinkModel): boolean {
-        return this._outputSegment.index === link.outputSegment.index &&
-            this._outputSegment.parent.id === link.outputSegment.parent.id &&
-            this._inputSegment.index === link.inputSegment.index &&
-            this._inputSegment.parent.id === link.inputSegment.parent.id;
-    }
-
-    get outputSegment(): SegmentModel<any> {
-        return this._outputSegment;
-    }
-
-    get inputSegment(): SegmentModel<any> {
-        return this._inputSegment;
     }
 }
 

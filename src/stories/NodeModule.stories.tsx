@@ -2,9 +2,9 @@ import NodeModule from "../components/node-module/NodeModule";
 import {CreateImageInputNode} from "../components/node-module/nodes/ImageInputNode";
 import {Meta, Story} from "@storybook/react/types-6-0";
 import {CreateOutputNode} from "../components/node-module/nodes/OutputNode";
-import {LinkModel} from "../components/node-module/node-atomic/Link";
 import {CreateImageMixNode} from "../components/node-module/nodes/to-update/ImageMixNode";
-import {NodeModel} from "../logic/node-editor/NodeModel";
+import {NodeModel} from "../logic/node-editor/node/NodeModel";
+import {LinkModel} from "../logic/node-editor/LinkModel";
 
 export default {
     title: "Node/Wrappers/Node Module",

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {NodeModel} from "../../logic/node-editor/NodeModel";
+import {NodeModel} from "../../logic/node-editor/node/NodeModel";
 
 class Props {
     nodes: NodeModel[];

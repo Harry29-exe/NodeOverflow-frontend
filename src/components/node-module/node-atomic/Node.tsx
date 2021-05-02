@@ -1,13 +1,12 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useReducer, useRef} from 'react';
 import "./Node.css";
-import {DummyValueFunction} from "./NodeValueFunction";
 import {NodeStorage} from "../NodeStorage";
 import {NodeCanvasViewProperties} from "../NodeCanvasViewProperties";
-import {NodeDimension, NodeModel} from "../../../logic/node-editor/NodeModel";
+import {NodeModel} from "../../../logic/node-editor/node/NodeModel";
 import {Box, Center, useMultiStyleConfig} from "@chakra-ui/react";
 import {PressedKeys} from "../../../logic/GlobalKeyListener";
 
-export class NodeComponentState {
+class NodeComponentState {
     public x: number;
     public y: number;
     public selected: boolean;
@@ -20,6 +19,20 @@ export class NodeComponentState {
         this.selected = selected;
         this.aboutToDelete = aboutToDelete;
     }
+}
+
+const createNodeComponentState = (props: NodeComponentProps): NodeComponentState => {
+    return new NodeComponentState(props.node.x, props.node.y,
+        props.selected ? props.selected : false, false);
+}
+
+function nodeStateReducer(state: NodeComponentState, action: any) {
+    let x = action.x === undefined ? state.x : action.x;
+    let y = action.y === undefined ? state.y : action.y;
+    let selected = action.selected === undefined ? state.selected : action.selected;
+    let aboutToDelete = action.aboutToDelete === undefined ?
+        state.aboutToDelete : action.aboutToDelete;
+    return new NodeComponentState(x, y, selected, aboutToDelete);
 }
 
 export class NodeComponentProps {
@@ -36,20 +49,9 @@ export class NodeComponentProps {
     }
 }
 
-export function createDefaultNode(id: number, name: string, x?: number, y?: number): NodeModel {
-    x = x ? x : 0;
-    y = y ? y : 0;
-    return new NodeModel(id, name, x, y,
-        new NodeDimension(180, 22, 25, 20),
-        new DummyValueFunction());
-}
-
 const Node = (props: NodeComponentProps) => {
     const nodeBackgroundRef = useRef<HTMLDivElement>(null);
-    const [state, setState] = useState<NodeComponentState>(
-        new NodeComponentState(props.node.x, props.node.y,
-            props.selected ? props.selected : false, false));
-    const style = useMultiStyleConfig("Node", undefined);
+    const [state, setState] = useReducer(nodeStateReducer, createNodeComponentState(props));
     let lastTouch: number = 0;
     let dim = props.node.dimensions;
     let height = props.node.height;
@@ -62,8 +64,7 @@ const Node = (props: NodeComponentProps) => {
 
     const handleClick = (event: any) => {
         event.preventDefault();
-        state.selected = true;
-        setState(state);
+        setState({selected: true});
         props.storage.handleUpdateNode(props.node);
         let mouseX = event.clientX, mouseY = event.clientY;
         let lastMoveTime = 0;
@@ -73,14 +74,11 @@ const Node = (props: NodeComponentProps) => {
                 return;
             }
             lastMoveTime = Date.now();
-            let x = state.x - (mouseX - event.clientX) / props.canvasViewProps.scale;
-            let y = state.y - (mouseY - event.clientY) / props.canvasViewProps.scale;
+            let node = props.node;
+            node.x = node.x - (mouseX - event.clientX) / props.canvasViewProps.scale;
+            node.y = node.y - (mouseY - event.clientY) / props.canvasViewProps.scale;
 
-            state.x = x;
-            state.y = y;
-            setState(state);
-            props.node.x = x;
-            props.node.y = y;
+            setState({x: node.x, y: node.y});
 
             mouseX = event.clientX;
             mouseY = event.clientY;
@@ -104,14 +102,12 @@ const Node = (props: NodeComponentProps) => {
             let nodeBox = nodeBackgroundRef.current.getBoundingClientRect();
             if (event.clientX < nodeBox.left || event.clientX > nodeBox.left + nodeBox.width ||
                 event.clientY < nodeBox.top || event.clientY > nodeBox.top + nodeBox.height) {
-                state.selected = false;
-                setState(state);
+                setState({selected: false});
 
                 window.removeEventListener("click", unselect);
             }
         } else if (!shiftPressed) {
-            state.selected = false;
-            setState(state);
+            setState({selected: false});
             window.removeEventListener("click", unselect);
         }
     }
@@ -119,15 +115,13 @@ const Node = (props: NodeComponentProps) => {
     const handleTouch = (event: any) => {
         event.preventDefault();
         props.storage.handleUpdateNode(props.node);
-        state.selected = true;
-        setState(state);
+        setState({selected: true});
         let screenX = event.touches[0].clientX;
         let screenY = event.touches[0].clientY;
         if (state.aboutToDelete) {
             props.storage.handleRemoveNode(props.node);
         } else if (Date.now() - lastTouch < 500) {
-            state.aboutToDelete = true;
-            setState(state);
+            setState({aboutToDelete: true});
             console.log(Date.now() - lastTouch);
         }
         lastTouch = Date.now();
@@ -138,15 +132,13 @@ const Node = (props: NodeComponentProps) => {
                 return;
             }
             lastMoveTime = Date.now();
-            let touch = event.touches[0];
-            let x = state.x - (screenX - touch.screenX) / props.canvasViewProps.scale;
-            let y = state.y - (screenY - touch.screenY) / props.canvasViewProps.scale;
 
-            state.x = x;
-            state.y = y;
-            setState(state);
-            props.node.x = x;
-            props.node.y = y;
+            let touch = event.touches[0];
+            let node = props.node;
+            node.x = node.x - (screenX - touch.screenX) / props.canvasViewProps.scale;
+            node.y = node.y - (screenY - touch.screenY) / props.canvasViewProps.scale;
+
+            setState({x: node.x, y: node.y});
 
             screenX = touch.screenX;
             screenY = touch.screenY;
@@ -166,18 +158,16 @@ const Node = (props: NodeComponentProps) => {
     const touchUnselect = (event: any) => {
         if (!nodeBackgroundRef.current) {
             console.log("no ref");
-            state.selected = false;
-            state.aboutToDelete = false;
-            setState(state);
+
+            setState({selected: false, aboutToDelete: false});
             window.removeEventListener("touchstart", unselect);
         } else if (Date.now() - lastTouch > 10) {
             let nodeBox = nodeBackgroundRef.current.getBoundingClientRect();
             let touch = event.touches[event.touches.length - 1];
             if (touch.clientX < nodeBox.left || touch.clientX > nodeBox.left + nodeBox.width ||
                 touch.clientY < nodeBox.top || touch.clientY > nodeBox.top + nodeBox.height) {
-                state.selected = false;
-                state.aboutToDelete = false;
-                setState(state);
+
+                setState({selected: false, aboutToDelete: false});
                 window.removeEventListener("touchstart", unselect);
             }
         }
@@ -193,12 +183,13 @@ const Node = (props: NodeComponentProps) => {
         };
     }, [props.node.id]);
 
+    const style = useMultiStyleConfig("Node", undefined);
 
     return (
         <div style={{
             position: 'absolute', width: 0, height: 0
             , transform: `translate(${state.x}px, ${state.y}px)`
-            , transition: `transform 0.01s 0 ease-out`
+            , transition: `transform 0.01s 0 linear`
         }}>
 
             <div style={{position: "absolute", top: dim.headHeight}}>
@@ -209,17 +200,14 @@ const Node = (props: NodeComponentProps) => {
             <Box ref={nodeBackgroundRef}
                  onMouseDown={handleClick}
                  onTouchStart={handleTouch}
-                 pos='absolute' top={0} left={0} overflow='hidden'
-                 opacity={0.9} zIndex={-1} ml='-1px' mt='-1px'
-                 border='2px solid' borderColor={'#3c454f'}
+                 sx={style.background}
                  width={`${dim.width}px`}
                  height={`${height}px`}
-                 borderRadius={dim.headHeight}
-                 backgroundColor="gray.600"
                  boxShadow={"0 0 3px 2px " + (state.aboutToDelete ? "#c21414" :
-                     state.selected ? "primary.400" : "#555e66")}
+                     state.selected ? "#29998e" : "#555e66")}
             >
-                <Center draggable='false' user-select='none'
+                <Center sx={style.header}
+                        draggable='false' user-select='none'
                         pos='absolute' left={0} top={0}
                         boxShadow={"0 0 0 1px #3c454f"}
                         width={`${dim.width}px`}
@@ -235,7 +223,6 @@ const Node = (props: NodeComponentProps) => {
 
         </div>
     );
-
 }
 
 export default Node;

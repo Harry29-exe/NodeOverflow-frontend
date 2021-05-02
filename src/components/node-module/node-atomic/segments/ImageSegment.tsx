@@ -1,16 +1,17 @@
 import React from 'react';
-import Segment, {PortType, SegmentModel, SegmentProps} from "../Segment";
+import SegmentViewWrapper, {SegmentProps} from "../SegmentViewWrapper";
 import "./ImageSegment.css"
 import {NodeStorage} from "../../NodeStorage";
 import {NodeCanvasViewProperties} from "../../NodeCanvasViewProperties";
 import {FileToLoad} from "../../nodes/utils/FileToLoad";
+import {PortType, SegmentModel} from "../../../../logic/node-editor/segment/SegmentModel";
 
 export class ImageSegmentState {
     public file: File | null = null;
     public imgSrc: string | null = null;
 }
 
-export class ImageSegment extends Segment<ImageData | null, SegmentProps<ImageData | null>, ImageSegmentState> {
+export class ImageSegment extends SegmentViewWrapper<ImageData | null, SegmentProps<ImageData | null>, ImageSegmentState> {
     constructor(props: SegmentProps<ImageData | null>) {
         super(props);
         this.state = new ImageSegmentState();

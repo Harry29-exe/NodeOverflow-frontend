@@ -1,14 +1,14 @@
 import React, {Component} from 'react';
 import NodeCanvas from "./NodeCanvas";
 import "./NodeModule.css";
-import {LinkModel} from "./node-atomic/Link";
 
 import RenderWindow from "./RenderWindow";
 import NodeControlPanel from "./NodeControlPanel";
 import {DefaultNodeStorage, NodeStorageListener} from "./NodeStorage";
 import {NodeCanvasViewProperties} from "./NodeCanvasViewProperties";
-import {NodeModel} from "../../logic/node-editor/NodeModel";
+import {NodeModel} from "../../logic/node-editor/node/NodeModel";
 import {mainColors} from "../../App";
+import {LinkModel} from "../../logic/node-editor/LinkModel";
 
 export interface NodeModuleProps {
     nodes?: NodeModel[],

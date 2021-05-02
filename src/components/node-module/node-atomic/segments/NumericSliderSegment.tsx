@@ -1,9 +1,10 @@
-import Segment, {PortType, SegmentModel, SegmentProps} from "../Segment";
+import SegmentViewWrapper, {SegmentProps} from "../SegmentViewWrapper";
 import "./NumericSliderSegment.css";
 
 import React from 'react';
 import {NodeStorage} from "../../NodeStorage";
 import {NodeCanvasViewProperties} from "../../NodeCanvasViewProperties";
+import {PortType, SegmentModel} from "../../../../logic/node-editor/segment/SegmentModel";
 
 class NumericSliderSegmentProps extends SegmentProps<number> {
     public minValue: number;
@@ -28,7 +29,7 @@ class NumericSliderState {
     }
 }
 
-export class NumericSliderSegment extends Segment<number, NumericSliderSegmentProps, NumericSliderState> {
+export class NumericSliderSegment extends SegmentViewWrapper<number, NumericSliderSegmentProps, NumericSliderState> {
     constructor(props: NumericSliderSegmentProps) {
         super(props);
         this.state = new NumericSliderState(

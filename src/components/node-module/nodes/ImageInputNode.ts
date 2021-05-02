@@ -1,11 +1,12 @@
 import {OutputSegmentModel} from "../node-atomic/segments/OutputSegment";
 import {ImageSegmentModel} from "../node-atomic/segments/ImageSegment";
-import {PortType} from "../node-atomic/Segment";
 import {NodeValueFunction} from "../node-atomic/NodeValueFunction";
-import {NodeDimension, NodeModel} from "../../../logic/node-editor/NodeModel";
+import {NodeModel} from "../../../logic/node-editor/node/NodeModel";
 import {ImageLikeData} from "../../../logic/image-manipulation/structs/ImageLikeData";
 import {NodeFactoryFunction} from "./utils/NodeFactory";
 import {NodeSave} from "./utils/NodeSave";
+import {NodeDimension} from "../../../logic/node-editor/node/NodeDimension";
+import {PortType} from "../../../logic/node-editor/segment/SegmentModel";
 
 export const CreateImageInputNode = (id: number, x?: number, y?: number): NodeModel => {
     let node = new NodeModel(id, "Image input", x ? x : 0, y ? y : 0,

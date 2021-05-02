@@ -1,4 +1,4 @@
-import {NodeDimension, NodeModel} from "../../../../logic/node-editor/NodeModel";
+import {NodeModel} from "../../../../logic/node-editor/node/NodeModel";
 import {NodeValueFunction} from "../../node-atomic/NodeValueFunction";
 import {ChanelType, ImageLikeData} from "../../../../logic/image-manipulation/structs/ImageLikeData";
 import {OutputSegmentModel} from "../../node-atomic/segments/OutputSegment";
@@ -9,6 +9,7 @@ import SeparateChannelsWorker, {
     createWorkerMessage,
     WorkerReturnType
 } from "../../../../logic/image-manipulation/workers/SeparateChannelsWorker";
+import {NodeDimension} from "../../../../logic/node-editor/node/NodeDimension";
 
 export const CreateSeparateChannelsNode = (id: number, x?: number, y?: number): NodeModel => {
     let node = new NodeModel(id, "Separate channels", x ? x : 0, y ? y : 0,

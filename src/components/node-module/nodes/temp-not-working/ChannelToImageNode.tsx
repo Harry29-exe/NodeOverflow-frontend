@@ -1,9 +1,10 @@
-import {NodeDimension, NodeModel} from "../../../../logic/node-editor/NodeModel";
+import {NodeModel} from "../../../../logic/node-editor/node/NodeModel";
 import {SeparateChannelsNodeVFun} from "../to-update/SeparateChannelsNode";
 import {NodeValueFunction} from "../../node-atomic/NodeValueFunction";
 import WorkerLoader from "../../../../logic/image-manipulation/WorkerLoader"
 import ContrastWorker from "../../../../logic/image-manipulation/workers/ContrastWorker";
 import {CreateNode} from "../utils/NodeFactory";
+import {NodeDimension} from "../../../../logic/node-editor/node/NodeDimension";
 
 export const CreateChannelToImageNode: CreateNode = (id: number, x?: number, y?: number): NodeModel => {
     let node = new NodeModel(id, "Channel to image", x ? x : 0, y ? y : 0,

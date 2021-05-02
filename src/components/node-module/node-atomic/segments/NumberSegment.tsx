@@ -1,8 +1,9 @@
 import React from 'react';
-import Segment, {PortType, SegmentModel, SegmentProps} from "../Segment";
+import SegmentViewWrapper, {SegmentProps} from "../SegmentViewWrapper";
 import "./NumberSegment.css"
 import {NodeStorage} from "../../NodeStorage";
 import {NodeCanvasViewProperties} from "../../NodeCanvasViewProperties";
+import {PortType, SegmentModel} from "../../../../logic/node-editor/segment/SegmentModel";
 
 export class NumberSegmentProps extends SegmentProps<number> {
     public step: number;
@@ -13,7 +14,7 @@ export class NumberSegmentProps extends SegmentProps<number> {
     }
 }
 
-export class NumberSegment extends Segment<number, NumberSegmentProps, any> {
+export class NumberSegment extends SegmentViewWrapper<number, NumberSegmentProps, any> {
     private numberInputRef = React.createRef<HTMLInputElement>();
 
     constructor(props: NumberSegmentProps) {

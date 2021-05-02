@@ -1,4 +1,4 @@
-import {NodeDimension, NodeModel} from "../../../logic/node-editor/NodeModel";
+import {NodeModel} from "../../../logic/node-editor/node/NodeModel";
 import {NodeValueFunction} from "../node-atomic/NodeValueFunction";
 import "../../../logic/image-manipulation/workers/CapBrightnessWorker";
 import {
@@ -7,12 +7,13 @@ import {
 } from "../../../logic/image-manipulation/workers/CapBrightnessWorker";
 import {OutputSegmentModel} from "../node-atomic/segments/OutputSegment";
 import {InputSegmentModel} from "../node-atomic/segments/InputSegment";
-import {PortType} from "../node-atomic/Segment";
 import {OptionSegmentModel} from "../node-atomic/segments/OptionSegment";
 import {ImageLikeData} from "../../../logic/image-manipulation/structs/ImageLikeData";
 import {NodeFactoryFunction} from "./utils/NodeFactory";
 import {NodeSave} from "./utils/NodeSave";
 import {NumericSliderSegmentModel} from "../node-atomic/segments/NumericSliderSegment";
+import {NodeDimension} from "../../../logic/node-editor/node/NodeDimension";
+import {PortType} from "../../../logic/node-editor/segment/SegmentModel";
 
 export const CreateClampImageNode = (id: number, x?: number, y?: number): NodeModel => {
     let node = new NodeModel(id, "Cap Brightness", x ? x : 0, y ? y : 0,

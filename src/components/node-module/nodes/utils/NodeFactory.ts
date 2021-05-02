@@ -1,9 +1,10 @@
-import {NodeDimension, NodeModel} from "../../../../logic/node-editor/NodeModel";
+import {NodeModel} from "../../../../logic/node-editor/node/NodeModel";
 import {NodeSave} from "./NodeSave";
 import {CapBrightnessNFF} from "../CapBrightnessNode";
 import {ContrastNFF} from "../ContrastNode";
 import {OutputNFF} from "../OutputNode";
 import {ImageInputNFF} from "../ImageInputNode";
+import {NodeDimension} from "../../../../logic/node-editor/node/NodeDimension";
 
 export interface CreateNode {
     (id: number, x?: number, y?: number): NodeModel;

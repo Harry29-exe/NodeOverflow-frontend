@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
-import Segment, {PortType, SegmentModel, SegmentProps} from "../Segment";
+import SegmentViewWrapper, {SegmentProps} from "../SegmentViewWrapper";
 import {NodeStorage} from "../../NodeStorage";
 import "./OptionSegment.css"
 import {mainColors} from "../../../../App";
 import {NodeCanvasViewProperties} from "../../NodeCanvasViewProperties";
+import {PortType, SegmentModel} from "../../../../logic/node-editor/segment/SegmentModel";
 
 export class OptionSegmentProps extends SegmentProps<string> {
     public options: string[];
@@ -14,7 +15,7 @@ export class OptionSegmentProps extends SegmentProps<string> {
     }
 }
 
-export class OptionSegment extends Segment<string, OptionSegmentProps, { selectedOption: string, selected: boolean }> {
+export class OptionSegment extends SegmentViewWrapper<string, OptionSegmentProps, { selectedOption: string, selected: boolean }> {
 
     constructor(props: OptionSegmentProps) {
         super(props);

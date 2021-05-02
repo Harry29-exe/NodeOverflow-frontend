@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
 import Node from "./node-atomic/Node";
-import Link, {LinkModel} from "./node-atomic/Link";
+import Link from "./node-atomic/Link";
 import {NodeStorage, NodeStorageListener} from "./NodeStorage";
 import {NodeCanvasViewProperties} from "./NodeCanvasViewProperties";
 import "./NodeCanvas.css"
-import {NodeModel} from "../../logic/node-editor/NodeModel";
+import {NodeModel} from "../../logic/node-editor/node/NodeModel";
+import {LinkModel} from "../../logic/node-editor/LinkModel";
 
 export class NodeCanvasState {
     public viewProperties: NodeCanvasViewProperties;

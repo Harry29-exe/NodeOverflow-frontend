@@ -1,10 +1,11 @@
-import Segment, {PortType, SegmentModel, SegmentProps} from "../Segment";
+import SegmentViewWrapper, {SegmentProps} from "../SegmentViewWrapper";
 import {NodeStorage} from "../../NodeStorage";
 import {NodeCanvasViewProperties} from "../../NodeCanvasViewProperties";
 
 import React from 'react';
+import {PortType, SegmentModel} from "../../../../logic/node-editor/segment/SegmentModel";
 
-class HttpImageSegment extends Segment<ImageData | null, SegmentProps<ImageData | null>, any> {
+class HttpImageSegment extends SegmentViewWrapper<ImageData | null, SegmentProps<ImageData | null>, any> {
 
     constructor(props: SegmentProps<ImageData | null>, onInputChange: (event: any) => void) {
         super(props);
