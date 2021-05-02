@@ -47,6 +47,11 @@ export class JwtAuthContext extends AbstractAuthContext<JwtToken> {
 
     logout(): void {
         document.cookie = "jwt= ;"
+        let cookies = document.cookie.split(";");
+        cookies.filter(c => c.startsWith("jwt")).forEach(
+            c => document.cookie = "jwt= ;"
+        );
+
         this.authState.updateAuth(undefined);
     }
 
