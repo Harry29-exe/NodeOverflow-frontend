@@ -1,3 +1,4 @@
+import {Flex} from '@chakra-ui/react';
 import React from 'react';
 import {SegmentModel} from "../../../../logic/node-editor/segment/SegmentModel";
 import {NodeStorage} from "../../NodeStorage";
@@ -7,25 +8,11 @@ const OutputSegmentView = (props: { model: SegmentModel<any>, storage: NodeStora
 
     return (
         <SegmentWrapper model={props.model} storage={props.storage}>
-            {props.model.label}
+            <Flex justifyContent='flex-end' alignItems='center' w='100%'>
+                {props.model.label}
+            </Flex>
         </SegmentWrapper>
     );
 };
 
 export default OutputSegmentView;
-
-// <Flex ref={props.model.ref} __css={styles.wrapper}>
-//     {props.model.hasInputPort &&
-//         <Port parent={props.model} storage={props.storage}/>
-//     }
-//
-//     {props.model.hasOutputPort &&
-//         <Port parent={props.model} storage={props.storage}/>
-//     }
-//
-//     <Center alignSelf="center" justifySelf="center"
-//             pointerEvents="auto">
-//         {props.model.label}
-//     </Center>
-//
-// </Flex>

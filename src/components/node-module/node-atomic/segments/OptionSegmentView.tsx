@@ -19,7 +19,8 @@ const OptionSegmentView = (props: { model: OptionSegment<any>, storage: NodeStor
                  onMouseDown={(e: any) => e.stopPropagation()}
                  w='100%' ref={ref}>
 
-                <Center w={"100%"} h={"20px"} bg={"gray.700"}
+                <Center w={"100%"} bg={"gray.700"}
+                        cursor='pointer'
                         borderTopRadius={'md'}
                         borderBottomRadius={open ? 0 : 'md'}
                         onClick={() => setOpen.toggle()}>
@@ -27,22 +28,20 @@ const OptionSegmentView = (props: { model: OptionSegment<any>, storage: NodeStor
                 </Center>
 
                 {open &&
-                <VStack bg={"gray.700"} h={0} w='100%'
-                        transform={"unset"} spacing={0}>
+                <VStack spacing={0} h={0} w='100%'
+                        transform={"unset"}>
+
+                    <Center pos='relative' top={`${iterate--}px`} w='100%' bg={'gray.700'} paddingBottom={'1px'}>
+                        <Box w='90%' bg={'primary.400'} h='1px' borderRadius='1px'/>
+                    </Center>
+
                     {props.model.possibleValues.map(value =>
-                        <Center onClick={() => changeValue(value)}
-                                pos='relative' top={`${iterate--}px`}
-                            // boxSizing='content-box'
-                            // borderTop='3px solid' borderColor={'gray.700'}
-                                w='100%' bg={'gray.700'}
-                                p={0} m={0}>
-                            {value}
-                        </Center>
-                    )}
-                    <Box
-                        pos='relative' top={`${iterate--}px`}
-                        w='100%' minH={"10px"}
-                        borderBottomRadius='md' bg={'gray.700'}>
+                        <MappedValue val={value} changeValue={changeValue} offset={iterate--}/>)
+                    }
+
+                    <Box pos='relative' top={`${iterate--}px`}
+                         w='100%' minH={"10px"}
+                         borderBottomRadius='md' bg={'gray.700'}>
                     </Box>
                 </VStack>
                 }
@@ -51,5 +50,18 @@ const OptionSegmentView = (props: { model: OptionSegment<any>, storage: NodeStor
         </SegmentWrapper>
     );
 };
+
+const MappedValue = (props: { val: any, changeValue: (v: any) => void, offset: number }) => {
+    return (
+        <Center onClick={() => props.changeValue(props.val)}
+                pos='relative' top={`${props.offset}px`}
+                w='100%' bg={'gray.700'}
+                p={0} m={0}>
+            <Center _hover={{bg: "gray.800", cursor: "pointer"}} w='90%' h='90%' borderRadius='md'>
+                {props.val}
+            </Center>
+        </Center>
+    )
+}
 
 export default OptionSegmentView;
