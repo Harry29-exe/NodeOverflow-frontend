@@ -4,13 +4,16 @@ import {NodeStorage} from "../../../../components/node-module/NodeStorage";
 import OptionSegmentView from "../../../../components/node-module/node-atomic/segments/OptionSegmentView";
 import React from "react";
 
-export class OptionSegment extends SegmentModel<any> {
+export class OptionSegment<T> extends SegmentModel<T> {
     protected _label: string = "";
     protected _ref: React.RefObject<any> = React.createRef();
+    private readonly _possibleValues: any[];
 
-    constructor(index: number, parent: NodeModel, value: any, hasInputPort: boolean,
-                hasOutputPort: boolean, changeValueListener?: (newValue: any) => void) {
+    constructor(index: number, parent: NodeModel, value: any, possibleValues: any[],
+                hasInputPort: boolean, hasOutputPort: boolean,
+                changeValueListener?: (newValue: any) => void) {
         super(index, parent, value, hasInputPort, hasOutputPort, changeValueListener);
+        this._possibleValues = possibleValues;
     }
 
     createView(storage: NodeStorage): JSX.Element {
@@ -18,4 +21,7 @@ export class OptionSegment extends SegmentModel<any> {
     }
 
 
+    get possibleValues(): any[] {
+        return this._possibleValues;
+    }
 }
