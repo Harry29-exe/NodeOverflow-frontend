@@ -1,5 +1,4 @@
 import {NodeStorage} from "../../../components/node-module/NodeStorage";
-import {NodeCanvasViewProperties} from "../../../components/node-module/NodeCanvasViewProperties";
 import {NodeModel} from "../node/NodeModel";
 import React from "react";
 
@@ -28,7 +27,7 @@ export abstract class SegmentModel<InputType> {
         }
     }
 
-    abstract createView(storage: NodeStorage, currentScale: NodeCanvasViewProperties): JSX.Element;
+    abstract createView(storage: NodeStorage): JSX.Element;
 
     set value(value: InputType) {
         this._value = value;

@@ -1,10 +1,29 @@
 import React from 'react';
 import {Box} from "@chakra-ui/react";
+import {SegmentModel} from "../../../logic/node-editor/segment/SegmentModel";
+import {NodeStorage} from "../NodeStorage";
 
-const Port = () => {
+class Props {
+    public parent: SegmentModel<any>;
+    public storage: NodeStorage;
+    public portType: "in" | "out";
+
+    constructor(parent: SegmentModel<any>, storage: NodeStorage, portType: "in" | "out") {
+        this.parent = parent;
+        this.storage = storage;
+        this.portType = portType;
+    }
+}
+
+const Port = (props: Props) => {
+    let offset = props.portType === "in" ? '-' : '';
+
     return (
-        <Box alignSelf="flex-start" justifySelf="center"
-             w="25px" h="25px" bg={"blue.500"} transform="translate(-50%, 0px)">
+        <Box alignSelf="center" w="15px" h="15px"
+             justifySelf={props.portType === "in" ? "flex-start" : "flex-end"}
+             bg={"blue.500"} borderRadius="50%"
+             transform={`translate(${offset}50%, 0px)`}
+        >
 
         </Box>
     );

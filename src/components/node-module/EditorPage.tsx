@@ -7,6 +7,8 @@ import {NodeDimension} from "../../logic/node-editor/node/NodeDimension";
 
 const testNodes: NodeModel[] = [
     new InputNodeModel(0, 0, 0, new NodeDimension(160, 22, 26, 22)),
+    new InputNodeModel(1, 60, -80, new NodeDimension(160, 22, 26, 22)),
+
 ]
 
 const EditorPage = () => {

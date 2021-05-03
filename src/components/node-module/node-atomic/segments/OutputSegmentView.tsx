@@ -1,21 +1,31 @@
 import React from 'react';
-import {Center, Flex} from "@chakra-ui/react";
 import {SegmentModel} from "../../../../logic/node-editor/segment/SegmentModel";
-import Port from "../Port";
+import {NodeStorage} from "../../NodeStorage";
+import SegmentWrapper from "../SegmentWrapper";
 
-const OutputSegmentView = (props: { model: SegmentModel<any> }) => {
+const OutputSegmentView = (props: { model: SegmentModel<any>, storage: NodeStorage }) => {
+
     return (
-        <Flex ref={props.model.ref} w="100%"
-              userSelect="none" pointerEvents="none">
-            <Port/>
-
-            <Center alignSelf="center" justifySelf="center"
-                    pointerEvents="auto" onClick={() => console.log("flex")}>
-                {props.model.label}
-            </Center>
-
-        </Flex>
+        <SegmentWrapper model={props.model} storage={props.storage}>
+            {props.model.label}
+        </SegmentWrapper>
     );
 };
 
 export default OutputSegmentView;
+
+// <Flex ref={props.model.ref} __css={styles.wrapper}>
+//     {props.model.hasInputPort &&
+//         <Port parent={props.model} storage={props.storage}/>
+//     }
+//
+//     {props.model.hasOutputPort &&
+//         <Port parent={props.model} storage={props.storage}/>
+//     }
+//
+//     <Center alignSelf="center" justifySelf="center"
+//             pointerEvents="auto">
+//         {props.model.label}
+//     </Center>
+//
+// </Flex>

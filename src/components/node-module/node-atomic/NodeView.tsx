@@ -4,7 +4,7 @@ import {NodeStorage} from "../NodeStorage";
 import {NodeCanvasViewProperties} from "../NodeCanvasViewProperties";
 import {NodeModel} from "../../../logic/node-editor/node/NodeModel";
 import {Box, Center, useMultiStyleConfig, VStack} from "@chakra-ui/react";
-import {PressedKeys} from "../../../logic/GlobalKeyListener";
+import {PressedKeys} from "../../../logic/contexts/GlobalKeyListener";
 
 class NodeComponentState {
     public x: number;
@@ -63,7 +63,7 @@ const NodeView = (props: NodeComponentProps) => {
     }
 
     const handleClick = (event: any) => {
-        event.preventDefault();
+        // event.preventDefault();
         setState({selected: true});
         props.storage.handleUpdateNode(props.node);
         let mouseX = event.clientX, mouseY = event.clientY;
@@ -74,9 +74,10 @@ const NodeView = (props: NodeComponentProps) => {
                 return;
             }
             lastMoveTime = Date.now();
+
             let node = props.node;
-            node.x = node.x - (mouseX - event.clientX) / props.canvasViewProps.scale;
-            node.y = node.y - (mouseY - event.clientY) / props.canvasViewProps.scale;
+            node.x -= (mouseX - event.clientX) / props.canvasViewProps.scale;
+            node.y -= (mouseY - event.clientY) / props.canvasViewProps.scale;
 
             setState({x: node.x, y: node.y});
 
@@ -115,7 +116,7 @@ const NodeView = (props: NodeComponentProps) => {
     }
 
     const handleTouch = (event: any) => {
-        event.preventDefault();
+        // event.preventDefault();
         props.storage.handleUpdateNode(props.node);
         setState({selected: true});
         let screenX = event.touches[0].clientX;
@@ -194,34 +195,28 @@ const NodeView = (props: NodeComponentProps) => {
         <div className={"Node"} style={{
             transform: `translate(${state.x}px, ${state.y}px)`
         }}>
-            {/*<div style={{position: "absolute", top: dim.headHeight}}>*/}
-            {/*</div>*/}
-            <VStack mt={`${dim.headHeight}px`} w={`${dim.width}px`} pointerEvents="none">
-                {props.node.segments.map(s => s.createView(props.storage, props.canvasViewProps))}
-            </VStack>
-
             <Box ref={nodeBackgroundRef}
                  onClick={() => console.log("box")}
                  onMouseDown={handleClick}
                  onTouchStart={handleTouch}
                  sx={style.background}
                  width={`${dim.width}px`}
-                 height={`${height}px`}
-                 boxShadow={"0 0 3px 2px " + (state.aboutToDelete ? "#c21414" :
-                     state.selected ? "#29998e" : "#555e66")}
+                 boxShadow={"0 0 3px 2px " + (state.aboutToDelete ? "#c21414" : state.selected ? "#29998e" : "#555e66")}
             >
-                <Center sx={style.header}
-                        draggable='false' user-select='none'
-                        pos='absolute' left={0} top={0}
-                        boxShadow={"0 0 0 1px #3c454f"}
-                        width={`${dim.width}px`}
-                        height={`${dim.headHeight}px`}
-                        color={"#fff"} fontWeight={400} bg="primary.400"
-                        _hover={{cursor: 'default', userSelect: 'none'}}
-                        _selection={{userSelect: 'none'}}
-                >
-                    {props.node.name}
-                </Center>
+                <VStack w={`100%`} zIndex={1}>
+                    <Center sx={style.header}
+                            boxShadow={"0 0 0 1px #3c454f"}
+                            width={`100%`}
+                            height={`${dim.headHeight}px`}
+                            _hover={{cursor: 'default', userSelect: 'none'}}
+                            _selection={{userSelect: 'none'}}>
+                        {props.node.name}
+                    </Center>
+
+                    {props.node.segments.map(s => s.createView(props.storage))}
+
+                    <Box h={`${dim.footerHeight}px`}/>
+                </VStack>
             </Box>
         </div>
     );

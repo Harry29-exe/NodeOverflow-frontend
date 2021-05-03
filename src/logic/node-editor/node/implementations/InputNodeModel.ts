@@ -2,10 +2,14 @@ import {NodeModel} from "../NodeModel";
 import {NodeSave} from "../NodeSave";
 import {SegmentModel} from "../../segment/SegmentModel";
 import {OutputSegment} from "../../segment/imp/OutputSegment";
+import {OptionSegment} from "../../segment/imp/OptionSegment";
 
 export class InputNodeModel extends NodeModel {
     readonly name: string = 'Image input';
-    protected _segments: SegmentModel<any>[] = [new OutputSegment(0, this, undefined, true, true)];
+    protected _segments: SegmentModel<any>[] = [
+        new OutputSegment(0, this, undefined, true, true),
+        new OptionSegment(0, this, "", true, true),
+    ];
 
     // constructor(save: NodeSave)
     // constructor(id: number, x: number, y: number, dimensions: NodeDimension)
