@@ -15,19 +15,37 @@ class Props {
     }
 }
 
+class State {
+    public x1: number;
+    public y1: number;
+    public x2: number;
+    public y2: number;
+    public hasTempLink: boolean
+
+    constructor(hasTempLink: false, x1: number, y1: number, x2: number, y2: number) {
+        this.x1 = x1;
+        this.y1 = y1;
+        this.x2 = x2;
+        this.y2 = y2;
+        this.hasTempLink = hasTempLink;
+    }
+}
+
 const Port = (props: Props) => {
     let offset = props.portType === "in" ? '-' : '';
-
+    const stopPropagation = (e: any) => e.stopPropagation();
     return (
-        <Box alignSelf="center" w="15px" h="15px"
-             justifySelf={props.portType === "in" ? "flex-start" : "flex-end"}
-             bg={"primary.400"} borderRadius="50%"
-             border={"2px solid"} borderColor={"gray.600"}
-             transform={`translate(${offset}55%, 0px)`}
-             _hover={{bg: "primary.100", cursor: "crosshair"}}
-        >
-
-        </Box>
+        <Box
+            onClick={stopPropagation}
+            onTouch={stopPropagation}
+            onMouseDown={stopPropagation}
+            alignSelf="center" w="15px" h="15px"
+            justifySelf={props.portType === "in" ? "flex-start" : "flex-end"}
+            bg={"primary.400"} borderRadius="50%"
+            border={"2px solid"} borderColor={"gray.600"}
+            transform={`translate(${offset}55%, 0px)`}
+            _hover={{bg: "primary.100", cursor: "crosshair"}}
+        />
     );
 };
 

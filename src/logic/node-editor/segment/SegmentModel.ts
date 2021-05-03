@@ -1,10 +1,8 @@
 import {NodeStorage} from "../../../components/node-module/NodeStorage";
 import {NodeModel} from "../node/NodeModel";
-import React from "react";
 
 export abstract class SegmentModel<InputType> {
     protected abstract _label: string;
-    protected abstract _ref: React.RefObject<any>;
 
     protected readonly _index: number;
     protected readonly _parent: NodeModel;
@@ -20,8 +18,10 @@ export abstract class SegmentModel<InputType> {
         this._parent = parent;
         this._index = index;
         this._value = value;
+
         this._hasInputPort = hasInputPort;
         this._hasOutputPort = hasOutputPort;
+
         if (changeValueListener) {
             this._changeValueListener = changeValueListener;
         }
@@ -38,10 +38,6 @@ export abstract class SegmentModel<InputType> {
 
     get changeValueListener(): ((newValue: InputType) => void) | undefined {
         return this._changeValueListener;
-    }
-
-    get ref(): React.RefObject<any> {
-        return this._ref;
     }
 
     get value(): InputType {

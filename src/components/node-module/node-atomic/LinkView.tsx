@@ -1,13 +1,14 @@
-import React, {Component} from 'react';
+import React, {useContext} from 'react';
 import {LinkModel} from "../../../logic/node-editor/LinkModel";
+import CanvasContext from "../../../logic/contexts/CanvasContext";
 
-class LinkView extends Component<{ link: LinkModel }> {
+const LinkView = (props: { link: LinkModel }) => {
 
-    handleClick = (event: any) => {
+    const handleClick = (event: any) => {
         event.preventDefault();
-    }
+    };
 
-    createSVGStyle() {
+    const createSVGStyle = () => {
         return {
             position: "absolute",
             top: 0,
@@ -18,51 +19,57 @@ class LinkView extends Component<{ link: LinkModel }> {
             zIndex: -10,
             pointerEvents: "none"
         } as React.CSSProperties
-    }
+    };
 
-    render() {
-        let outputSegment = this.props.link.outputSegment;
-        let inputSegment = this.props.link.inputSegment;
-        // @ts-ignore
-        if (!outputSegment.ref.current || !inputSegment.ref.current) {
-            throw new Error();
-        }
-        let outputBox = outputSegment.ref.current.getBoundingClientRect();
-        let inputBox = inputSegment.ref.current.getBoundingClientRect();
-        let outputX = outputBox.left;
-        let outputY = outputBox.top;
-        let inputX = inputBox.left;
-        let inputY = inputBox.top;
-        return (
-            <div style={{width: 0, height: 0}}>
-                <svg
-                    style={this.createSVGStyle()}>
-                    <path d={`M ${outputX}
-                                ${outputY}
-                                
-                                C ${(outputX + inputX) / 2} ${outputY} 
-                                ${(outputX + inputX) / 2} ${inputY} 
-                                
-                                ${inputX} ${inputY}`}
+    const canvasContext = useContext(CanvasContext);
 
-                          onMouseDown={this.handleClick} onClick={event => event.preventDefault()}
-                          stroke="#334447" strokeWidth="6px" fill="transparent"/>
-                </svg>
-                <svg style={this.createSVGStyle()}>
-                    <path d={`M ${outputX}
-                                ${outputY}
-                                
-                                C ${(outputX + inputX) / 2} ${outputY} 
-                                ${(outputX + inputX) / 2} ${inputY} 
-                                
-                                ${inputX} ${inputY}`}
+    let outputSegment = props.link.outputSegment;
+    let inputSegment = props.link.inputSegment;
+    //
+    // if (!outputSegment.outputRef.current || !inputSegment.inputRef.current) {
+    //     throw new Error();
+    // }
 
-                          onMouseDown={this.handleClick} onClick={event => event.preventDefault()}
-                          stroke="#586673" strokeWidth="4.5px" fill="transparent"/>
-                </svg>
-            </div>
-        );
-    }
+    // let outputBox = outputSegment.outputRef.current.getBoundingClientRect();
+    // let inputBox = inputSegment.inputRef.current.getBoundingClientRect();
+    // let outputX = outputBox.left;
+    // let outputY = outputBox.top;
+    // let inputX = inputBox.left;
+    // let inputY = inputBox.top;
+    let outputX = 0;
+    let outputY = 0;
+    let inputX = 0;
+    let inputY = 0;
+
+    return (
+        <div style={{width: 0, height: 0}}>
+            <svg
+                style={createSVGStyle()}>
+                <path d={`M ${outputX}
+                            ${outputY}
+                            
+                            C ${(outputX + inputX) / 2} ${outputY} 
+                            ${(outputX + inputX) / 2} ${inputY} 
+                            
+                            ${inputX} ${inputY}`}
+
+                      onMouseDown={handleClick} onClick={event => event.preventDefault()}
+                      stroke="#334447" strokeWidth="6px" fill="transparent"/>
+            </svg>
+            <svg style={createSVGStyle()}>
+                <path d={`M ${outputX}
+                            ${outputY}
+                            
+                            C ${(outputX + inputX) / 2} ${outputY} 
+                            ${(outputX + inputX) / 2} ${inputY} 
+                            
+                            ${inputX} ${inputY}`}
+
+                      onMouseDown={handleClick} onClick={event => event.preventDefault()}
+                      stroke="#586673" strokeWidth="4.5px" fill="transparent"/>
+            </svg>
+        </div>
+    );
 }
 
 export default LinkView;

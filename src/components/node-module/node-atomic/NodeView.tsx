@@ -84,7 +84,7 @@ const NodeView = (props: NodeComponentProps) => {
             mouseX = event.clientX;
             mouseY = event.clientY;
 
-            props.node.links.forEach(link => link.update());
+            // props.node.links.forEach(link => link.update());
             // props.storage.handleUpdateNode(props.node);
         }
 
@@ -146,7 +146,7 @@ const NodeView = (props: NodeComponentProps) => {
             screenX = touch.screenX;
             screenY = touch.screenY;
 
-            props.node.links.forEach(link => link.update());
+            // props.node.links.forEach(link => link.update());
             // props.storage.handleUpdateNode(props.node);
         }
 

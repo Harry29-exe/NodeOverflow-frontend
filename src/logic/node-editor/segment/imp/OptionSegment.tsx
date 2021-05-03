@@ -6,7 +6,6 @@ import React from "react";
 
 export class OptionSegment<T> extends SegmentModel<T> {
     protected _label: string = "";
-    protected _ref: React.RefObject<any> = React.createRef();
     private readonly _possibleValues: any[];
 
     constructor(index: number, parent: NodeModel, value: any, possibleValues: any[],

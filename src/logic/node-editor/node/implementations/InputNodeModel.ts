@@ -7,9 +7,9 @@ import {OptionSegment} from "../../segment/imp/OptionSegment";
 export class InputNodeModel extends NodeModel {
     readonly name: string = 'Image input';
     protected _segments: SegmentModel<any>[] = [
-        new OutputSegment(0, this, undefined, true, true),
+        new OutputSegment(0, this, undefined),
         new OptionSegment(1, this, "val1", ["val1", "val2", "val3"], true, true),
-        new OptionSegment(2, this, "val1", ["val1", "val2", "val3"], true, true),
+        new OptionSegment(2, this, "val1", ["val1", "val2", "val3"], true, false),
     ];
 
     // constructor(save: NodeSave)
