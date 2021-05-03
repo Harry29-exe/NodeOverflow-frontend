@@ -17,7 +17,7 @@ export class OptionSegment<T> extends SegmentModel<T> {
     }
 
     createView(storage: NodeStorage): JSX.Element {
-        return (<OptionSegmentView model={this} storage={storage}/>);
+        return (<OptionSegmentView key={this.index} model={this} storage={storage}/>);
     }
 
 

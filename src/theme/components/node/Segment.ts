@@ -1,10 +1,12 @@
 const Segment = {
-    parts: ["wrapper", "input", "output", "segment"],
+    parts: ['wrapper', 'segment'],
     baseStyle: {
-        wrapper: {
-            width: '100%',
-            userSelect: 'none',
-            pointerEvents: 'none',
+        segment: {
+            marginTop: '3px',
+            marginBottom: '3px',
+            alignSelf: 'center',
+            justifySelf: "center",
+            minHeight: '25px',
         }
     }
 }

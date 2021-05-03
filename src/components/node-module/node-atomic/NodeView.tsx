@@ -203,7 +203,7 @@ const NodeView = (props: NodeComponentProps) => {
                  width={`${dim.width}px`}
                  boxShadow={"0 0 3px 2px " + (state.aboutToDelete ? "#c21414" : state.selected ? "#29998e" : "#555e66")}
             >
-                <VStack w={`100%`} zIndex={1}>
+                <VStack w={`100%`} zIndex={1} spacing={0}>
                     <Center sx={style.header}
                             boxShadow={"0 0 0 1px #3c454f"}
                             width={`100%`}

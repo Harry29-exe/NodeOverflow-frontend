@@ -1,6 +1,6 @@
 import React, {PropsWithChildren} from 'react';
 import {SegmentModel} from "../../../logic/node-editor/segment/SegmentModel";
-import {Center, Flex} from "@chakra-ui/react";
+import {Center, Flex, useMultiStyleConfig} from "@chakra-ui/react";
 import Port from "./Port";
 import {NodeStorage} from "../NodeStorage";
 
@@ -10,20 +10,17 @@ type SegmentWrapperProps = {
 }
 
 const SegmentWrapper = (props: PropsWithChildren<SegmentWrapperProps>) => {
+    const styles = useMultiStyleConfig("Segment", undefined);
     const portSize = 15;
 
     return (
-        <Flex ref={props.model.ref} width='100%'
-              userSelect='none'
-            // pointerEvents='none'
-        >
+        <Flex ref={props.model.ref} width='100%' userSelect='none'>
 
             {props.model.hasInputPort &&
             <Port parent={props.model} storage={props.storage} portType='in'/>
             }
 
-            <Center alignSelf="center" justifySelf="center"
-                    my='4px' w={`calc(100% - ${2 * portSize}px)`}>
+            <Center __css={styles.segment} w={`calc(100% - ${2 * portSize}px)`}>
                 {props.children}
             </Center>
 

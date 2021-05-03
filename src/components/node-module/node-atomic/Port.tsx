@@ -21,8 +21,10 @@ const Port = (props: Props) => {
     return (
         <Box alignSelf="center" w="15px" h="15px"
              justifySelf={props.portType === "in" ? "flex-start" : "flex-end"}
-             bg={"blue.500"} borderRadius="50%"
-             transform={`translate(${offset}50%, 0px)`}
+             bg={"primary.400"} borderRadius="50%"
+             border={"2px solid"} borderColor={"gray.600"}
+             transform={`translate(${offset}55%, 0px)`}
+             _hover={{bg: "primary.100", cursor: "crosshair"}}
         >
 
         </Box>

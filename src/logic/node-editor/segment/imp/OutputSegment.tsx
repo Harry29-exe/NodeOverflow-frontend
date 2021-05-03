@@ -8,6 +8,6 @@ export class OutputSegment extends SegmentModel<any> {
     protected _ref: React.RefObject<any> = React.createRef();
 
     createView(storage: NodeStorage): JSX.Element {
-        return (<OutputSegmentView model={this} storage={storage}/>);
+        return (<OutputSegmentView key={this.index} model={this} storage={storage}/>);
     }
 }
