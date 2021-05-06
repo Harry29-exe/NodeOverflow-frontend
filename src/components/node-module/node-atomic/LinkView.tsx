@@ -1,51 +1,52 @@
-import React, {useContext} from 'react';
+import React, {useState} from 'react';
 import {LinkModel} from "../../../logic/node-editor/LinkModel";
-import CanvasContext from "../../../logic/contexts/CanvasContext";
 import {Box, useBoolean} from "@chakra-ui/react";
+
+const createSVGStyle = () => {
+    return {
+        position: "absolute",
+        top: 0,
+        left: 0,
+        overflow: "visible",
+        width: "5px",
+        height: "5px",
+        // zIndex: 10,
+        userSelect: "none"
+    } as React.CSSProperties
+};
+
+const handleClick = (event: any) => {
+    event.preventDefault();
+};
 
 const LinkView = (props: { link: LinkModel, top: number, scale: number }) => {
     const [state, update] = useBoolean(false);
+    const [lastScale, updateScale] = useState({s: 0});
     props.link.update = update.toggle;
 
-    const handleClick = (event: any) => {
-        event.preventDefault();
-    };
+    if (lastScale.s !== props.scale) {
+        lastScale.s = props.scale;
+        setTimeout(update.toggle, 3);
+        return <div/>;
+    }
 
-    const createSVGStyle = () => {
-        return {
-            position: "absolute",
-            top: 0,
-            left: 0,
-            overflow: "visible",
-            width: "5px",
-            height: "5px",
-            zIndex: 10,
-            pointerEvents: "none"
-        } as React.CSSProperties
-    };
-
-    const canvasContext = useContext(CanvasContext);
-
-    let outputElem = document.getElementById(props.link.outputPortDomId);
-    let inputElem = document.getElementById(props.link.inputPortDomId);
+    let outputElem: any = null;
+    let inputElem: any = null;
+    outputElem = document.getElementById(props.link.outputPortDomId);
+    inputElem = document.getElementById(props.link.inputPortDomId);
 
     if (!outputElem || !inputElem) {
-        console.log("not elems")
         setTimeout(update.toggle, 10);
         return <div/>;
     }
-    // console.log("elems")
+
     let outBox = outputElem.getBoundingClientRect();
     let inBox = inputElem.getBoundingClientRect();
-    let sc = canvasContext.scale;
-    let outputX = outBox.left;
-    // (outBox.left - canvasContext.left - canvasContext.shiftLeft) / canvasContext.scale;
-    let outputY = outBox.top - props.top;
-    // (outBox.top - canvasContext.top - canvasContext.shiftTop) / canvasContext.scale;
-    let inputX = inBox.left;
-    // (inBox.left - canvasContext.left - canvasContext.shiftLeft) / canvasContext.scale;
-    let inputY = (inBox.top - (50 + 43));
-    // (inBox.top - canvasContext.top- canvasContext.shiftTop) / canvasContext.scale;
+
+    let outputX = outBox.left + outBox.width / 2;
+    let outputY = outBox.top - props.top + outBox.height / 2;
+    let inputX = inBox.left + outBox.width / 2;
+    let inputY = inBox.top - props.top + outBox.height / 2;
 
     return (
         <Box color={state ? '#fff' : '#ffe'}>

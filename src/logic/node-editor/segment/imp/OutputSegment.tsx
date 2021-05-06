@@ -6,7 +6,6 @@ import {NodeModel} from "../../node/NodeModel";
 
 export class OutputSegment extends SegmentModel<any> {
     protected _label: string = "output";
-    protected _ref: React.RefObject<any> = React.createRef();
 
 
     constructor(index: number, parent: NodeModel, changeValueListener?: (newValue: any) => void) {

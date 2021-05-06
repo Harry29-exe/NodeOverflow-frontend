@@ -25,7 +25,7 @@ export interface NodeModuleState {
 
 export class NodeModule extends Component<NodeModuleProps, NodeModuleState> {
     //TODO
-    private nodeCanvasViewProps: NodeCanvasViewProperties = new NodeCanvasViewProperties(1, 0, 0, 0, 0, 50, 0);
+    private nodeCanvasViewProps: NodeCanvasViewProperties = new NodeCanvasViewProperties(1, 0, 0);
     protected storageListener: NodeStorageListener = ((nodes, links) => this.setState({nodes: nodes, links: links}));
     private readonly storage;
 

@@ -2,7 +2,7 @@ import {NodeCanvasViewProperties} from "../../components/node-module/NodeCanvasV
 import React from "react";
 
 const CanvasContext = React.createContext<NodeCanvasViewProperties>(
-    new NodeCanvasViewProperties(0, 0, 0, 0, 0, 50, 0)
+    new NodeCanvasViewProperties(0, 0, 0)
 );
 
 export default CanvasContext;

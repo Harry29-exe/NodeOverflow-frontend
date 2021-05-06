@@ -16,7 +16,7 @@ export abstract class SegmentModel<InputType> implements UniqueDomId {
                 hasInputPort: boolean, hasOutputPort: boolean,
                 changeValueListener?: (newValue: InputType) => void
     ) {
-        this._domId = `${parent.domId}s${index}`
+        this._domId = `${parent.domId}s${index}`;
         this._parent = parent;
         this._index = index;
         this._value = value;

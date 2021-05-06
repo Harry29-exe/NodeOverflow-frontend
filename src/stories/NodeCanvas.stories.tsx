@@ -51,6 +51,6 @@ export const NodeCanvasExample = nodeCanvasTemplate.bind({});
 
 NodeCanvasExample.args = {
     storage: new DefaultNodeStorage(),
-    viewProps: new NodeCanvasViewProperties(1, 0, 0, 0, 0, 50, 0),
+    viewProps: new NodeCanvasViewProperties(1, 0, 0),
 
 }
