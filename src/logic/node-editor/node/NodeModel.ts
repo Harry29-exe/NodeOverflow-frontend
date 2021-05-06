@@ -3,6 +3,7 @@ import {NodeDimension} from "./NodeDimension";
 import {NodeSave} from "./NodeSave";
 import {SegmentModel} from "../segment/SegmentModel";
 import {LinkModel} from "../LinkModel";
+import {UniqueDomId} from "../UniqueDomId";
 
 export const SegmentStyle = {
     percentageOffsetTop: 0.15,
@@ -10,16 +11,18 @@ export const SegmentStyle = {
     fontSizeToSegmentHeight: 0.55,
 }
 
-export abstract class NodeModel {
+export abstract class NodeModel implements UniqueDomId {
     public readonly id: number;
+    private readonly _domId: string;
     public abstract readonly name: string;
     private readonly _viewProperties: NodeViewProperties;
     protected abstract _segments: SegmentModel<any>[];
     private _links: LinkModel[] = [];
 
-    constructor(save: NodeSave)
-    constructor(id: number, x: number, y: number, dimensions: NodeDimension)
-    constructor(saveOrId: number | NodeSave, x?: number, y?: number, dimensions?: NodeDimension) {
+    constructor(save: NodeSave, storageId: number)
+    constructor(id: number, storageId: number, x: number, y: number, dimensions: NodeDimension)
+    constructor(saveOrId: number | NodeSave, storageId: number, x?: number, y?: number, dimensions?: NodeDimension) {
+        this._domId = `s${storageId}n${saveOrId}`;
         if (typeof saveOrId === "number") {
             if (x === undefined || y === undefined || dimensions === undefined) {
                 throw new Error("Illegal constructor");
@@ -66,6 +69,10 @@ export abstract class NodeModel {
         let dim = this._viewProperties.dimensions;
         return x > viewProps.x && x < viewProps.x + dim.width &&
             y > viewProps.y && y < viewProps.y + this.height;
+    }
+
+    get domId(): string {
+        return this._domId;
     }
 
     get outputLinkNumber(): number {

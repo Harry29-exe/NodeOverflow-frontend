@@ -4,11 +4,12 @@ import "./NodeModule.css";
 
 import RenderWindow from "./RenderWindow";
 import NodeControlPanel from "./NodeControlPanel";
-import {DefaultNodeStorage, NodeStorageListener} from "./NodeStorage";
+import {NodeStorageListener} from "../../logic/node-editor/NodeStorage";
 import {NodeCanvasViewProperties} from "./NodeCanvasViewProperties";
 import {NodeModel} from "../../logic/node-editor/node/NodeModel";
 import {mainColors} from "../../App";
 import {LinkModel} from "../../logic/node-editor/LinkModel";
+import {DefaultNodeStorage} from "../../logic/node-editor/DefaultNodeStorage";
 
 export interface NodeModuleProps {
     nodes?: NodeModel[],
@@ -23,7 +24,8 @@ export interface NodeModuleState {
 }
 
 export class NodeModule extends Component<NodeModuleProps, NodeModuleState> {
-    private nodeCanvasViewProps: NodeCanvasViewProperties = new NodeCanvasViewProperties(1, 0, 0, 0, 0);
+    //TODO
+    private nodeCanvasViewProps: NodeCanvasViewProperties = new NodeCanvasViewProperties(1, 0, 0, 0, 0, 50, 0);
     protected storageListener: NodeStorageListener = ((nodes, links) => this.setState({nodes: nodes, links: links}));
     private readonly storage;
 

@@ -2,7 +2,7 @@ import React, {PropsWithChildren} from 'react';
 import {SegmentModel} from "../../../logic/node-editor/segment/SegmentModel";
 import {Box, Center, Flex, useMultiStyleConfig} from "@chakra-ui/react";
 import Port from "./Port";
-import {NodeStorage} from "../NodeStorage";
+import {NodeStorage} from "../../../logic/node-editor/NodeStorage";
 
 type SegmentWrapperProps = {
     model: SegmentModel<any>,

@@ -1,6 +1,6 @@
 import React, {useEffect, useReducer, useRef} from 'react';
 import "./Node.css";
-import {NodeStorage} from "../NodeStorage";
+import {NodeStorage} from "../../../logic/node-editor/NodeStorage";
 import {NodeCanvasViewProperties} from "../NodeCanvasViewProperties";
 import {NodeModel} from "../../../logic/node-editor/node/NodeModel";
 import {Box, Center, useMultiStyleConfig, VStack} from "@chakra-ui/react";
@@ -84,7 +84,7 @@ const NodeView = (props: NodeComponentProps) => {
             mouseX = event.clientX;
             mouseY = event.clientY;
 
-            // props.node.links.forEach(link => link.update());
+            props.node.links.forEach(link => link.update());
             // props.storage.handleUpdateNode(props.node);
         }
 
@@ -131,10 +131,10 @@ const NodeView = (props: NodeComponentProps) => {
         let lastMoveTime = 0;
 
         const moveNode = (event: any) => {
-            if (Date.now() - lastMoveTime < 10 || event.touches.length > 1) {
-                return;
-            }
-            lastMoveTime = Date.now();
+            // if (Date.now() - lastMoveTime < 10 || event.touches.length > 1) {
+            //     return;
+            // }
+            // lastMoveTime = Date.now();
 
             let touch = event.touches[0];
             let node = props.node;
@@ -146,7 +146,7 @@ const NodeView = (props: NodeComponentProps) => {
             screenX = touch.screenX;
             screenY = touch.screenY;
 
-            // props.node.links.forEach(link => link.update());
+            props.node.links.forEach(link => link.update());
             // props.storage.handleUpdateNode(props.node);
         }
 
@@ -192,7 +192,7 @@ const NodeView = (props: NodeComponentProps) => {
 
 
     return (
-        <div className={"Node"} style={{
+        <div id={''} className={"Node"} style={{
             transform: `translate(${state.x}px, ${state.y}px)`
         }}>
             <Box ref={nodeBackgroundRef}

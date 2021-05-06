@@ -1,13 +1,14 @@
-import {NodeStorage} from "../../../components/node-module/NodeStorage";
+import {NodeStorage} from "../NodeStorage";
 import {NodeModel} from "../node/NodeModel";
+import {UniqueDomId} from "../UniqueDomId";
 
-export abstract class SegmentModel<InputType> {
+export abstract class SegmentModel<InputType> implements UniqueDomId {
     protected abstract _label: string;
-
     protected readonly _index: number;
     protected readonly _parent: NodeModel;
     protected readonly _hasInputPort: boolean;
     protected readonly _hasOutputPort: boolean;
+    private readonly _domId: string;
     private readonly _changeValueListener?: (newValue: InputType) => void;
     protected _value: InputType;
 
@@ -15,6 +16,7 @@ export abstract class SegmentModel<InputType> {
                 hasInputPort: boolean, hasOutputPort: boolean,
                 changeValueListener?: (newValue: InputType) => void
     ) {
+        this._domId = `${parent.domId}s${index}`
         this._parent = parent;
         this._index = index;
         this._value = value;
@@ -34,6 +36,10 @@ export abstract class SegmentModel<InputType> {
         if (this._changeValueListener) {
             this._changeValueListener(value);
         }
+    }
+
+    get domId(): string {
+        return this._domId;
     }
 
     get changeValueListener(): ((newValue: InputType) => void) | undefined {

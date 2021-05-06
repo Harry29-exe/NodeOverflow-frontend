@@ -1,5 +1,5 @@
 import {SegmentModel} from "../SegmentModel";
-import {NodeStorage} from "../../../../components/node-module/NodeStorage";
+import {NodeStorage} from "../../NodeStorage";
 import React from "react";
 import OutputSegmentView from "../../../../components/node-module/node-atomic/segments/OutputSegmentView";
 import {NodeModel} from "../../node/NodeModel";

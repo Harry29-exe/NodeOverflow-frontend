@@ -1,6 +1,6 @@
 import {Flex} from '@chakra-ui/react';
 import React from 'react';
-import {NodeStorage} from "../../NodeStorage";
+import {NodeStorage} from "../../../../logic/node-editor/NodeStorage";
 import SegmentWrapper from "../SegmentWrapper";
 import {OutputSegment} from "../../../../logic/node-editor/segment/imp/OutputSegment";
 

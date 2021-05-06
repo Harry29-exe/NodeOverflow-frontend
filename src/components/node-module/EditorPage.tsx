@@ -7,8 +7,8 @@ import {NodeDimension} from "../../logic/node-editor/node/NodeDimension";
 import {LinkModel} from "../../logic/node-editor/LinkModel";
 
 const testNodes: NodeModel[] = [
-    new InputNodeModel(0, 0, 0, new NodeDimension(160, 22, 26, 22)),
-    new InputNodeModel(1, 60, -80, new NodeDimension(160, 22, 26, 22)),
+    new InputNodeModel(0, 0, 0, 0, new NodeDimension(160, 22, 26, 22)),
+    new InputNodeModel(1, 0, 60, -80, new NodeDimension(160, 22, 26, 22)),
 
 ]
 
@@ -21,7 +21,6 @@ const EditorPage = () => {
         <Box pos={"absolute"} top={0} h={"100%"} w={"100%"}>
             <NodeModule nodes={testNodes} links={testLinks}/>
         </Box>
-
     );
 };
 

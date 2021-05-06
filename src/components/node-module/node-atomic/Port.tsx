@@ -1,7 +1,7 @@
 import React from 'react';
 import {Box} from "@chakra-ui/react";
 import {SegmentModel} from "../../../logic/node-editor/segment/SegmentModel";
-import {NodeStorage} from "../NodeStorage";
+import {NodeStorage} from "../../../logic/node-editor/NodeStorage";
 
 class Props {
     public parent: SegmentModel<any>;
@@ -36,6 +36,7 @@ const Port = (props: Props) => {
     const stopPropagation = (e: any) => e.stopPropagation();
     return (
         <Box
+            id={`${props.parent.domId}${props.portType}`}
             onClick={stopPropagation}
             onTouch={stopPropagation}
             onMouseDown={stopPropagation}

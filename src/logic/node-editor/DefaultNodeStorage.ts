@@ -1,48 +1,18 @@
-import {NodeModel} from "../../logic/node-editor/node/NodeModel";
-import {SegmentModel} from "../../logic/node-editor/segment/SegmentModel";
-import {LinkModel} from "../../logic/node-editor/LinkModel";
-
-export interface NodeStorageListener {
-    (nodes: NodeModel[], links: LinkModel[]): void;
-}
-
-export interface NodeStorage {
-
-    //this returns listenerId
-    addUpdateListener(listener: NodeStorageListener): number;
-
-    removeUpdateListener(listenerId: number): void;
-
-    handleAttemptToAddLink(outputSegment: SegmentModel<any>, targetX: number, targetY: number): LinkModel | null;
-
-    handleAddLink(link: LinkModel): void;
-
-    handleAddNode(node: NodeModel): void;
-
-    handleUpdateNode(node: NodeModel): void;
-
-    handleRemoveLink(link: LinkModel): void;
-
-    handleRemoveLinks(parent: SegmentModel<any>): void;
-
-    handleRemoveNode(node: NodeModel): void;
-
-    handleRemoveNode(nodeId: number): void;
-
-    getNextNodeId(): number;
-
-    getNodes(): NodeModel[];
-
-    getLinks(): LinkModel[];
-}
+import {LinkModel} from "./LinkModel";
+import {NodeModel} from "./node/NodeModel";
+import {SegmentModel} from "./segment/SegmentModel";
+import {NodeStorage, NodeStorageListener} from "./NodeStorage";
+import {Storages} from "./Storages";
 
 export class DefaultNodeStorage implements NodeStorage {
+    private readonly _storageId: number;
     private nextNodeId = 0;
     private links: LinkModel[];
     private nodes: NodeModel[];
     private readonly listeners: NodeStorageListener[];
 
     constructor(nodes?: NodeModel[], links?: LinkModel[], listeners?: NodeStorageListener[]) {
+        this._storageId = Storages.nextId;
         if (nodes) {
             this.nodes = nodes;
             let biggestNodeId = 0;
@@ -239,4 +209,8 @@ export class DefaultNodeStorage implements NodeStorage {
         this.links = links.filter(l => l !== null && l != undefined);
     }
 
+
+    get storageId(): number {
+        return this._storageId;
+    }
 }

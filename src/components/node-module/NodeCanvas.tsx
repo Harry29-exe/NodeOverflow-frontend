@@ -1,12 +1,11 @@
 import React, {Component} from 'react';
 import NodeView from "./node-atomic/NodeView";
 import LinkView from "./node-atomic/LinkView";
-import {NodeStorage, NodeStorageListener} from "./NodeStorage";
+import {NodeStorage, NodeStorageListener} from "../../logic/node-editor/NodeStorage";
 import {NodeCanvasViewProperties} from "./NodeCanvasViewProperties";
 import "./NodeCanvas.css"
 import {NodeModel} from "../../logic/node-editor/node/NodeModel";
 import {LinkModel} from "../../logic/node-editor/LinkModel";
-import CanvasContext from '../../logic/contexts/CanvasContext';
 
 export class NodeCanvasState {
     public viewProperties: NodeCanvasViewProperties;
@@ -189,43 +188,36 @@ class NodeCanvas extends Component<NodeCanvasProps, NodeCanvasState> {
             <div onMouseEnter={this.disableScroll} onMouseLeave={this.enableScroll}
                  ref={this.canvasRef} className={"Background"} onWheel={this.handleScroll}
                  style={{
-                     width: "100%",
-                     height: "100%",
-                     overflow: "hidden",
-                     position: "absolute",
-                     top: 0,
-                     left: 0,
-                     margin: 0,
-                     padding: 0
+                     width: "100%", height: "100%", overflow: "hidden", position: "absolute",
+                     top: 0, left: 0, margin: 0, padding: 0
                  }}
                  draggable={"false"} unselectable={"on"}>
-                <CanvasContext.Provider value={this.state.viewProperties}>
-                    <div style={{
-                        position: "absolute",
-                        backgroundColor: "#ddaaaa",
-                        left: "50%",
-                        top: "50%",
-                        transform: `scale(${this.state.viewProperties.scale}) translate(${this.state.viewProperties.shiftLeft}px, 
-                        ${this.state.viewProperties.shiftTop}px)`,
-                        transition: `transform 0.05s 0 linear`
-                    }}>
+                {/*<CanvasContext.Provider value={this.state.viewProperties}>*/}
+                <div style={{
+                    position: "absolute", backgroundColor: "#ddaaaa",
+                    left: "50%", top: "50%", transition: `transform 0.05s 0 linear`,
+                    transform: `scale(${this.state.viewProperties.scale}) translate(${this.state.viewProperties.shiftLeft}px, 
+                        ${this.state.viewProperties.shiftTop}px)`
+                }}>
 
-                        {this.state.nodes.map(n => <NodeView key={n.id} node={n}
-                                                             canvasViewProps={this.state.viewProperties}
-                                                             storage={this.props.storage}/>)
-                        }
+                    {this.state.nodes.map(n =>
+                        <NodeView key={n.id} node={n} canvasViewProps={this.state.viewProperties}
+                                  storage={this.props.storage}/>
+                    )}
+                </div>
 
-                        {
-                            this.state.links.map(
-                                l => <LinkView link={l} key={key++}/>)
-                        }
-                    </div>
+                {/*<div style={{transform: `scale(${this.state.viewProperties.scale}, */}
+                {/*                                ${this.state.viewProperties.scale})`}}>*/}
+                {this.state.links.map(l =>
+                    <LinkView link={l} top={93} scale={this.state.viewProperties.scale} key={key++}/>
+                )}
+                {/*</div>*/}
 
-                    <div style={{width: "inherit", height: "inherit"}}
-                         onMouseDown={this.handleMove} onTouchStart={this.handleTouch}
-                         onTouchEnd={this.enableScroll} onTouchCancel={this.enableScroll}>
-                    </div>
-                </CanvasContext.Provider>
+                <div style={{width: "inherit", height: "inherit"}}
+                     onMouseDown={this.handleMove} onTouchStart={this.handleTouch}
+                     onTouchEnd={this.enableScroll} onTouchCancel={this.enableScroll}>
+                </div>
+                {/*</CanvasContext.Provider>*/}
             </div>
         );
     }
