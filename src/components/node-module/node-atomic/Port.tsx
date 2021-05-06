@@ -38,7 +38,7 @@ const Port = (props: Props) => {
         <Box
             id={`${props.parent.domId}${props.portType}`}
             onClick={stopPropagation}
-            onTouch={stopPropagation}
+            onTouchStart={stopPropagation}
             onMouseDown={stopPropagation}
             alignSelf="center" w="15px" h="15px"
             justifySelf={props.portType === "in" ? "flex-start" : "flex-end"}

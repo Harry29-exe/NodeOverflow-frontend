@@ -69,7 +69,7 @@ class NodeCanvas extends Component<NodeCanvasProps, NodeCanvasState> {
     handleScroll = (event: any) => {
         let offset = event.deltaMode === 0 ? event.deltaY : event.deltaY * 50;
         let newScale = this.state.viewProperties.scale - offset * 0.001;
-        newScale = newScale < 0.15 ? 0.15 : newScale > 20 ? 20 : newScale;
+        newScale = newScale < 0.1 ? 0.1 : newScale > 20 ? 20 : newScale;
 
         this.state.viewProperties.scale = newScale;
         this.setState({
@@ -178,25 +178,25 @@ class NodeCanvas extends Component<NodeCanvasProps, NodeCanvasState> {
                  }}
                  draggable={"false"} unselectable={"on"}>
 
-                {this.state.links.map(l =>
-                    <LinkView link={l}
-                              top={this.canvasRef.current ? this.canvasRef.current.getBoundingClientRect().top : 0}
-                              scale={this.state.viewProperties.scale} key={key++}/>
-                )}
 
-                <div style={{
+                <div id={`s0c`} style={{
                     position: "absolute", backgroundColor: "#ddaaaa",
-                    left: "50%", top: "50%", transition: `transform 0.05s 0 linear`,
+                    left: "50%", top: "50%",
+                    // transition: `transform 0.05s 0 linear`,
                     transform: `scale(${this.state.viewProperties.scale}) translate(${this.state.viewProperties.shiftLeft}px, 
                         ${this.state.viewProperties.shiftTop}px)`
                 }}>
+
+                    {this.state.links.map(l =>
+                        <LinkView link={l}
+                                  top={this.canvasRef.current ? this.canvasRef.current.getBoundingClientRect().top : 0}
+                                  scale={this.state.viewProperties.scale} key={key++}/>
+                    )}
 
                     {this.state.nodes.map(n =>
                         <NodeView key={n.id} node={n} canvasViewProps={this.state.viewProperties}
                                   storage={this.props.storage}/>
                     )}
-
-
                 </div>
 
 
