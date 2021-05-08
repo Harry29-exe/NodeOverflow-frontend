@@ -6,6 +6,7 @@ import {NodeCanvasViewProperties} from "./NodeCanvasViewProperties";
 import "./NodeCanvas.css"
 import {NodeModel} from "../../logic/node-editor/node/NodeModel";
 import {LinkModel} from "../../logic/node-editor/LinkModel";
+import CanvasContext from '../../logic/contexts/CanvasContext';
 
 export class NodeCanvasState {
     public viewProperties: NodeCanvasViewProperties;
@@ -178,27 +179,27 @@ class NodeCanvas extends Component<NodeCanvasProps, NodeCanvasState> {
                  }}
                  draggable={"false"} unselectable={"on"}>
 
+                <CanvasContext.Provider value={this.state.viewProperties}>
+                    <div id={`s0c`} style={{
+                        position: "absolute", backgroundColor: "#ddaaaa",
+                        left: "50%", top: "50%",
+                        // transition: `transform 0.1s`,
+                        transform: `scale(${this.state.viewProperties.scale}) 
+                        translate(${this.state.viewProperties.shiftLeft}px, 
+                            ${this.state.viewProperties.shiftTop}px)`
 
-                <div id={`s0c`} style={{
-                    position: "absolute", backgroundColor: "#ddaaaa",
-                    left: "50%", top: "50%",
-                    // transition: `transform 0.05s 0 linear`,
-                    transform: `scale(${this.state.viewProperties.scale}) translate(${this.state.viewProperties.shiftLeft}px, 
-                        ${this.state.viewProperties.shiftTop}px)`
-                }}>
+                    }}>
 
-                    {this.state.links.map(l =>
-                        <LinkView link={l}
-                                  top={this.canvasRef.current ? this.canvasRef.current.getBoundingClientRect().top : 0}
-                                  scale={this.state.viewProperties.scale} key={key++}/>
-                    )}
+                        {this.state.links.map(l =>
+                            <LinkView link={l} scale={this.state.viewProperties.scale} key={key++}/>
+                        )}
 
-                    {this.state.nodes.map(n =>
-                        <NodeView key={n.id} node={n} canvasViewProps={this.state.viewProperties}
-                                  storage={this.props.storage}/>
-                    )}
-                </div>
-
+                        {this.state.nodes.map(n =>
+                            <NodeView key={n.id} node={n} canvasViewProps={this.state.viewProperties}
+                                      storage={this.props.storage}/>
+                        )}
+                    </div>
+                </CanvasContext.Provider>
 
                 <div style={{width: "inherit", height: "inherit"}}
                      onMouseDown={this.handleMove} onTouchStart={this.handleTouch}

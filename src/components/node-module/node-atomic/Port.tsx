@@ -1,7 +1,8 @@
-import React from 'react';
+import React, {useRef, useState} from 'react';
 import {Box} from "@chakra-ui/react";
 import {SegmentModel} from "../../../logic/node-editor/segment/SegmentModel";
 import {NodeStorage} from "../../../logic/node-editor/NodeStorage";
+import LinkTemporary from "./LinkTemporary";
 
 class Props {
     public parent: SegmentModel<any>;
@@ -15,38 +16,91 @@ class Props {
     }
 }
 
-class State {
-    public x1: number;
-    public y1: number;
-    public x2: number;
-    public y2: number;
-    public hasTempLink: boolean
+class TempLinkState {
+    public mouseX: number;
+    public mouseY: number;
+    public hasTempLink: boolean;
 
-    constructor(hasTempLink: false, x1: number, y1: number, x2: number, y2: number) {
-        this.x1 = x1;
-        this.y1 = y1;
-        this.x2 = x2;
-        this.y2 = y2;
+    constructor(hasTempLink: boolean, x1: number, y1: number) {
+        this.mouseX = x1;
+        this.mouseY = y1;
         this.hasTempLink = hasTempLink;
     }
 }
 
 const Port = (props: Props) => {
+    const [tempLinkState, setLinkState] = useState<TempLinkState>(new TempLinkState(false, 0, 0));
+    const portRef = useRef<HTMLDivElement>(null);
+
     let offset = props.portType === "in" ? '-' : '';
-    const stopPropagation = (e: any) => e.stopPropagation();
+    const domId = `${props.parent.domId}${props.portType}`;
+
+    const handleClick = (event: any) => {
+        event.stopPropagation();
+        event.preventDefault();
+
+        if (props.portType === "in") {
+            handleInputClick(event);
+        } else if (props.portType === "out") {
+            handleOutputClick(event)
+        }
+    }
+
+    const handleOutputClick = (event: any) => {
+        let current = portRef.current;
+        if (current === undefined || current === null) {
+            throw new Error();
+        }
+        let portBox = current.getBoundingClientRect();
+        setLinkState(new TempLinkState(true, portBox.left, portBox.top));
+
+        const handleTempLinkMove = (event: any) => {
+            setLinkState(new TempLinkState(true, event.clientX, event.clientY));
+        }
+
+        const handleTempLink = (event: any) => {
+            window.removeEventListener("mousemove", handleTempLinkMove);
+            window.removeEventListener("mouseup", handleTempLink);
+            let x = tempLinkState.mouseX;
+            let y = tempLinkState.mouseY;
+            setTimeout(() => {
+                setLinkState(new TempLinkState(false, 0, 0));
+                props.storage.handleAttemptToAddLink(props.parent, x, y);
+            }, 1000 * 120);
+        }
+
+        window.addEventListener("mousemove", handleTempLinkMove);
+        window.addEventListener("mouseup", handleTempLink);
+    }
+
+    const handleInputClick = (event: any) => {
+        props.storage.handleRemoveLinks(props.parent);
+    }
+
     return (
         <Box
-            id={`${props.parent.domId}${props.portType}`}
-            onClick={stopPropagation}
-            onTouchStart={stopPropagation}
-            onMouseDown={stopPropagation}
+            id={domId}
+            ref={portRef}
+            onClick={(e: any) => e.stopPropagation()}
+            onTouchStart={(e: any) => e.stopPropagation()}
+            onMouseDown={handleClick}
             alignSelf="center" w="15px" h="15px"
             justifySelf={props.portType === "in" ? "flex-start" : "flex-end"}
             bg={"primary.400"} borderRadius="50%"
             border={"2px solid"} borderColor={"gray.600"}
             transform={`translate(${offset}55%, 0px)`}
             _hover={{bg: "primary.100", cursor: "crosshair"}}
-        />
+        >
+            {tempLinkState.hasTempLink ?
+                <LinkTemporary portDomId={domId}
+                               mouseX={tempLinkState.mouseX} mouseY={tempLinkState.mouseY}/>
+                :
+                null
+            }
+            <div>
+
+            </div>
+        </Box>
     );
 };
 
