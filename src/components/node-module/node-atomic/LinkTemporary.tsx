@@ -1,4 +1,5 @@
 import React, {useContext} from 'react';
+import ReactDOM from 'react-dom';
 import CanvasContext from "../../../logic/contexts/CanvasContext";
 
 const createSVGStyle = () => {
@@ -33,10 +34,11 @@ const LinkTemporary = (props: { portDomId: string, mouseX: number, mouseY: numbe
     let inputX = (props.mouseX - canvasBox.left) / sc;
     let inputY = (props.mouseY - canvasBox.top) / sc;
     console.log('temp: ' + sc)
-    return (
-        <div style={{position: 'absolute', left: 0, top: 0}}>
-            <svg style={createSVGStyle()}>
-                <path d={`M ${outputX}
+    return ReactDOM.createPortal(
+        (
+            <div style={{position: 'absolute', left: 0, top: 0}}>
+                <svg style={createSVGStyle()}>
+                    <path d={`M ${outputX}
                             ${outputY}
                             
                             C ${(outputX + inputX) / 2} ${outputY} 
@@ -59,8 +61,8 @@ const LinkTemporary = (props: { portDomId: string, mouseX: number, mouseY: numbe
                     // onMouseDown={handleClick} onClick={event => event.preventDefault()}
                       stroke="#586673" strokeWidth={`${4.5}px`} fill="transparent"/>
             </svg>
-        </div>
-    );
+            </div>
+        ), canvasElem);
 }
 
 export default LinkTemporary;

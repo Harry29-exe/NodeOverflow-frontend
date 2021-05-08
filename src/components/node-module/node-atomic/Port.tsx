@@ -63,10 +63,9 @@ const Port = (props: Props) => {
             window.removeEventListener("mouseup", handleTempLink);
             let x = tempLinkState.mouseX;
             let y = tempLinkState.mouseY;
-            setTimeout(() => {
-                setLinkState(new TempLinkState(false, 0, 0));
-                props.storage.handleAttemptToAddLink(props.parent, x, y);
-            }, 1000 * 120);
+
+            setLinkState(new TempLinkState(false, 0, 0));
+            props.storage.handleAttemptToAddLink(props.parent, x, y);
         }
 
         window.addEventListener("mousemove", handleTempLinkMove);
