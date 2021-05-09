@@ -37,7 +37,7 @@ class LinkState {
 
 //TODO Clean up
 const LinkView = (props: { link: LinkModel, scale: number }) => {
-    const [shouldUpdate, update] = useState({shouldUpdate: false});
+    const [shouldUpdate, update] = useState({shouldUpdate: true});
     const [cords, updateCords] = useState<LinkState>(new LinkState(0, 0, 0, 0, 1));
     props.link.update = () => update({shouldUpdate: true})
 
@@ -71,8 +71,6 @@ const LinkView = (props: { link: LinkModel, scale: number }) => {
     let outputY = cords.y1;
     let inputX = cords.x2;
     let inputY = cords.y2;
-
-    console.log('link: ' + props.scale)
 
     return (
         <Box color={shouldUpdate.shouldUpdate ? '#fff' : '#ffe'}>

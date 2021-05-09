@@ -7,6 +7,7 @@ import {Storages} from "./Storages";
 export class DefaultNodeStorage implements NodeStorage {
     private readonly _storageId: number;
     private nextNodeId = 0;
+    private hoveredPort?: { segment: SegmentModel<any>, portType: "in" | "out" };
     private links: LinkModel[];
     private nodes: NodeModel[];
     private readonly listeners: NodeStorageListener[];
@@ -56,6 +57,30 @@ export class DefaultNodeStorage implements NodeStorage {
         this.callListeners();
     }
 
+    handleAttemptToAddLink(outputSegment: SegmentModel<any>): LinkModel | null {
+        console.log("attempt to add link")
+        if (this.hoveredPort && this.hoveredPort.portType === "in") {
+            console.log("conditions fulfilled");
+            let link = new LinkModel(outputSegment, this.hoveredPort.segment);
+            this.links.push(link);
+            link.outputSegment.parent.addLink(link);
+            link.inputSegment.parent.addLink(link);
+            this.callListeners();
+            return link;
+        }
+        return null;
+    }
+
+    setHoveredPort(portsSegment: SegmentModel<any>, portType: "in" | "out"): void {
+        this.hoveredPort = {segment: portsSegment, portType: portType};
+        console.log("port added " + portsSegment.index)
+    }
+
+    clearHoveredPort(): void {
+        console.log("port cleared " + this.hoveredPort?.segment.index)
+        this.hoveredPort = undefined;
+    }
+
     handleAddNode(node: NodeModel): void {
         if (node.id === this.nextNodeId) {
             let newNodeList = [node];
@@ -76,44 +101,44 @@ export class DefaultNodeStorage implements NodeStorage {
         }
     }
 
-    handleAttemptToAddLink(outputSegment: SegmentModel<any>, targetX: number, targetY: number): LinkModel | null {
-        let inputSegment: SegmentModel<any> | null = null;
-        let nodes = this.nodes;
-        let i = 0;
-        while (i < nodes.length && inputSegment == null) {
-            for (let j = 0; j < nodes[i].segments.length; j++) {
-                //TODO
-                // if (nodes[i].segments[j].portType !== PortType.INPUT) {
-                //     continue;
-                // }
-                let portSize = nodes[i].dimensions.segmentHeight;
-                //TODO
-                // let xMin = nodes[i].segments[j].calcPortLeftOffsetToCenter() - portSize / 2;
-                // let xMax = xMin + portSize;
-                // let yMin = nodes[i].segments[j].calcPortTopOffsetToCenter() - portSize / 2;
-                // let yMax = yMin + portSize;
-                // if (targetX >= xMin && targetX <= xMax &&
-                //     targetY >= yMin && targetY <= yMax) {
-                //     inputSegment = nodes[i].segments[j];
-                //     break;
-                // }
-            }
-            i++;
-        }
-
-        if (inputSegment != null) {
-            this.handleRemoveLinks(inputSegment);
-            let newLink = new LinkModel(outputSegment, inputSegment);
-            outputSegment.parent.addLink(newLink);
-            inputSegment.parent.addLink(newLink);
-            this.links.push(newLink);
-
-            this.callListeners();
-            return newLink;
-        } else {
-            return null;
-        }
-    }
+    // handleAttemptToAddLink(outputSegment: SegmentModel<any>, targetX: number, targetY: number): LinkModel | null {
+    //     let inputSegment: SegmentModel<any> | null = null;
+    //     let nodes = this.nodes;
+    //     let i = 0;
+    //     while (i < nodes.length && inputSegment == null) {
+    //         for (let j = 0; j < nodes[i].segments.length; j++) {
+    //             //TODO
+    //             // if (nodes[i].segments[j].portType !== PortType.INPUT) {
+    //             //     continue;
+    //             // }
+    //             let portSize = nodes[i].dimensions.segmentHeight;
+    //             //TODO
+    //             // let xMin = nodes[i].segments[j].calcPortLeftOffsetToCenter() - portSize / 2;
+    //             // let xMax = xMin + portSize;
+    //             // let yMin = nodes[i].segments[j].calcPortTopOffsetToCenter() - portSize / 2;
+    //             // let yMax = yMin + portSize;
+    //             // if (targetX >= xMin && targetX <= xMax &&
+    //             //     targetY >= yMin && targetY <= yMax) {
+    //             //     inputSegment = nodes[i].segments[j];
+    //             //     break;
+    //             // }
+    //         }
+    //         i++;
+    //     }
+    //
+    //     if (inputSegment != null) {
+    //         this.handleRemoveLinks(inputSegment);
+    //         let newLink = new LinkModel(outputSegment, inputSegment);
+    //         outputSegment.parent.addLink(newLink);
+    //         inputSegment.parent.addLink(newLink);
+    //         this.links.push(newLink);
+    //
+    //         this.callListeners();
+    //         return newLink;
+    //     } else {
+    //         return null;
+    //     }
+    // }
 
     handleRemoveLink(link: LinkModel): void {
         let links = this.links.filter(e => e !== null);

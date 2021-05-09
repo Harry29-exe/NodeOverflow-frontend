@@ -61,11 +61,9 @@ const Port = (props: Props) => {
         const handleTempLink = (event: any) => {
             window.removeEventListener("mousemove", handleTempLinkMove);
             window.removeEventListener("mouseup", handleTempLink);
-            let x = tempLinkState.mouseX;
-            let y = tempLinkState.mouseY;
 
             setLinkState(new TempLinkState(false, 0, 0));
-            props.storage.handleAttemptToAddLink(props.parent, x, y);
+            props.storage.handleAttemptToAddLink(props.parent);
         }
 
         window.addEventListener("mousemove", handleTempLinkMove);
@@ -77,29 +75,30 @@ const Port = (props: Props) => {
     }
 
     return (
-        <Box
-            id={domId}
-            ref={portRef}
-            onClick={(e: any) => e.stopPropagation()}
-            onTouchStart={(e: any) => e.stopPropagation()}
-            onMouseDown={handleClick}
-            alignSelf="center" w="15px" h="15px"
-            justifySelf={props.portType === "in" ? "flex-start" : "flex-end"}
-            bg={"primary.400"} borderRadius="50%"
-            border={"2px solid"} borderColor={"gray.600"}
-            transform={`translate(${offset}55%, 0px)`}
-            _hover={{bg: "primary.100", cursor: "crosshair"}}
-        >
+        <>
+            <Box
+                id={domId}
+                ref={portRef}
+                onClick={(e: any) => e.stopPropagation()}
+                onTouchStart={(e: any) => e.stopPropagation()}
+                onMouseEnter={(e: any) => props.storage.setHoveredPort(props.parent, props.portType)}
+                onMouseLeave={(e: any) => props.storage.clearHoveredPort()}
+                onMouseDown={handleClick}
+                alignSelf="center" w="15px" h="15px"
+                justifySelf={props.portType === "in" ? "flex-start" : "flex-end"}
+                bg={"primary.400"} borderRadius="50%"
+                border={"2px solid"} borderColor={"gray.600"}
+                transform={`translate(${offset}55%, 0px)`}
+                _hover={{bg: "primary.100", cursor: "crosshair"}}
+            >
+            </Box>
             {tempLinkState.hasTempLink ?
                 <LinkTemporary portDomId={domId}
                                mouseX={tempLinkState.mouseX} mouseY={tempLinkState.mouseY}/>
                 :
                 null
             }
-            <div>
-
-            </div>
-        </Box>
+        </>
     );
 };
 

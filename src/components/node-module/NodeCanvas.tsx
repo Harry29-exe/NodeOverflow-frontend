@@ -170,6 +170,8 @@ class NodeCanvas extends Component<NodeCanvasProps, NodeCanvasState> {
 
     render() {
         let key = 0;
+        let nodes = this.state.nodes;
+        let links = this.state.links;
         return (
             <div onMouseEnter={this.disableScroll} onMouseLeave={this.enableScroll}
                  ref={this.canvasRef} className={"Background"} onWheel={this.handleScroll}
@@ -190,11 +192,11 @@ class NodeCanvas extends Component<NodeCanvasProps, NodeCanvasState> {
 
                     }}>
 
-                        {this.state.links.map(l =>
+                        {links.map(l =>
                             <LinkView link={l} scale={this.state.viewProperties.scale} key={key++}/>
                         )}
 
-                        {this.state.nodes.map(n =>
+                        {nodes.map(n =>
                             <NodeView key={n.id} node={n} canvasViewProps={this.state.viewProperties}
                                       storage={this.props.storage}/>
                         )}

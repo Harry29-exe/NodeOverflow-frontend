@@ -14,7 +14,11 @@ export interface NodeStorage {
 
     removeUpdateListener(listenerId: number): void;
 
-    handleAttemptToAddLink(outputSegment: SegmentModel<any>, targetX: number, targetY: number): LinkModel | null;
+    setHoveredPort(portsSegment: SegmentModel<any>, portType: "in" | "out"): void;
+
+    clearHoveredPort(): void;
+
+    handleAttemptToAddLink(outputSegment: SegmentModel<any>): LinkModel | null;
 
     handleAddLink(link: LinkModel): void;
 
