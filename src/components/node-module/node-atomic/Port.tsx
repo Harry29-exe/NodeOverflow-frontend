@@ -71,7 +71,7 @@ const Port = (props: Props) => {
     }
 
     const handleInputClick = (event: any) => {
-        props.storage.handleRemoveLinks(props.parent);
+        props.storage.handleRemoveLinks(props.parent, "in");
     }
 
     return (

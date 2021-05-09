@@ -31,15 +31,12 @@ const LinkTemporary = (props: { portDomId: string, mouseX: number, mouseY: numbe
     let sc = canvasViewProps.scale;
     let outputX = (outBox.left - canvasBox.left + outBox.width / 2) / sc;
     let outputY = (outBox.top - canvasBox.top + outBox.height / 2) / sc;
-    let inputX = (props.mouseX * 0.95 - canvasBox.left) / sc;
+    let inputX = (props.mouseX - canvasBox.left) / sc;
     let inputY = (props.mouseY - canvasBox.top) / sc;
 
     return ReactDOM.createPortal(
         (
-            <div
-                style={{position: 'absolute', left: 0, top: 0}}
-                onMouseEnter={(e: any) => e.stopPropagation()}
-                onMouseLeave={(e: any) => e.stopPropagation()}>
+            <div style={{position: 'absolute', left: 0, top: 0, userSelect: 'none', pointerEvents: 'none'}}>
                 <svg style={createSVGStyle()}>
                     <path d={`M ${outputX}
                             ${outputY}
@@ -50,20 +47,20 @@ const LinkTemporary = (props: { portDomId: string, mouseX: number, mouseY: numbe
                             ${inputX} ${inputY}`}
 
                         // onMouseDown={handleClick} onClick={event => event.preventDefault()}
-                      stroke="#334447" strokeWidth={`${6}px`} fill="transparent"/>
-            </svg>
-            <svg style={createSVGStyle()}>
-                <path d={`M ${outputX}
-                            ${outputY}
-                            
-                            C ${(outputX + inputX) / 2} ${outputY} 
-                            ${(outputX + inputX) / 2} ${inputY} 
-                            
-                            ${inputX} ${inputY}`}
+                          stroke="#334447" strokeWidth={`${6}px`} fill="transparent"/>
+                </svg>
+                <svg style={createSVGStyle()}>
+                    <path d={`M ${outputX}
+                                ${outputY}
+                                
+                                C ${(outputX + inputX) / 2} ${outputY} 
+                                ${(outputX + inputX) / 2} ${inputY} 
+                                
+                                ${inputX} ${inputY}`}
 
-                    // onMouseDown={handleClick} onClick={event => event.preventDefault()}
-                      stroke="#586673" strokeWidth={`${4.5}px`} fill="transparent"/>
-            </svg>
+                        // onMouseDown={handleClick} onClick={event => event.preventDefault()}
+                          stroke="#586673" strokeWidth={`${4.5}px`} fill="transparent"/>
+                </svg>
             </div>
         ), canvasElem);
 }

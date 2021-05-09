@@ -28,7 +28,7 @@ export interface NodeStorage {
 
     handleRemoveLink(link: LinkModel): void;
 
-    handleRemoveLinks(parent: SegmentModel<any>): void;
+    handleRemoveLinks(parent: SegmentModel<any>, portType: "in" | "out"): void;
 
     handleRemoveNode(node: NodeModel): void;
 

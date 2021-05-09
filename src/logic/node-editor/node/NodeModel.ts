@@ -48,7 +48,7 @@ export abstract class NodeModel implements UniqueDomId {
     removeLink(link: LinkModel) {
         let links = this.links.filter(e => e !== null);
         for (let i = 0; i < links.length; i++) {
-            if (links[i].equals(link)) {
+            if (links[i].domId === link.domId) {
                 delete links[i];
                 break;
             }

@@ -28,6 +28,7 @@ export class NodeModule extends Component<NodeModuleProps, NodeModuleState> {
     private nodeCanvasViewProps: NodeCanvasViewProperties = new NodeCanvasViewProperties(1, 0, 0);
     protected storageListener: NodeStorageListener = ((nodes, links) => this.setState({nodes: nodes, links: links}));
     private readonly storage;
+    private controlPanelHeight = '40px';
 
     constructor(props: any) {
         super(props);
@@ -71,30 +72,28 @@ export class NodeModule extends Component<NodeModuleProps, NodeModuleState> {
     }
 
     render() {
+        let controlPanelH = this.controlPanelHeight;
         return (
             <div style={{top: 0, height: "100%", width: "100%", position: "relative", left: 0}}>
 
                 {!this.props.disableControlPanel ?
-                    <div style={{position: "absolute", width: "100%", height: "4.5%"}}>
-                        <NodeControlPanel
-                            //TODO
-                            // storage={this.storage} viewProps={this.nodeCanvasViewProps}
-                        />
+                    <div style={{position: "absolute", width: "100%", height: controlPanelH}}>
+                        <NodeControlPanel storage={this.storage} viewProps={this.nodeCanvasViewProps}/>
                     </div>
                     :
                     <div style={{
                         position: "absolute",
                         width: "100%",
-                        height: "4.5%",
+                        height: "40px",
                         backgroundColor: mainColors.segmentColor
                     }}>
                     </div>
                 }
 
                 <div style={{
-                    top: "4.5%",
+                    top: controlPanelH,
                     left: 0,
-                    height: "95.5%",
+                    height: `calc(100% - ${controlPanelH})`,
                     width: this.state.dividerPosition + "%",
                     position: "absolute"
                 }}>
@@ -104,7 +103,7 @@ export class NodeModule extends Component<NodeModuleProps, NodeModuleState> {
                 <div onMouseDown={this.handleResizeMouseDown}
                      onTouchStart={this.handleResizeTouchStart}
                      className={"Separator"} style={{
-                    height: "95.5%", width: "10px", top: "4.5%",
+                    height: `calc(100% - ${controlPanelH})`, width: "10px", top: controlPanelH,
                     left: this.state.dividerPosition < 50 ? `${this.state.dividerPosition}%` : `calc(${this.state.dividerPosition}% - 10px)`,
                     position: "absolute", overflow: "hidden", margin: 0, padding: 0,
                     backgroundColor: mainColors.segmentColor, boxShadow: "0 0 2px 1px " + mainColors.borderColor,
@@ -112,10 +111,10 @@ export class NodeModule extends Component<NodeModuleProps, NodeModuleState> {
                 }}/>
 
                 <div style={{
-                    top: "4.5%",
+                    top: controlPanelH,
                     left: this.state.dividerPosition < 50 ? `calc(${this.state.dividerPosition}% + 10px)` : `${this.state.dividerPosition}%`,
                     width: this.state.dividerPosition < 50 ? `calc(${100 - this.state.dividerPosition}% - 10px)` : `${100 - this.state.dividerPosition}%`,
-                    height: "95.5%",
+                    height: `calc(100% - ${controlPanelH})`,
                     position: "absolute",
                     overflow: "hidden",
                     margin: 0,

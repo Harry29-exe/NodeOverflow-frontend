@@ -58,17 +58,28 @@ export class DefaultNodeStorage implements NodeStorage {
     }
 
     handleAttemptToAddLink(outputSegment: SegmentModel<any>): LinkModel | null {
-        console.log("attempt to add link")
-        if (this.hoveredPort && this.hoveredPort.portType === "in") {
-            console.log("conditions fulfilled");
-            let link = new LinkModel(outputSegment, this.hoveredPort.segment);
-            this.links.push(link);
-            link.outputSegment.parent.addLink(link);
-            link.inputSegment.parent.addLink(link);
-            this.callListeners();
-            return link;
+        if (!this.hoveredPort || this.hoveredPort.portType !== "in" ||
+            this.hoveredPort.segment.parent.id === outputSegment.parent.id) {
+            return null;
         }
-        return null;
+
+        let inputSegment = this.hoveredPort.segment;
+        let link = new LinkModel(outputSegment, inputSegment);
+
+        let segmentInputLink = inputSegment.parent.getSegmentLinks(inputSegment.index)
+            .filter(l => l.inputSegment.parent.id === inputSegment.parent.id);
+        if (segmentInputLink.length !== 0) {
+            let linkToDelete = segmentInputLink[0];
+            this.links = this.links.filter((l => !l.equals(linkToDelete)));
+            linkToDelete.inputSegment.parent.removeLink(linkToDelete);
+            linkToDelete.outputSegment.parent.removeLink(linkToDelete);
+        }
+
+        this.links.push(link);
+        link.outputSegment.parent.addLink(link);
+        link.inputSegment.parent.addLink(link);
+        this.callListeners();
+        return link;
     }
 
     setHoveredPort(portsSegment: SegmentModel<any>, portType: "in" | "out"): void {
@@ -155,15 +166,26 @@ export class DefaultNodeStorage implements NodeStorage {
         this.callListeners();
     }
 
-    handleRemoveLinks(parent: SegmentModel<any>): void {
+    handleRemoveLinks(parent: SegmentModel<any>, portType: "in" | "out"): void {
         let links = this.links.filter(e => e !== null);
-        for (let i = 0; i < links.length; i++) {
-            let l = links[i];
-            if ((l.inputSegment.index === parent.index && l.inputSegment.parent.id === parent.parent.id) ||
-                (l.outputSegment.index === parent.index && l.outputSegment.parent.id === parent.parent.id)) {
-                l.outputSegment.parent.removeLink(l);
-                l.inputSegment.parent.removeLink(l);
-                delete links[i];
+
+        if (portType === "in") {
+            for (let i = 0; i < links.length; i++) {
+                let l = links[i];
+                if (l.inputSegment.index === parent.index && l.inputSegment.parent.id === parent.parent.id) {
+                    l.outputSegment.parent.removeLink(l);
+                    l.inputSegment.parent.removeLink(l);
+                    delete links[i];
+                }
+            }
+        } else {
+            for (let i = 0; i < links.length; i++) {
+                let l = links[i];
+                if (l.outputSegment.index === parent.index && l.outputSegment.parent.id === parent.parent.id) {
+                    l.outputSegment.parent.removeLink(l);
+                    l.inputSegment.parent.removeLink(l);
+                    delete links[i];
+                }
             }
         }
         this.links = links.filter(l => l !== null && l !== undefined);
