@@ -9,8 +9,8 @@ export const styles = {
             fontWeight: 300,
             color: mode("black", "white")(props),
         },
-        "*, *::before, &after": {
-            boxSizing: "content-box"
-        }
+        // "*, *::before, &after": {
+        //     boxSizing: "content-box"
+        // }
     }),
 };

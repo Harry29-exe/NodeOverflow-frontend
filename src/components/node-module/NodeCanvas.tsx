@@ -1,10 +1,12 @@
 import React, {Component} from 'react';
-import Node from "./node-atomic/Node";
-import Link, {LinkModel} from "./node-atomic/Link";
-import {NodeStorage, NodeStorageListener} from "./NodeStorage";
+import NodeView from "./node-atomic/NodeView";
+import LinkView from "./node-atomic/LinkView";
+import {NodeStorage, NodeStorageListener} from "../../logic/node-editor/NodeStorage";
 import {NodeCanvasViewProperties} from "./NodeCanvasViewProperties";
 import "./NodeCanvas.css"
-import {NodeModel} from "./node-atomic/NodeModel";
+import {NodeModel} from "../../logic/node-editor/node/NodeModel";
+import {LinkModel} from "../../logic/node-editor/LinkModel";
+import CanvasContext from '../../logic/contexts/CanvasContext';
 
 export class NodeCanvasState {
     public viewProperties: NodeCanvasViewProperties;
@@ -68,7 +70,7 @@ class NodeCanvas extends Component<NodeCanvasProps, NodeCanvasState> {
     handleScroll = (event: any) => {
         let offset = event.deltaMode === 0 ? event.deltaY : event.deltaY * 50;
         let newScale = this.state.viewProperties.scale - offset * 0.001;
-        newScale = newScale < 0.15 ? 0.15 : newScale > 20 ? 20 : newScale;
+        newScale = newScale < 0.1 ? 0.1 : newScale > 20 ? 20 : newScale;
 
         this.state.viewProperties.scale = newScale;
         this.setState({
@@ -92,23 +94,8 @@ class NodeCanvas extends Component<NodeCanvasProps, NodeCanvasState> {
         window.removeEventListener("touchmove", this.preventDefault);
     }
 
-    componentDidUpdate() {
-        if (this.canvasRef.current) {
-            let mainDiv = this.canvasRef.current;
-            let mainDivBox = mainDiv.getBoundingClientRect();
-            this.props.viewProps.width = mainDivBox.width;
-            this.props.viewProps.height = mainDivBox.height;
-        }
-    }
-
     componentDidMount() {
         this.listenerId = this.props.storage.addUpdateListener(this.storageListener);
-        if (this.canvasRef.current) {
-            let mainDiv = this.canvasRef.current;
-            let mainDivBox = mainDiv.getBoundingClientRect();
-            this.props.viewProps.width = mainDivBox.width;
-            this.props.viewProps.height = mainDivBox.height;
-        }
     }
 
     componentWillUnmount() {
@@ -187,38 +174,32 @@ class NodeCanvas extends Component<NodeCanvasProps, NodeCanvasState> {
             <div onMouseEnter={this.disableScroll} onMouseLeave={this.enableScroll}
                  ref={this.canvasRef} className={"Background"} onWheel={this.handleScroll}
                  style={{
-                     width: "100%",
-                     height: "100%",
-                     overflow: "hidden",
-                     position: "absolute",
-                     top: 0,
-                     left: 0,
-                     margin: 0,
-                     padding: 0
+                     width: "100%", height: "100%", overflow: "hidden", position: "absolute",
+                     top: 0, left: 0, margin: 0, padding: 0
                  }}
-                 draggable={"false"} unselectable={"on"}
-            >
+                 draggable={"false"} unselectable={"on"}>
 
-                <div style={{
-                    position: "absolute",
-                    backgroundColor: "#ddaaaa",
-                    left: "50%",
-                    top: "50%",
-                    transform: `scale(${this.state.viewProperties.scale}) translate(${this.state.viewProperties.shiftLeft}px, 
-                    ${this.state.viewProperties.shiftTop}px)`,
-                    transition: `transform 0.05s 0 linear`
-                }}>
+                <CanvasContext.Provider value={this.state.viewProperties}>
+                    <div id={`s0c`} style={{
+                        position: "absolute", backgroundColor: "#ddaaaa",
+                        left: "50%", top: "50%",
+                        // transition: `transform 0.1s`,
+                        transform: `scale(${this.state.viewProperties.scale}) 
+                        translate(${this.state.viewProperties.shiftLeft}px, 
+                            ${this.state.viewProperties.shiftTop}px)`
 
-                    {this.state.nodes.map(n => <Node key={n.id} node={n}
-                                                     canvasViewProps={this.state.viewProperties}
-                                                     storage={this.props.storage}/>)
-                    }
+                    }}>
 
-                    {
-                        this.state.links.map(
-                            l => <Link link={l} key={key++}/>)
-                    }
-                </div>
+                        {this.state.links.map(l =>
+                            <LinkView link={l} scale={this.state.viewProperties.scale} key={l.domId}/>
+                        )}
+
+                        {this.state.nodes.map(n =>
+                            <NodeView key={n.id} node={n} canvasViewProps={this.state.viewProperties}
+                                      storage={this.props.storage}/>
+                        )}
+                    </div>
+                </CanvasContext.Provider>
 
                 <div style={{width: "inherit", height: "inherit"}}
                      onMouseDown={this.handleMove} onTouchStart={this.handleTouch}

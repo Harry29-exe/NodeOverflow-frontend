@@ -10,7 +10,6 @@ import theme from "./theme/theme";
 ReactDOM.render(
     <React.StrictMode>
         <ColorModeScript initialColorMode={theme.config.initialColorMode}/>
-
         <App/>
     </React.StrictMode>,
     document.getElementById('root')

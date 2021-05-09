@@ -1,9 +1,9 @@
 import React from 'react';
-import {NodeModel} from "../node-module/node-atomic/NodeModel";
-import {LinkModel} from "../node-module/node-atomic/Link";
+import {NodeModel} from "../../logic/node-editor/node/NodeModel";
 import {Box, Flex, Heading, Text, VStack} from '@chakra-ui/react';
 import NodeModule from "../node-module/NodeModule";
 import {mainColors} from "../../App";
+import {LinkModel} from "../../logic/node-editor/LinkModel";
 
 export interface ExampleProps {
     name: string,

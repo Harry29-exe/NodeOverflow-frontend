@@ -1,7 +1,7 @@
 import NodeCanvas, {NodeCanvasProps} from "../components/node-module/NodeCanvas";
-import {DefaultNodeStorage} from "../components/node-module/NodeStorage";
 import {NodeCanvasViewProperties} from "../components/node-module/NodeCanvasViewProperties";
 import {Story} from "@storybook/react/types-6-0";
+import {DefaultNodeStorage} from "../logic/node-editor/DefaultNodeStorage";
 
 export default {
     title: "Node/Wrappers/Node Canvas",
@@ -51,5 +51,6 @@ export const NodeCanvasExample = nodeCanvasTemplate.bind({});
 
 NodeCanvasExample.args = {
     storage: new DefaultNodeStorage(),
-    viewProps: new NodeCanvasViewProperties(1, 0, 0, 0, 0)
+    viewProps: new NodeCanvasViewProperties(1, 0, 0),
+
 }

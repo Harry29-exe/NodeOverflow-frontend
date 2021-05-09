@@ -1,34 +1,43 @@
-import React, {Component} from 'react';
+import React, {useContext} from 'react';
+import ReactDOM from 'react-dom';
+import CanvasContext from "../../../logic/contexts/CanvasContext";
 
-class LinkTemporary extends Component<{ x1: number, y1: number, x2: number, y2: number }> {
+const createSVGStyle = () => {
+    return {
+        position: "absolute",
+        top: 0,
+        left: 0,
+        overflow: "visible",
+        width: "5px",
+        height: "5px",
+        // zIndex: 10,
+        userSelect: "none"
+    } as React.CSSProperties
+};
 
-    render() {
-        let outputX = this.props.x1;
-        let outputY = this.props.y1;
-        let inputX = this.props.x2;
-        let inputY = this.props.y2;
-        return (
-            <div>
-                <svg
-                    style={{
-                        position: "absolute", top: 0, left: 0, overflow: "visible"
-                        , width: "100px", height: "100px", zIndex: -10
-                    }}>
-                    <path d={`M ${outputX}
-                                ${outputY}
-                                
-                                C ${(outputX + inputX) / 2} ${outputY} 
-                                ${(outputX + inputX) / 2} ${inputY} 
-                                
-                                ${inputX} ${inputY}`}
-                          onClick={event => console.log("line cliked")}
-                          stroke="#334447" strokeWidth="6px" fill="transparent"/>
-                </svg>
-                <svg
-                    style={{
-                        position: "absolute", top: 0, left: 0, overflow: "visible"
-                        , width: "100px", height: "100px", zIndex: -10
-                    }}>
+const LinkTemporary = (props: { portDomId: string, mouseX: number, mouseY: number }) => {
+    const canvasViewProps = useContext(CanvasContext);
+
+    let outputElem = document.getElementById(props.portDomId);
+    let canvasElem = document.getElementById(props.portDomId.split('n')[0] + 'c');
+
+    if (!outputElem || !canvasElem) {
+        return <div/>;
+    }
+
+    let canvasBox = canvasElem.getBoundingClientRect();
+    let outBox = outputElem.getBoundingClientRect();
+
+    let sc = canvasViewProps.scale;
+    let outputX = (outBox.left - canvasBox.left + outBox.width / 2) / sc;
+    let outputY = (outBox.top - canvasBox.top + outBox.height / 2) / sc;
+    let inputX = (props.mouseX - canvasBox.left) / sc;
+    let inputY = (props.mouseY - canvasBox.top) / sc;
+
+    return ReactDOM.createPortal(
+        (
+            <div style={{position: 'absolute', left: 0, top: 0, userSelect: 'none', pointerEvents: 'none'}}>
+                <svg style={createSVGStyle()}>
                     <path d={`M ${outputX}
                             ${outputY}
                             
@@ -36,12 +45,24 @@ class LinkTemporary extends Component<{ x1: number, y1: number, x2: number, y2: 
                             ${(outputX + inputX) / 2} ${inputY} 
                             
                             ${inputX} ${inputY}`}
-                          onClick={event => console.log("line cliked")}
-                          stroke="#586673" strokeWidth="4.5px" fill="transparent"/>
+
+                        // onMouseDown={handleClick} onClick={event => event.preventDefault()}
+                          stroke="#334447" strokeWidth={`${6}px`} fill="transparent"/>
+                </svg>
+                <svg style={createSVGStyle()}>
+                    <path d={`M ${outputX}
+                                ${outputY}
+                                
+                                C ${(outputX + inputX) / 2} ${outputY} 
+                                ${(outputX + inputX) / 2} ${inputY} 
+                                
+                                ${inputX} ${inputY}`}
+
+                        // onMouseDown={handleClick} onClick={event => event.preventDefault()}
+                          stroke="#586673" strokeWidth={`${4.5}px`} fill="transparent"/>
                 </svg>
             </div>
-        );
-    }
+        ), canvasElem);
 }
 
 export default LinkTemporary;
