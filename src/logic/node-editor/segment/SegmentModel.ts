@@ -1,4 +1,4 @@
-import {NodeStorage} from "../NodeStorage";
+import {NodeStorage} from "../node-management/NodeStorage";
 import {NodeModel} from "../node/NodeModel";
 import {UniqueDomId} from "../UniqueDomId";
 

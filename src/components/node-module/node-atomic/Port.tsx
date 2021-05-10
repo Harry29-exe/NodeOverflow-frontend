@@ -1,7 +1,7 @@
 import React, {useRef, useState} from 'react';
 import {Box} from "@chakra-ui/react";
 import {SegmentModel} from "../../../logic/node-editor/segment/SegmentModel";
-import {NodeStorage} from "../../../logic/node-editor/NodeStorage";
+import {NodeStorage} from "../../../logic/node-editor/node-management/NodeStorage";
 import LinkTemporary from "./LinkTemporary";
 
 class Props {

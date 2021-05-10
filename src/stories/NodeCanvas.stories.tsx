@@ -1,7 +1,7 @@
 import NodeCanvas, {NodeCanvasProps} from "../components/node-module/NodeCanvas";
 import {NodeCanvasViewProperties} from "../components/node-module/NodeCanvasViewProperties";
 import {Story} from "@storybook/react/types-6-0";
-import {DefaultNodeStorage} from "../logic/node-editor/DefaultNodeStorage";
+import {DefaultNodeStorage} from "../logic/node-editor/node-management/DefaultNodeStorage";
 
 export default {
     title: "Node/Wrappers/Node Canvas",

@@ -1,6 +1,6 @@
 import {SegmentModel} from "../SegmentModel";
 import {NodeModel} from "../../node/NodeModel";
-import {NodeStorage} from "../../NodeStorage";
+import {NodeStorage} from "../../node-management/NodeStorage";
 import OptionSegmentView from "../../../../components/node-module/node-atomic/segments/OptionSegmentView";
 import React from "react";
 

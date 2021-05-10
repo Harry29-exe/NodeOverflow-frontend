@@ -1,5 +1,5 @@
 import React from 'react';
-import {NodeStorage} from "../../../../logic/node-editor/NodeStorage";
+import {NodeStorage} from "../../../../logic/node-editor/node-management/NodeStorage";
 import SegmentWrapper from "../SegmentWrapper";
 import {Box, Center, useBoolean, VStack} from "@chakra-ui/react";
 import {OptionSegment} from "../../../../logic/node-editor/segment/imp/OptionSegment";

@@ -11,17 +11,19 @@ export const SegmentStyle = {
     fontSizeToSegmentHeight: 0.55,
 }
 
-export abstract class NodeModel implements UniqueDomId {
-    public readonly id: number;
-    private readonly _domId: string;
-    public abstract readonly name: string;
-    private readonly _viewProperties: NodeViewProperties;
-    protected abstract _segments: SegmentModel<any>[];
-    private _links: LinkModel[] = [];
+const dummyViewProps = new NodeViewProperties(new NodeDimension(100, 100, 100, 100), 0, 0);
 
-    constructor(save: NodeSave, storageId: number)
-    constructor(id: number, storageId: number, x: number, y: number, dimensions: NodeDimension)
-    constructor(saveOrId: number | NodeSave, storageId: number, x?: number, y?: number, dimensions?: NodeDimension) {
+export abstract class NodeModel implements UniqueDomId {
+    public readonly id: number = 0;
+    private readonly _domId: string = '';
+    public abstract readonly name: string = '';
+    private readonly _viewProperties: NodeViewProperties = dummyViewProps;
+    protected abstract _segments: SegmentModel<any>[] = [];
+    private _links: LinkModel[] = [] = [];
+
+    protected constructor(save: NodeSave, storageId: number)
+    protected constructor(id: number, storageId: number, x: number, y: number, dimensions: NodeDimension)
+    protected constructor(saveOrId: number | NodeSave, storageId: number, x?: number, y?: number, dimensions?: NodeDimension) {
         this._domId = `s${storageId}n${saveOrId}`;
         if (typeof saveOrId === "number") {
             if (x === undefined || y === undefined || dimensions === undefined) {

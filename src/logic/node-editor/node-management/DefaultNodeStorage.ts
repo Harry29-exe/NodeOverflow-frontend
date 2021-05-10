@@ -1,8 +1,9 @@
-import {LinkModel} from "./LinkModel";
-import {NodeModel} from "./node/NodeModel";
-import {SegmentModel} from "./segment/SegmentModel";
+import {LinkModel} from "../LinkModel";
+import {NodeModel} from "../node/NodeModel";
+import {SegmentModel} from "../segment/SegmentModel";
 import {NodeStorage, NodeStorageListener} from "./NodeStorage";
 import {Storages} from "./Storages";
+import ProjectSave from "../ProjectSave";
 
 export class DefaultNodeStorage implements NodeStorage {
     private readonly _storageId: number;
@@ -35,12 +36,15 @@ export class DefaultNodeStorage implements NodeStorage {
         this.listeners = listeners ? listeners : [];
     }
 
-    getLinks(): LinkModel[] {
-        return this.links;
+    load(save: ProjectSave): any {
+        // let nodes: NodeModel[] = [];
+        // save.nodes.forEach(
+        //     n => nodes.push(new NodeMode)
+        // )
     }
 
-    getNodes(): NodeModel[] {
-        return this.nodes;
+    save(viewProperties: any): ProjectSave {
+        return {nodes: [], links: [], viewProperties: undefined};
     }
 
     addUpdateListener(listener: NodeStorageListener): number {
@@ -111,45 +115,6 @@ export class DefaultNodeStorage implements NodeStorage {
             }
         }
     }
-
-    // handleAttemptToAddLink(outputSegment: SegmentModel<any>, targetX: number, targetY: number): LinkModel | null {
-    //     let inputSegment: SegmentModel<any> | null = null;
-    //     let nodes = this.nodes;
-    //     let i = 0;
-    //     while (i < nodes.length && inputSegment == null) {
-    //         for (let j = 0; j < nodes[i].segments.length; j++) {
-    //             //TODO
-    //             // if (nodes[i].segments[j].portType !== PortType.INPUT) {
-    //             //     continue;
-    //             // }
-    //             let portSize = nodes[i].dimensions.segmentHeight;
-    //             //TODO
-    //             // let xMin = nodes[i].segments[j].calcPortLeftOffsetToCenter() - portSize / 2;
-    //             // let xMax = xMin + portSize;
-    //             // let yMin = nodes[i].segments[j].calcPortTopOffsetToCenter() - portSize / 2;
-    //             // let yMax = yMin + portSize;
-    //             // if (targetX >= xMin && targetX <= xMax &&
-    //             //     targetY >= yMin && targetY <= yMax) {
-    //             //     inputSegment = nodes[i].segments[j];
-    //             //     break;
-    //             // }
-    //         }
-    //         i++;
-    //     }
-    //
-    //     if (inputSegment != null) {
-    //         this.handleRemoveLinks(inputSegment);
-    //         let newLink = new LinkModel(outputSegment, inputSegment);
-    //         outputSegment.parent.addLink(newLink);
-    //         inputSegment.parent.addLink(newLink);
-    //         this.links.push(newLink);
-    //
-    //         this.callListeners();
-    //         return newLink;
-    //     } else {
-    //         return null;
-    //     }
-    // }
 
     handleRemoveLink(link: LinkModel): void {
         let links = this.links.filter(e => e !== null);
@@ -259,5 +224,13 @@ export class DefaultNodeStorage implements NodeStorage {
 
     get storageId(): number {
         return this._storageId;
+    }
+
+    getLinks(): LinkModel[] {
+        return this.links;
+    }
+
+    getNodes(): NodeModel[] {
+        return this.nodes;
     }
 }

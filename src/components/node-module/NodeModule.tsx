@@ -4,12 +4,12 @@ import "./NodeModule.css";
 
 import RenderWindow from "./RenderWindow";
 import NodeControlPanel from "./NodeControlPanel";
-import {NodeStorageListener} from "../../logic/node-editor/NodeStorage";
+import {NodeStorageListener} from "../../logic/node-editor/node-management/NodeStorage";
 import {NodeCanvasViewProperties} from "./NodeCanvasViewProperties";
 import {NodeModel} from "../../logic/node-editor/node/NodeModel";
 import {mainColors} from "../../App";
 import {LinkModel} from "../../logic/node-editor/LinkModel";
-import {DefaultNodeStorage} from "../../logic/node-editor/DefaultNodeStorage";
+import {DefaultNodeStorage} from "../../logic/node-editor/node-management/DefaultNodeStorage";
 
 export interface NodeModuleProps {
     nodes?: NodeModel[],

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import NodeView from "./node-atomic/NodeView";
 import LinkView from "./node-atomic/LinkView";
-import {NodeStorage, NodeStorageListener} from "../../logic/node-editor/NodeStorage";
+import {NodeStorage, NodeStorageListener} from "../../logic/node-editor/node-management/NodeStorage";
 import {NodeCanvasViewProperties} from "./NodeCanvasViewProperties";
 import "./NodeCanvas.css"
 import {NodeModel} from "../../logic/node-editor/node/NodeModel";

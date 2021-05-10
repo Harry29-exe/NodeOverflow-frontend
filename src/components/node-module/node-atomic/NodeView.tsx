@@ -1,6 +1,6 @@
 import React, {useEffect, useReducer, useRef} from 'react';
 import "./Node.css";
-import {NodeStorage} from "../../../logic/node-editor/NodeStorage";
+import {NodeStorage} from "../../../logic/node-editor/node-management/NodeStorage";
 import {NodeCanvasViewProperties} from "../NodeCanvasViewProperties";
 import {NodeModel} from "../../../logic/node-editor/node/NodeModel";
 import {Box, Center, useMultiStyleConfig, VStack} from "@chakra-ui/react";

@@ -1,7 +1,7 @@
 import React from 'react';
 import {Button, ButtonGroup, HStack} from "@chakra-ui/react";
 import {NodeCanvasViewProperties} from "./NodeCanvasViewProperties";
-import {NodeStorage} from "../../logic/node-editor/NodeStorage";
+import {NodeStorage} from "../../logic/node-editor/node-management/NodeStorage";
 
 const NodeControlPanel = (props: { storage: NodeStorage; viewProps: NodeCanvasViewProperties }) => {
     return (
