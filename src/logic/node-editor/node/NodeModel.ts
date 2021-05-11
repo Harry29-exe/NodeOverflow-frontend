@@ -21,9 +21,9 @@ export abstract class NodeModel implements UniqueDomId {
     protected abstract _segments: SegmentModel<any>[] = [];
     private _links: LinkModel[] = [] = [];
 
-    protected constructor(save: NodeSave, storageId: number)
-    protected constructor(id: number, storageId: number, x: number, y: number, dimensions: NodeDimension)
-    protected constructor(saveOrId: number | NodeSave, storageId: number, x?: number, y?: number, dimensions?: NodeDimension) {
+    constructor(save: NodeSave, storageId: number)
+    constructor(id: number, storageId: number, x: number, y: number, dimensions: NodeDimension)
+    constructor(saveOrId: number | NodeSave, storageId: number, x?: number, y?: number, dimensions?: NodeDimension) {
         this._domId = `s${storageId}n${saveOrId}`;
         if (typeof saveOrId === "number") {
             if (x === undefined || y === undefined || dimensions === undefined) {

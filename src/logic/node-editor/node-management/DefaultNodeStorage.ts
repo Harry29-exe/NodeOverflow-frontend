@@ -4,6 +4,7 @@ import {SegmentModel} from "../segment/SegmentModel";
 import {NodeStorage, NodeStorageListener} from "./NodeStorage";
 import {Storages} from "./Storages";
 import ProjectSave from "../ProjectSave";
+import {GlobalNodeFactory} from "./GlobalNodeFactory";
 
 export class DefaultNodeStorage implements NodeStorage {
     private readonly _storageId: number;
@@ -37,10 +38,28 @@ export class DefaultNodeStorage implements NodeStorage {
     }
 
     load(save: ProjectSave): any {
-        // let nodes: NodeModel[] = [];
-        // save.nodes.forEach(
-        //     n => nodes.push(new NodeMode)
-        // )
+        let nodes: NodeModel[] = [];
+        let links: LinkModel[] = [];
+        save.nodes.forEach(n => {
+            let newNode = GlobalNodeFactory.loadNode(n, this.storageId);
+            if (newNode) nodes.push(newNode)
+        });
+
+        save.links.forEach(l => {
+            let inNode = nodes.find(n => n.id === l.inputNodeId);
+            let outNode = nodes.find(n => n.id === l.outputNodeId);
+            if (inNode && outNode) {
+                let newLink = new LinkModel(
+                    outNode.segments[l.outputSegmentIndex],
+                    inNode.segments[l.inputSegmentIndex]);
+                inNode.addLink(newLink);
+                outNode.addLink(newLink);
+                links.push(newLink);
+            }
+        });
+        this.links = links;
+        this.nodes = nodes;
+        return save.viewProperties;
     }
 
     save(viewProperties: any): ProjectSave {
