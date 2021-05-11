@@ -1,32 +1,38 @@
 import {NodeModel} from "../node/NodeModel";
 import {NodeSave} from "../node/NodeSave";
+import {NodeDimension} from "../node/NodeDimension";
+import nodeList from "../node/NodeList";
 
 export module GlobalNodeFactory {
-    export const nodesFactoryFunctions: Map<string, NodeFactoryFunctions> =
-        new Map<string, NodeFactoryFunctions>();
+    export const nodeCreateFunctions: Map<string, NodeCreateFunction> =
+        new Map<string, NodeCreateFunction>(nodeList.map(n => [n[0], n[1]]));
+    export const nodeLoadFunctions: Map<string, NodeLoadFunction> =
+        new Map<string, NodeLoadFunction>(nodeList.map(n => [n[0], n[2]]));
 
     export const createNode = (nodeName: string, nodeId: number, storageId: number, x?: number, y?: number): NodeModel | null => {
-        let factoryFun = nodesFactoryFunctions.get(nodeName.toLowerCase());
+        let factoryFun = nodeCreateFunctions.get(nodeName.toLowerCase());
         if (!factoryFun) {
             return null;
         }
 
-        return factoryFun.createFunction(nodeId, storageId, x ? x : 0, y ? y : 0);
+        return factoryFun(nodeId, storageId, x ? x : 0, y ? y : 0);
     }
 
     export const loadNode = (nodeSave: NodeSave, storageId: number): NodeModel | null => {
-        let factoryFun = nodesFactoryFunctions.get(nodeSave.name.toLowerCase());
+        let factoryFun = nodeLoadFunctions.get(nodeSave.name.toLowerCase());
         if (!factoryFun) {
             return null;
         }
 
-        return factoryFun.loadFunction(nodeSave, storageId);
+        return factoryFun(nodeSave, storageId);
     }
 
 }
 
-export interface NodeFactoryFunctions {
-    loadFunction(nodeSave: NodeSave, storageId: number): NodeModel;
+export interface NodeLoadFunction {
+    (nodeSave: NodeSave, storageId: number): NodeModel;
+}
 
-    createFunction(id: number, storage: number, x?: number, y?: number): NodeModel;
+export interface NodeCreateFunction {
+    (id: number, storage: number, x?: number, y?: number, dimensions?: NodeDimension): NodeModel;
 }

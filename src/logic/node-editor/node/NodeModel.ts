@@ -5,32 +5,25 @@ import {SegmentModel} from "../segment/SegmentModel";
 import {LinkModel} from "../LinkModel";
 import {UniqueDomId} from "../UniqueDomId";
 
-export const SegmentStyle = {
-    percentageOffsetTop: 0.15,
-    percentageOffsetLeft: 0.08,
-    fontSizeToSegmentHeight: 0.55,
-}
-
 const dummyViewProps = new NodeViewProperties(new NodeDimension(100, 100, 100, 100), 0, 0);
 
 export abstract class NodeModel implements UniqueDomId {
+    public abstract readonly name: string = '';
+    protected abstract _segments: SegmentModel<any>[] = [];
+    protected _dimensions: () => NodeDimension = () => new NodeDimension(160, 26, 22, 22);
+
     public readonly id: number = 0;
     private readonly _domId: string = '';
-    public abstract readonly name: string = '';
     private readonly _viewProperties: NodeViewProperties = dummyViewProps;
-    protected abstract _segments: SegmentModel<any>[] = [];
     private _links: LinkModel[] = [] = [];
 
     constructor(save: NodeSave, storageId: number)
-    constructor(id: number, storageId: number, x: number, y: number, dimensions: NodeDimension)
+    constructor(id: number, storageId: number, x?: number, y?: number, dimensions?: NodeDimension)
     constructor(saveOrId: number | NodeSave, storageId: number, x?: number, y?: number, dimensions?: NodeDimension) {
         this._domId = `s${storageId}n${saveOrId}`;
         if (typeof saveOrId === "number") {
-            if (x === undefined || y === undefined || dimensions === undefined) {
-                throw new Error("Illegal constructor");
-            }
             this.id = saveOrId;
-            this._viewProperties = new NodeViewProperties(dimensions, x, y);
+            this._viewProperties = new NodeViewProperties(dimensions ? dimensions : this._dimensions(), x ? x : 0, y ? y : 0);
         } else {
             this.id = saveOrId.id;
             this._viewProperties = saveOrId.nodeViewProps;
@@ -39,7 +32,7 @@ export abstract class NodeModel implements UniqueDomId {
 
     abstract getOutputValue(segmentIndex: number): Promise<any>;
 
-    abstract loadNode(save: NodeSave): void;
+    abstract loadNode(save: NodeSave, storageId: number): void;
 
     abstract save(): NodeSave;
 
