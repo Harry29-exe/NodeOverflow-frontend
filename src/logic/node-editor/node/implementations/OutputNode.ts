@@ -12,6 +12,14 @@ class OutputNode extends NodeModel {
     ];
     readonly name: string = 'Output node';
 
+    static nff = GlobalNodeFactory.nodesFactoryFunctions.set('Output node',
+        {
+            loadFunction: (nodeSave: NodeSave, storageId: number): NodeModel =>
+                new OutputNode(nodeSave, storageId),
+            createFunction: (id: number, storage: number, x?: number, y?: number): NodeModel =>
+                new OutputNode(id, storage, x ? x : 0, y ? y : 0,
+                    new NodeDimension(160, 26, 22, 22))
+        })
 
     getOutputValue(segmentIndex: number): Promise<any> {
         return Promise.resolve(undefined);
@@ -23,13 +31,14 @@ class OutputNode extends NodeModel {
     save(): NodeSave {
         return {} as NodeSave;
     }
+
 }
 
-const nff = GlobalNodeFactory.nodesFactoryFunctions.set('Output node',
-    {
-        loadFunction: (nodeSave: NodeSave, storageId: number): NodeModel =>
-            new OutputNode(nodeSave, storageId),
-        createFunction: (id: number, storage: number, x?: number, y?: number): NodeModel =>
-            new OutputNode(id, storage, x ? x : 0, y ? y : 0,
-                new NodeDimension(160, 26, 22, 22))
-    })
+// export const nff = GlobalNodeFactory.nodesFactoryFunctions.set('Output node',
+//     {
+//         loadFunction: (nodeSave: NodeSave, storageId: number): NodeModel =>
+//             new OutputNode(nodeSave, storageId),
+//         createFunction: (id: number, storage: number, x?: number, y?: number): NodeModel =>
+//             new OutputNode(id, storage, x ? x : 0, y ? y : 0,
+//                 new NodeDimension(160, 26, 22, 22))
+//     })

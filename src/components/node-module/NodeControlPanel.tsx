@@ -2,6 +2,7 @@ import React from 'react';
 import {Button, ButtonGroup, HStack} from "@chakra-ui/react";
 import {NodeCanvasViewProperties} from "./NodeCanvasViewProperties";
 import {NodeStorage} from "../../logic/node-editor/node-management/NodeStorage";
+import {GlobalNodeFactory} from "../../logic/node-editor/node-management/GlobalNodeFactory";
 
 const NodeControlPanel = (props: { storage: NodeStorage; viewProps: NodeCanvasViewProperties }) => {
     return (
@@ -9,6 +10,9 @@ const NodeControlPanel = (props: { storage: NodeStorage; viewProps: NodeCanvasVi
             <ButtonGroup variant='ghost' size='sm'>
                 <Button>Load</Button>
                 <Button>Save</Button>
+                <Button onClick={() => GlobalNodeFactory.nodesFactoryFunctions.forEach((f,n) => console.log(n))}>
+                    log nodes
+                </Button>
             </ButtonGroup>
         </HStack>
     );
