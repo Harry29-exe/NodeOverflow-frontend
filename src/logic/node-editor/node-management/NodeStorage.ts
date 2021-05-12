@@ -9,6 +9,7 @@ export interface NodeStorageListener {
 
 export interface NodeStorage {
     storageId: number;
+    storageDomId: string;
 
     //returns view properties
     load(save: ProjectSave): any;
@@ -41,6 +42,8 @@ export interface NodeStorage {
     handleRemoveNode(nodeId: number): void;
 
     getNextNodeId(): number;
+
+    useNextNodeId(): number;
 
     getNodes(): NodeModel[];
 

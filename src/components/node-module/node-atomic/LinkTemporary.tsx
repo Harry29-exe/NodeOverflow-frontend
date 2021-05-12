@@ -20,6 +20,7 @@ const LinkTemporary = (props: { portDomId: string, mouseX: number, mouseY: numbe
 
     let outputElem = document.getElementById(props.portDomId);
     let canvasElem = document.getElementById(props.portDomId.split('n')[0] + 'c');
+    console.log(props.portDomId.split('n')[0] + 'c');
 
     if (!outputElem || !canvasElem) {
         return <div/>;

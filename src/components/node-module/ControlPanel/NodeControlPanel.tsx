@@ -1,19 +1,54 @@
-import React from 'react';
-import {Button, ButtonGroup, HStack} from "@chakra-ui/react";
-import {NodeCanvasViewProperties} from "./NodeCanvasViewProperties";
-import {NodeStorage} from "../../logic/node-editor/node-management/NodeStorage";
+import React, {useRef} from 'react';
+import {Button, ButtonGroup, HStack, useBoolean} from "@chakra-ui/react";
+import {NodeCanvasViewProperties} from "../NodeCanvasViewProperties";
+import {NodeStorage} from "../../../logic/node-editor/node-management/NodeStorage";
+import NodeSelector from "./NodeSelector";
+import {NodeCreateFunction} from "../../../logic/node-editor/node-management/GlobalNodeFactory";
 
 const NodeControlPanel = (props: { storage: NodeStorage; viewProps: NodeCanvasViewProperties }) => {
+    const [nodeSelectorOpen, toggleSelector] = useBoolean(false);
+    const panelRef = useRef<HTMLDivElement>(null);
+
+    const getTopDist = (): number => {
+        let top = panelRef.current?.getBoundingClientRect().top;
+        let height = panelRef.current?.getBoundingClientRect().height;
+        return top !== undefined && height !== undefined ? top + height : 0;
+    }
+
+    const handleNodeAdd = (screenX: number, screenY: number, createFun: NodeCreateFunction) => {
+        let canvasElem = document.getElementById(props.storage.storageDomId + 'c');
+        if (canvasElem === null) {
+            return;
+        }
+        let canvasBox = canvasElem.getBoundingClientRect();
+        let sc = props.viewProps.scale;
+        let viewProps = props.viewProps;
+        let x = (screenX - canvasBox.left) / sc;
+        let y = (screenY - canvasBox.top) / sc;
+
+        let storage = props.storage;
+        let node = createFun(storage.useNextNodeId(), storage.storageId);
+        node.x = x - node.dimensions.width / 2;
+        node.y = y - node.dimensions.headHeight / 2;
+        storage.handleAddNode(node);
+    }
+
     return (
-        <HStack w='100%' h='100%' bg={'gray.750'} borderBottom={'2px solid'} borderColor={'primary.500'}>
-            <ButtonGroup variant='ghost' size='sm'>
-                <Button>Load</Button>
-                <Button>Save</Button>
-                <Button>
-                    log nodes
-                </Button>
-            </ButtonGroup>
-        </HStack>
+        <>
+            <HStack ref={panelRef} w='100%' h='100%' bg={'gray.750'} borderBottom={'2px solid'}
+                    borderColor={'primary.500'}>
+                <ButtonGroup variant='ghost' size='sm'>
+                    <Button>Load</Button>
+                    <Button>Save</Button>
+                    <Button onClick={toggleSelector.toggle}>
+                        log nodes
+                    </Button>
+                </ButtonGroup>
+            </HStack>
+
+            <NodeSelector isOpen={nodeSelectorOpen} nodeDropped={handleNodeAdd}
+                          distanceFromPageTop={getTopDist()}/>
+        </>
     );
 };
 

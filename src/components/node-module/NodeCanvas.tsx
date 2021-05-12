@@ -38,6 +38,7 @@ class NodeCanvas extends Component<NodeCanvasProps, NodeCanvasState> {
 
     constructor(props: NodeCanvasProps) {
         super(props);
+        console.log(props.storage.getLinks());
         this.state = new NodeCanvasState(props.viewProps, props.storage.getNodes(), props.storage.getLinks());
     }
 
@@ -104,7 +105,7 @@ class NodeCanvas extends Component<NodeCanvasProps, NodeCanvasState> {
 
     handleTouch = (event: any) => {
         this.disableScroll(event);
-        if (event.touches.length == 1) {
+        if (event.touches.length === 1) {
             this.handleTouchMove(event);
         } else {
             this.handleTouchScale(event);
@@ -169,7 +170,6 @@ class NodeCanvas extends Component<NodeCanvasProps, NodeCanvasState> {
     }
 
     render() {
-        let key = 0;
         return (
             <div onMouseEnter={this.disableScroll} onMouseLeave={this.enableScroll}
                  ref={this.canvasRef} className={"Background"} onWheel={this.handleScroll}
@@ -180,7 +180,7 @@ class NodeCanvas extends Component<NodeCanvasProps, NodeCanvasState> {
                  draggable={"false"} unselectable={"on"}>
 
                 <CanvasContext.Provider value={this.state.viewProperties}>
-                    <div id={`s0c`} style={{
+                    <div id={`${this.props.storage.storageDomId}c`} style={{
                         position: "absolute", backgroundColor: "#ddaaaa",
                         left: "50%", top: "50%",
                         // transition: `transform 0.1s`,
@@ -191,7 +191,8 @@ class NodeCanvas extends Component<NodeCanvasProps, NodeCanvasState> {
                     }}>
 
                         {this.state.links.map(l =>
-                            <LinkView link={l} scale={this.state.viewProperties.scale} key={l.domId}/>
+                            <LinkView link={l} scale={this.state.viewProperties.scale}
+                                      canvasDomId={`${this.props.storage.storageDomId}c`} key={l.domId}/>
                         )}
 
                         {this.state.nodes.map(n =>

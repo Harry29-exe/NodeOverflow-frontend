@@ -54,7 +54,6 @@ const NodeView = (props: NodeComponentProps) => {
     const [state, setState] = useReducer(nodeStateReducer, createNodeComponentState(props));
     let lastTouch: number = 0;
     let dim = props.node.dimensions;
-    let height = props.node.height;
 
     const deleteNodeListener = (event: any) => {
         if (state.selected && (event.code === "Backspace" || event.code === "Delete")) {
@@ -125,7 +124,6 @@ const NodeView = (props: NodeComponentProps) => {
             props.storage.handleRemoveNode(props.node);
         } else if (Date.now() - lastTouch < 500) {
             setState({aboutToDelete: true});
-            console.log(Date.now() - lastTouch);
         }
         lastTouch = Date.now();
         let lastMoveTime = 0;
@@ -162,7 +160,6 @@ const NodeView = (props: NodeComponentProps) => {
 
     const touchUnselect = (event: any) => {
         if (!nodeBackgroundRef.current) {
-            console.log("no ref");
 
             setState({selected: false, aboutToDelete: false});
             window.removeEventListener("touchstart", unselect);
@@ -193,10 +190,10 @@ const NodeView = (props: NodeComponentProps) => {
 
     return (
         <div id={''} className={"Node"} style={{
-            transform: `translate(${state.x}px, ${state.y}px)`
+            transform: `translate(${props.node.x}px, ${props.node.y}px)`
         }}>
             <Box ref={nodeBackgroundRef}
-                 onClick={() => console.log("box")}
+                 id={props.node.domId}
                  onMouseDown={handleClick}
                  onTouchStart={handleTouch}
                  sx={style.background}

@@ -15,7 +15,7 @@ export abstract class NodeModel implements UniqueDomId {
     public readonly id: number = 0;
     private readonly _domId: string = '';
     private readonly _viewProperties: NodeViewProperties = dummyViewProps;
-    private _links: LinkModel[] = [] = [];
+    private _links: LinkModel[] = [];
 
     constructor(save: NodeSave, storageId: number)
     constructor(id: number, storageId: number, x?: number, y?: number, dimensions?: NodeDimension)
@@ -54,8 +54,8 @@ export abstract class NodeModel implements UniqueDomId {
 
     getSegmentLinks(segmentIndex: number): LinkModel[] {
         return this._links.filter(link =>
-            (link.inputSegment.parent.id == this.id && link.inputSegment.index === segmentIndex) ||
-            (link.outputSegment.parent.id == this.id && link.outputSegment.index === segmentIndex)
+            (link.inputSegment.parent.id === this.id && link.inputSegment.index === segmentIndex) ||
+            (link.outputSegment.parent.id === this.id && link.outputSegment.index === segmentIndex)
         );
     }
 

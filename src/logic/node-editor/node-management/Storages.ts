@@ -5,7 +5,9 @@ export class Storages {
     private static storages: NodeStorage[] = [];
 
     public static get nextId(): number {
-        return this._nextId++;
+        let id = this._nextId;
+        this._nextId = this._nextId + 1;
+        return id;
     }
 
     public static addStorage(storage: NodeStorage) {

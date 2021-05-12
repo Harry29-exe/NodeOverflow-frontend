@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {LinkModel} from "../../../logic/node-editor/LinkModel";
 import {Box} from "@chakra-ui/react";
 
@@ -36,17 +36,21 @@ class LinkState {
 }
 
 //TODO Clean up
-const LinkView = (props: { link: LinkModel, scale: number }) => {
+const LinkView = (props: { link: LinkModel, scale: number, canvasDomId: string }) => {
     const [shouldUpdate, update] = useState({shouldUpdate: true});
     const [cords, updateCords] = useState<LinkState>(new LinkState(0, 0, 0, 0, 1));
-    props.link.update = () => update({shouldUpdate: true})
+    useEffect(() => {
+        props.link.setUpdate(() => update({shouldUpdate: true}));
+        return () => props.link.setUpdate(null)
+    })
 
 
     let outputElem = document.getElementById(props.link.outputPortDomId);
     let inputElem = document.getElementById(props.link.inputPortDomId);
-    let canvasElem = document.getElementById(props.link.inputPortDomId.split('n')[0] + 'c');
+    let canvasElem = document.getElementById(props.canvasDomId);
 
     if (!outputElem || !inputElem || !canvasElem) {
+        // console.log('not rendered')
         setTimeout(() => update({shouldUpdate: true}), 10);
         return <div/>;
     }

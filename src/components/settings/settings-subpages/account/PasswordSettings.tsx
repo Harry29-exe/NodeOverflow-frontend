@@ -13,7 +13,7 @@ export const PasswordSettings = (props: { authContext: AbstractAuthContext<any> 
         let oldPassword = (document.getElementById("oldPassword") as HTMLInputElement).value;
         let newPassword = (document.getElementById("newPassword") as HTMLInputElement).value;
         let repeatedNewPassword = (document.getElementById("repeatedNewPassword") as HTMLInputElement).value;
-        if (newPassword != repeatedNewPassword) {
+        if (newPassword !== repeatedNewPassword) {
             return;
         }
 

@@ -2,8 +2,6 @@ import React from 'react';
 import {Alert, AlertDescription, AlertIcon, AlertTitle, Box, BoxProps, CloseButton, Progress} from "@chakra-ui/react";
 import {RequestResult} from "../../logic/utils/RequestResult";
 
-type ChangeSettingsStatus = "notInitialized" | "inProgress" | "fail" | "success";
-
 type ResultAlertProps = BoxProps & { requestStatus: RequestResult, close: () => void };
 
 // const ResultAlert = (props: ResultAlertProps) => {

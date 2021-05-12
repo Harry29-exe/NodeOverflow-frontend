@@ -3,17 +3,15 @@ import NodeCanvas from "./NodeCanvas";
 import "./NodeModule.css";
 
 import RenderWindow from "./RenderWindow";
-import NodeControlPanel from "./NodeControlPanel";
-import {NodeStorageListener} from "../../logic/node-editor/node-management/NodeStorage";
+import NodeControlPanel from "./ControlPanel/NodeControlPanel";
+import {NodeStorage, NodeStorageListener} from "../../logic/node-editor/node-management/NodeStorage";
 import {NodeCanvasViewProperties} from "./NodeCanvasViewProperties";
 import {NodeModel} from "../../logic/node-editor/node/NodeModel";
 import {mainColors} from "../../App";
 import {LinkModel} from "../../logic/node-editor/LinkModel";
-import {DefaultNodeStorage} from "../../logic/node-editor/node-management/DefaultNodeStorage";
 
 export interface NodeModuleProps {
-    nodes?: NodeModel[],
-    links?: LinkModel[],
+    storage: NodeStorage,
     disableControlPanel?: boolean
 }
 
@@ -26,14 +24,14 @@ export interface NodeModuleState {
 export class NodeModule extends Component<NodeModuleProps, NodeModuleState> {
     //TODO
     private nodeCanvasViewProps: NodeCanvasViewProperties = new NodeCanvasViewProperties(1, 0, 0);
-    protected storageListener: NodeStorageListener = ((nodes, links) => this.setState({nodes: nodes, links: links}));
+    protected storageListener: NodeStorageListener = ((nodes, links) =>
+        this.setState({nodes: nodes, links: links}));
     private readonly storage;
     private controlPanelHeight = '40px';
 
     constructor(props: any) {
         super(props);
-        this.storage = new DefaultNodeStorage(props.nodes ? props.nodes : [],
-            props.links ? props.links : [], [this.storageListener]);
+        this.storage = props.storage;
         this.state = {nodes: this.storage.getNodes(), links: this.storage.getLinks(), dividerPosition: 60};
     }
 
@@ -69,6 +67,10 @@ export class NodeModule extends Component<NodeModuleProps, NodeModuleState> {
 
         window.addEventListener("touchmove", handleTouchMove);
         window.addEventListener("touchend", handleTouchEnd);
+    }
+
+    componentDidMount() {
+        this.storage.addUpdateListener(this.storageListener);
     }
 
     render() {

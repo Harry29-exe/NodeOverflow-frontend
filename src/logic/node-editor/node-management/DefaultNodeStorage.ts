@@ -7,6 +7,7 @@ import ProjectSave from "../ProjectSave";
 import {GlobalNodeFactory} from "./GlobalNodeFactory";
 
 export class DefaultNodeStorage implements NodeStorage {
+    public readonly storageDomId: string;
     private readonly _storageId: number;
     private nextNodeId = 0;
     private hoveredPort?: { segment: SegmentModel<any>, portType: "in" | "out" };
@@ -15,7 +16,9 @@ export class DefaultNodeStorage implements NodeStorage {
     private readonly listeners: NodeStorageListener[];
 
     constructor(nodes?: NodeModel[], links?: LinkModel[], listeners?: NodeStorageListener[]) {
-        this._storageId = Storages.nextId;
+        let id = Storages.nextId;
+        this._storageId = id;
+        this.storageDomId = `s${id}`;
         if (nodes) {
             this.nodes = nodes;
             let biggestNodeId = 0;
@@ -75,8 +78,13 @@ export class DefaultNodeStorage implements NodeStorage {
     }
 
     handleAddLink(link: LinkModel): void {
-        let newLinkList = [link];
-        this.links = newLinkList.concat(this.links);
+        this.links.push(link);
+        if (!link.inputSegment.parent.links.find(l => l.domId === link.domId)) {
+            link.inputSegment.parent.addLink(link);
+        }
+        if (!link.outputSegment.parent.links.find(l => l.domId === link.domId)) {
+            link.outputSegment.parent.addLink(link);
+        }
         this.callListeners();
     }
 
@@ -107,19 +115,16 @@ export class DefaultNodeStorage implements NodeStorage {
 
     setHoveredPort(portsSegment: SegmentModel<any>, portType: "in" | "out"): void {
         this.hoveredPort = {segment: portsSegment, portType: portType};
-        console.log("port added " + portsSegment.index)
     }
 
     clearHoveredPort(): void {
-        console.log("port cleared " + this.hoveredPort?.segment.index)
         this.hoveredPort = undefined;
     }
 
     handleAddNode(node: NodeModel): void {
         if (node.id === this.nextNodeId) {
-            let newNodeList = [node];
-            this.nodes = newNodeList.concat(this.nodes);
-            this.nextNodeId++;
+            this.nodes.push(node);
+            this.nextNodeId += 1;
             this.callListeners();
         } else {
             let nodeIdExist: boolean = false;
@@ -218,6 +223,10 @@ export class DefaultNodeStorage implements NodeStorage {
         return this.nextNodeId;
     }
 
+    useNextNodeId(): number {
+        return this.nextNodeId++;
+    }
+
     private callListeners() {
         this.listeners.forEach(l => l(this.nodes, this.links));
     }
@@ -237,7 +246,7 @@ export class DefaultNodeStorage implements NodeStorage {
                 }
             }
         }
-        this.links = links.filter(l => l !== null && l != undefined);
+        this.links = links.filter(l => l !== null && l !== undefined);
     }
 
 

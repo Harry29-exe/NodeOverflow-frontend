@@ -22,10 +22,6 @@ export const mainColors = {
     color: "#f7f7f7",
 }
 
-const providers = (props: React.PropsWithChildren<any>) => {
-
-}
-
 function App() {
     let [onFullscreen, setFullscreen] = useState(false);
     let [authentication, updateAuthentication] = useState<JwtToken | undefined>(undefined);
