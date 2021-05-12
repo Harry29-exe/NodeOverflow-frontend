@@ -1,7 +1,7 @@
 import {NodeModel} from "../node/NodeModel";
 import {NodeSave} from "../node/NodeSave";
 import {NodeDimension} from "../node/NodeDimension";
-import nodeList from "../node/NodeList";
+import nodeList from "../NodeList";
 
 export module GlobalNodeFactory {
     export const nodeCreateFunctions: Map<string, NodeCreateFunction> =
