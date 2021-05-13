@@ -186,7 +186,7 @@ class NodeCanvas extends Component<NodeCanvasProps, NodeCanvasState> {
                      backgroundPosition:
                          `${viewProps.shiftLeft * viewProps.scale + (canvasRef ? canvasRef.getBoundingClientRect().width / 2 : 0)}px
                          ${viewProps.shiftTop * viewProps.scale + (canvasRef ? canvasRef.getBoundingClientRect().height / 2 : 0)}px`,
-                     backgroundSize: `${80 * viewProps.scale}px ${80 * viewProps.scale}px`
+                     backgroundSize: `${Math.floor(80 * viewProps.scale)}px ${Math.floor(80 * viewProps.scale)}px`
                  }}
                  draggable={"false"} unselectable={"on"}>
 
