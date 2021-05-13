@@ -28,6 +28,7 @@ body {
 
 /*Scrollbar*/
 ::-webkit-scrollbar {
+    /*background: #2D3748;*/
     width: 10px;
 }
 

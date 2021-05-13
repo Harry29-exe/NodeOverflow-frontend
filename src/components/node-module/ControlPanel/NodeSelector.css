@@ -1,0 +1,23 @@
+/*Scrollbar*/
+.SelectorScrollbar::-webkit-scrollbar {
+    background: #2D3748;
+    width: 10px;
+}
+
+/* Track */
+.SelectorScrollbar::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0);
+}
+
+/* Handle */
+.SelectorScrollbar::-webkit-scrollbar-thumb {
+    background: #29998e;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    border-radius: 6px;
+}
+
+/* Handle on hover */
+.SelectorScrollbar::-webkit-scrollbar-thumb:hover {
+    background: #1c665f;
+}

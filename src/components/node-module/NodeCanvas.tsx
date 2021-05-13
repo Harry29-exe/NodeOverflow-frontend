@@ -170,12 +170,18 @@ class NodeCanvas extends Component<NodeCanvasProps, NodeCanvasState> {
     }
 
     render() {
+        let viewProps = this.state.viewProperties;
         return (
-            <div onMouseEnter={this.disableScroll} onMouseLeave={this.enableScroll}
-                 ref={this.canvasRef} className={"Background"} onWheel={this.handleScroll}
+            <div onMouseEnter={this.disableScroll}
+                 onMouseLeave={this.enableScroll}
+                 onWheel={this.handleScroll}
+
+                 className={"Background"}
+                 ref={this.canvasRef}
                  style={{
                      width: "100%", height: "100%", overflow: "hidden", position: "absolute",
-                     top: 0, left: 0, margin: 0, padding: 0
+                     top: 0, left: 0, margin: 0, padding: 0,
+                     backgroundPosition: `${viewProps.shiftLeft * viewProps.scale}px ${viewProps.shiftTop * viewProps.scale}px`,
                  }}
                  draggable={"false"} unselectable={"on"}>
 
@@ -184,9 +190,9 @@ class NodeCanvas extends Component<NodeCanvasProps, NodeCanvasState> {
                         position: "absolute", backgroundColor: "#ddaaaa",
                         left: "50%", top: "50%",
                         // transition: `transform 0.1s`,
-                        transform: `scale(${this.state.viewProperties.scale}) 
-                        translate(${this.state.viewProperties.shiftLeft}px, 
-                            ${this.state.viewProperties.shiftTop}px)`
+                        transform: `scale(${viewProps.scale}) 
+                        translate(${viewProps.shiftLeft}px, 
+                            ${viewProps.shiftTop}px)`
 
                     }}>
 

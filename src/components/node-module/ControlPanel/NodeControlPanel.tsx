@@ -36,7 +36,7 @@ const NodeControlPanel = (props: { storage: NodeStorage; viewProps: NodeCanvasVi
     return (
         <>
             <HStack ref={panelRef} w='100%' h='100%' bg={'gray.750'} borderBottom={'2px solid'}
-                    borderColor={'primary.500'}>
+                    borderColor={'primary.500'} zIndex={100}>
                 <ButtonGroup variant='ghost' size='sm'>
                     <Button>Load</Button>
                     <Button>Save</Button>
@@ -56,7 +56,6 @@ export default NodeControlPanel;
 //
 // import React, {PureComponent} from 'react';
 // import {mainColors} from "../../App";
-// import "./NodeControlPanel.css"
 // import {Button, ButtonContent} from "../Button";
 // import {UnfoldingButton} from "../UnfoldingButton";
 // import {NodeStorage} from "./NodeStorage";
