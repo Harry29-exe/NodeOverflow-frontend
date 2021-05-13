@@ -31,14 +31,15 @@ const NodeSelector = (props: { isOpen: boolean, nodeDropped: (screenX: number, s
     return (
         <Box position='relative'
              top='0' left='0'
-             w={width} zIndex={50}
+             w={props.isOpen ? width : 0} zIndex={50}
              h={`calc(100vh - ${props.distanceFromPageTop}px)`}
              transform={`translate(${props.isOpen ? 0 : '-100%'}) rotateY(180deg)`}
              transition={'transform 0.15s ease-in'}
              overflow='auto' className={'SelectorScrollbar'}
         >
             <Box pos='inherit' w={width === '100%' ? '100%' : '214px'} h='inherit' transform={`rotateY(180deg)`}>
-                <VStack alignItems='flex-start' py={'12px'} pr={'10px'} pl={'22px'} borderRight={'2px solid'}
+                <VStack alignItems='flex-start' spacing={'20px'}
+                        py={'12px'} pr={'10px'} pl={'22px'} borderRight={'2px solid'}
                         borderColor={'primary.400'} maxW={'214px'} bg={'gray.700'}>
                     {nodes.map(elem =>
                         <NodeAddButton key={childKey++} create={elem[1]} name={elem[0]}

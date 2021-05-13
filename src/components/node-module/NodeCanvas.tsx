@@ -171,6 +171,7 @@ class NodeCanvas extends Component<NodeCanvasProps, NodeCanvasState> {
 
     render() {
         let viewProps = this.state.viewProperties;
+        let canvasRef = this.canvasRef.current;
         return (
             <div onMouseEnter={this.disableScroll}
                  onMouseLeave={this.enableScroll}
@@ -181,7 +182,11 @@ class NodeCanvas extends Component<NodeCanvasProps, NodeCanvasState> {
                  style={{
                      width: "100%", height: "100%", overflow: "hidden", position: "absolute",
                      top: 0, left: 0, margin: 0, padding: 0,
-                     backgroundPosition: `${viewProps.shiftLeft * viewProps.scale}px ${viewProps.shiftTop * viewProps.scale}px`,
+                     // backgroundPosition: `${viewProps.shiftLeft * viewProps.scale}px ${viewProps.shiftTop * viewProps.scale}px`,
+                     backgroundPosition:
+                         `${viewProps.shiftLeft * viewProps.scale + (canvasRef ? canvasRef.getBoundingClientRect().width / 2 : 0)}px
+                         ${viewProps.shiftTop * viewProps.scale + (canvasRef ? canvasRef.getBoundingClientRect().height / 2 : 0)}px`,
+                     backgroundSize: `${80 * viewProps.scale}px ${80 * viewProps.scale}px`
                  }}
                  draggable={"false"} unselectable={"on"}>
 
