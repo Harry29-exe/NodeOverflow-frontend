@@ -184,8 +184,8 @@ class NodeCanvas extends Component<NodeCanvasProps, NodeCanvasState> {
                      top: 0, left: 0, margin: 0, padding: 0,
                      // backgroundPosition: `${viewProps.shiftLeft * viewProps.scale}px ${viewProps.shiftTop * viewProps.scale}px`,
                      backgroundPosition:
-                         `${viewProps.shiftLeft * viewProps.scale + (canvasRef ? canvasRef.getBoundingClientRect().width / 2 : 0)}px
-                         ${viewProps.shiftTop * viewProps.scale + (canvasRef ? canvasRef.getBoundingClientRect().height / 2 : 0)}px`,
+                         `${Math.floor(viewProps.shiftLeft * viewProps.scale + (canvasRef ? canvasRef.getBoundingClientRect().width / 2 : 0))}px
+                         ${Math.floor(viewProps.shiftTop * viewProps.scale + (canvasRef ? canvasRef.getBoundingClientRect().height / 2 : 0))}px`,
                      backgroundSize: `${Math.floor(80 * viewProps.scale)}px ${Math.floor(80 * viewProps.scale)}px`
                  }}
                  draggable={"false"} unselectable={"on"}>
