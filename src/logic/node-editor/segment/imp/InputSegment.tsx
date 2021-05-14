@@ -12,7 +12,7 @@ export class InputSegment extends SegmentModel<any> {
     }
 
     createView(storage: NodeStorage): JSX.Element {
-        return (<InputSegmentView model={this} storage={storage}/>);
+        return (<InputSegmentView model={this} storage={storage} key={this._index}/>);
     }
 
 }

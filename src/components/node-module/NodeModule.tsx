@@ -4,11 +4,9 @@ import "./NodeModule.css";
 
 import RenderWindow from "./RenderWindow";
 import NodeControlPanel from "./ControlPanel/NodeControlPanel";
-import {NodeStorage, NodeStorageListener} from "../../logic/node-editor/node-management/NodeStorage";
+import {NodeStorage} from "../../logic/node-editor/node-management/NodeStorage";
 import {NodeCanvasViewProperties} from "./NodeCanvasViewProperties";
-import {NodeModel} from "../../logic/node-editor/node/NodeModel";
 import {mainColors} from "../../App";
-import {LinkModel} from "../../logic/node-editor/LinkModel";
 
 export interface NodeModuleProps {
     storage: NodeStorage,
@@ -16,23 +14,19 @@ export interface NodeModuleProps {
 }
 
 export interface NodeModuleState {
-    nodes: NodeModel[];
-    links: LinkModel[];
     dividerPosition: number;
 }
 
 export class NodeModule extends Component<NodeModuleProps, NodeModuleState> {
     //TODO
     private nodeCanvasViewProps: NodeCanvasViewProperties = new NodeCanvasViewProperties(1, 0, 0);
-    protected storageListener: NodeStorageListener = ((nodes, links) =>
-        this.setState({nodes: nodes, links: links}));
     private readonly storage;
     private controlPanelHeight = '40px';
 
     constructor(props: any) {
         super(props);
         this.storage = props.storage;
-        this.state = {nodes: this.storage.getNodes(), links: this.storage.getLinks(), dividerPosition: 60};
+        this.state = {dividerPosition: 60};
     }
 
     handleResizeMouseDown = (event: any) => {
@@ -67,10 +61,6 @@ export class NodeModule extends Component<NodeModuleProps, NodeModuleState> {
 
         window.addEventListener("touchmove", handleTouchMove);
         window.addEventListener("touchend", handleTouchEnd);
-    }
-
-    componentDidMount() {
-        this.storage.addUpdateListener(this.storageListener);
     }
 
     render() {
@@ -122,7 +112,7 @@ export class NodeModule extends Component<NodeModuleProps, NodeModuleState> {
                     margin: 0,
                     padding: 0
                 }}>
-                    <RenderWindow nodes={this.state.nodes}/>
+                    <RenderWindow storage={this.storage}/>
                 </div>
             </div>
         );

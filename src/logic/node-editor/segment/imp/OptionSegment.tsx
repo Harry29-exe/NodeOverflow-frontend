@@ -3,6 +3,7 @@ import {NodeModel} from "../../node/NodeModel";
 import {NodeStorage} from "../../node-management/NodeStorage";
 import OptionSegmentView from "../../../../components/node-module/node-atomic/segments/OptionSegmentView";
 import React from "react";
+import {SegmentSave} from "../SegmentSave";
 
 export class OptionSegment<T> extends SegmentModel<T> {
     protected _label: string = "";
@@ -19,6 +20,9 @@ export class OptionSegment<T> extends SegmentModel<T> {
         return (<OptionSegmentView key={this.index} model={this} storage={storage}/>);
     }
 
+    load(save: SegmentSave) {
+
+    }
 
     get possibleValues(): any[] {
         return this._possibleValues;

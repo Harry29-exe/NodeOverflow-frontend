@@ -19,7 +19,7 @@ export module GlobalNodeFactory {
     }
 
     export const loadNode = (nodeSave: NodeSave, storageId: number): NodeModel | null => {
-        let factoryFun = nodeLoadFunctions.get(nodeSave.name.toLowerCase());
+        let factoryFun = nodeLoadFunctions.get(nodeSave.name);
         if (!factoryFun) {
             return null;
         }

@@ -5,6 +5,7 @@ import {NodeStorage, NodeStorageListener} from "./NodeStorage";
 import {Storages} from "./Storages";
 import ProjectSave from "../ProjectSave";
 import {GlobalNodeFactory} from "./GlobalNodeFactory";
+import {createLinkSave} from "../LinkSave";
 
 export class DefaultNodeStorage implements NodeStorage {
     public readonly storageDomId: string;
@@ -41,6 +42,10 @@ export class DefaultNodeStorage implements NodeStorage {
     }
 
     load(save: ProjectSave): any {
+        // this.links = [];
+        // this.nodes = [];
+        // this.callListeners();
+        // debugger;
         let nodes: NodeModel[] = [];
         let links: LinkModel[] = [];
         save.nodes.forEach(n => {
@@ -55,6 +60,7 @@ export class DefaultNodeStorage implements NodeStorage {
                 let newLink = new LinkModel(
                     outNode.segments[l.outputSegmentIndex],
                     inNode.segments[l.inputSegmentIndex]);
+
                 inNode.addLink(newLink);
                 outNode.addLink(newLink);
                 links.push(newLink);
@@ -62,11 +68,21 @@ export class DefaultNodeStorage implements NodeStorage {
         });
         this.links = links;
         this.nodes = nodes;
+
+        this.callListeners();
         return save.viewProperties;
     }
 
     save(viewProperties: any): ProjectSave {
-        return {nodes: [], links: [], viewProperties: undefined};
+        let projectSave: ProjectSave = {
+            viewProperties: viewProperties,
+            nodes: [],
+            links: []
+        }
+        this.nodes.forEach(n => projectSave.nodes.push(n.save()));
+        this.links.forEach(l => projectSave.links.push(createLinkSave(l)));
+
+        return projectSave;
     }
 
     addUpdateListener(listener: NodeStorageListener): number {

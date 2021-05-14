@@ -4,9 +4,11 @@ import {NodeCanvasViewProperties} from "../NodeCanvasViewProperties";
 import {NodeStorage} from "../../../logic/node-editor/node-management/NodeStorage";
 import NodeSelector from "./NodeSelector";
 import {NodeCreateFunction} from "../../../logic/node-editor/node-management/GlobalNodeFactory";
+import LoadProjectPanel from "./LoadProjectPanel";
 
 const NodeControlPanel = (props: { storage: NodeStorage; viewProps: NodeCanvasViewProperties }) => {
     const [nodeSelectorOpen, toggleSelector] = useBoolean(false);
+    const [loadPanelOpen, toggleLoadPanel] = useBoolean(false);
     const panelRef = useRef<HTMLDivElement>(null);
 
     const getTopDist = (): number => {
@@ -22,7 +24,6 @@ const NodeControlPanel = (props: { storage: NodeStorage; viewProps: NodeCanvasVi
         }
         let canvasBox = canvasElem.getBoundingClientRect();
         let sc = props.viewProps.scale;
-        let viewProps = props.viewProps;
         let x = (screenX - canvasBox.left) / sc;
         let y = (screenY - canvasBox.top) / sc;
 
@@ -33,6 +34,15 @@ const NodeControlPanel = (props: { storage: NodeStorage; viewProps: NodeCanvasVi
         storage.handleAddNode(node);
     }
 
+    const handleProjectLoad = (projectData: string) => {
+        let currentSave = props.storage.save(undefined);
+        console.log(JSON.stringify(currentSave));
+        toggleLoadPanel.off();
+
+        props.storage.load(JSON.parse(projectData));
+
+    }
+
     return (
         <>
             <HStack ref={panelRef} w='100%' h='100%' bg={'gray.750'} borderBottom={'2px solid'}
@@ -41,13 +51,17 @@ const NodeControlPanel = (props: { storage: NodeStorage; viewProps: NodeCanvasVi
                     <Button onClick={toggleSelector.toggle}>
                         Add node
                     </Button>
-                    <Button>Load</Button>
+                    <Button onClick={toggleLoadPanel.toggle}>Load</Button>
                     <Button>Save</Button>
                 </ButtonGroup>
             </HStack>
 
             <NodeSelector isOpen={nodeSelectorOpen} nodeDropped={handleNodeAdd}
                           distanceFromPageTop={getTopDist()}/>
+
+            {loadPanelOpen &&
+            <LoadProjectPanel onClose={handleProjectLoad}/>
+            }
         </>
     );
 };

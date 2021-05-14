@@ -8,8 +8,8 @@ import {UniqueDomId} from "../UniqueDomId";
 const dummyViewProps = new NodeViewProperties(new NodeDimension(100, 100, 100, 100), 0, 0);
 
 export abstract class NodeModel implements UniqueDomId {
-    public abstract readonly name: string = '';
-    protected abstract _segments: SegmentModel<any>[] = [];
+    protected _name: string = '';
+    protected _segments: SegmentModel<any>[] = [];
     protected _dimensions: () => NodeDimension = () => new NodeDimension(160, 26, 22, 22);
 
     public readonly id: number = 0;
@@ -26,16 +26,19 @@ export abstract class NodeModel implements UniqueDomId {
             this._viewProperties = new NodeViewProperties(dimensions ? dimensions : this._dimensions(), x ? x : 0, y ? y : 0);
         } else {
             this.id = saveOrId.id;
-            this._viewProperties = saveOrId.nodeViewProps;
-            this.load(saveOrId);
+            let vp = saveOrId.nodeViewProps;
+            debugger;
+            this._viewProperties = new NodeViewProperties(
+                new NodeDimension(vp.dimensions.width, vp.dimensions.headHeight, vp.dimensions.segmentHeight, vp.dimensions.footerHeight),
+                vp.x, vp.y
+            );
+
         }
     }
 
     abstract getOutputValue(segmentIndex: number): Promise<any>;
 
     abstract save(): NodeSave;
-
-    abstract load(save: NodeSave): void;
 
     addLink(link: LinkModel) {
         this._links.push(link);
@@ -113,5 +116,9 @@ export abstract class NodeModel implements UniqueDomId {
 
     get viewProperties(): NodeViewProperties {
         return this._viewProperties;
+    }
+
+    get name(): string {
+        return this._name;
     }
 }
