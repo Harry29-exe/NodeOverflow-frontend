@@ -39,19 +39,19 @@ const Button = {
             },
             transition: "background 0.3s 0s",
         }),
-        ghost: (props: any) => ({
-            border: "none",
-            bg: "transparent",
-            _active: {
-                bg: "transparent",
-            },
-            _focus: {
-                boxShadow: "mone",
-            },
-            _hover: {
-                bg: "transparent",
-            },
-        }),
+        // ghost: (props: any) => ({
+        //     border: "none",
+        //     bg: "transparent",
+        //     _active: {
+        //         bg: "transparent",
+        //     },
+        //     _focus: {
+        //         boxShadow: "mone",
+        //     },
+        //     _hover: {
+        //         bg: "transparent",
+        //     },
+        // }),
     },
 }
 

@@ -1,6 +1,6 @@
 import {NodeModel} from "../NodeModel";
 import {SegmentModel} from "../../segment/SegmentModel";
-import {NodeSave} from "../NodeSave";
+import {createNodeSave, NodeSave} from "../NodeSave";
 import {OutputSegment} from "../../segment/imp/OutputSegment";
 
 
@@ -16,11 +16,15 @@ export class OutputNodeModel extends NodeModel {
         return Promise.resolve(undefined);
     }
 
-    loadNode(save: NodeSave, storageId: number): void {
+    load(save: NodeSave): void {
+        let segmentSave = save.segmentSaves.find(s => s.segmentIndex === 0);
+        if (segmentSave) {
+            this._segments[0].load(segmentSave);
+        }
     }
 
     save(): NodeSave {
-        return {} as NodeSave;
+        return createNodeSave(this);
     }
 
 }

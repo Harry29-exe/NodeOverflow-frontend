@@ -38,11 +38,11 @@ const NodeControlPanel = (props: { storage: NodeStorage; viewProps: NodeCanvasVi
             <HStack ref={panelRef} w='100%' h='100%' bg={'gray.750'} borderBottom={'2px solid'}
                     borderColor={'primary.500'} zIndex={100}>
                 <ButtonGroup variant='ghost' size='sm'>
+                    <Button onClick={toggleSelector.toggle}>
+                        Add node
+                    </Button>
                     <Button>Load</Button>
                     <Button>Save</Button>
-                    <Button onClick={toggleSelector.toggle}>
-                        log nodes
-                    </Button>
                 </ButtonGroup>
             </HStack>
 

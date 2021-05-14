@@ -1,10 +1,10 @@
 import React from 'react';
-import {NodeStorage} from "../../../../logic/node-editor/node-management/NodeStorage";
 import SegmentWrapper from "../SegmentWrapper";
 import {Box, Center, useBoolean, VStack} from "@chakra-ui/react";
 import {OptionSegment} from "../../../../logic/node-editor/segment/imp/OptionSegment";
+import SegmentProps from "../SegmentProps";
 
-const OptionSegmentView = (props: { model: OptionSegment<any>, storage: NodeStorage }) => {
+const OptionSegmentView = (props: SegmentProps<OptionSegment<any>>) => {
     const [open, setOpen] = useBoolean(false);
     let ref = React.useRef<HTMLDivElement>(null);
     const changeValue = (value: any) => {

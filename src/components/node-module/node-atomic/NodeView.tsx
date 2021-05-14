@@ -5,6 +5,7 @@ import {NodeCanvasViewProperties} from "../NodeCanvasViewProperties";
 import {NodeModel} from "../../../logic/node-editor/node/NodeModel";
 import {Box, Center, useMultiStyleConfig, VStack} from "@chakra-ui/react";
 import {PressedKeys} from "../../../logic/contexts/GlobalKeyListener";
+import colors from "../../../theme/Colors";
 
 class NodeComponentState {
     public x: number;
@@ -205,7 +206,7 @@ const NodeView = (props: NodeComponentProps) => {
                 <VStack w={`100%`} zIndex={1} spacing={0}>
                     <Center sx={style.header}
                             boxSizing='content-box'
-                            boxShadow={`0 0 0 1px ${state.aboutToDelete ? "#c21414" : state.selected ? "primary.400" : "#333"}`}
+                            boxShadow={`0 0 0 1px ${state.aboutToDelete ? "#c21414" : state.selected ? colors.primary["400"] : "#333"}`}
                             width={`100%`}
                             height={`${dim.headHeight}px`}
                             _hover={{cursor: 'default', userSelect: 'none'}}

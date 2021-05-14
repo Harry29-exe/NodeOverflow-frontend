@@ -27,14 +27,15 @@ export abstract class NodeModel implements UniqueDomId {
         } else {
             this.id = saveOrId.id;
             this._viewProperties = saveOrId.nodeViewProps;
+            this.load(saveOrId);
         }
     }
 
     abstract getOutputValue(segmentIndex: number): Promise<any>;
 
-    abstract loadNode(save: NodeSave, storageId: number): void;
-
     abstract save(): NodeSave;
+
+    abstract load(save: NodeSave): void;
 
     addLink(link: LinkModel) {
         this._links.push(link);

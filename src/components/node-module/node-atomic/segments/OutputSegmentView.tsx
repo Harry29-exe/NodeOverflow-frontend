@@ -1,10 +1,10 @@
 import {Flex} from '@chakra-ui/react';
 import React from 'react';
-import {NodeStorage} from "../../../../logic/node-editor/node-management/NodeStorage";
 import SegmentWrapper from "../SegmentWrapper";
 import {OutputSegment} from "../../../../logic/node-editor/segment/imp/OutputSegment";
+import SegmentProps from "../SegmentProps";
 
-const OutputSegmentView = (props: { model: OutputSegment, storage: NodeStorage }) => {
+const OutputSegmentView = (props: SegmentProps<OutputSegment>) => {
 
     return (
         <SegmentWrapper model={props.model} storage={props.storage}>

@@ -1,6 +1,7 @@
 import {NodeStorage} from "../node-management/NodeStorage";
 import {NodeModel} from "../node/NodeModel";
 import {UniqueDomId} from "../UniqueDomId";
+import {SegmentSave} from "./SegmentSave";
 
 export abstract class SegmentModel<InputType> implements UniqueDomId {
     protected abstract _label: string;
@@ -30,6 +31,14 @@ export abstract class SegmentModel<InputType> implements UniqueDomId {
     }
 
     abstract createView(storage: NodeStorage): JSX.Element;
+
+    load(save: SegmentSave): void {
+        this._value = save.segmentValue;
+    }
+
+    save(): SegmentSave {
+        return {segmentIndex: this._index, segmentValue: this._value};
+    }
 
     set value(value: InputType) {
         this._value = value;

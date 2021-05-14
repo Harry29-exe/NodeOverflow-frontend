@@ -50,7 +50,7 @@ const LinkTemporary = (props: { portDomId: string, mouseX: number, mouseY: numbe
 
                         // onMouseDown={handleClick} onClick={event => event.preventDefault()}
                           stroke={'#333'} strokeWidth={`${6}px`} fill="transparent"
-                          stroke-linecap="round"/>
+                          strokeLinecap="round"/>
                 </svg>
                 <svg style={createSVGStyle()}>
                     <path d={`M ${outputX}
@@ -63,7 +63,7 @@ const LinkTemporary = (props: { portDomId: string, mouseX: number, mouseY: numbe
 
                         // onMouseDown={handleClick} onClick={event => event.preventDefault()}
                           stroke={colors.other["100"]} strokeWidth={`${4.5}px`} fill="transparent"
-                          stroke-linecap="round"/>
+                          strokeLinecap="round"/>
                 </svg>
             </div>
         ), canvasElem);
