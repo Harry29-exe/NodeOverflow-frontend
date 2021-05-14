@@ -34,12 +34,13 @@ const NodeSelector = (props: { isOpen: boolean, nodeDropped: (screenX: number, s
              top='0' left='0'
              w={props.isOpen ? width : defaultWidth} zIndex={50}
              h={`calc(100vh - ${props.distanceFromPageTop}px)`}
-             transform={`translate(${props.isOpen ? 0 : '-100%'}) rotateY(180deg)`}
+             transform={`translate(${props.isOpen ? 0 : '-100%'}, 0) rotateY(180deg)`}
              transition={'transform 0.15s ease-in'}
-             overflow='auto' className={'SelectorScrollbar'}
+             overflowY='scroll' overflowX='hidden' className={'SelectorScrollbar'}
         >
             <Box pos='inherit' w={width === '100%' ? '100%' : '214px'} h='inherit' transform={`rotateY(180deg)`}>
-                <VStack alignItems='flex-start' spacing={'20px'}
+
+                <VStack alignItems='flex-start' spacing={'20px'} minH={`calc(100vh - ${props.distanceFromPageTop}px)`}
                         py={'12px'} pr={'10px'} pl={'22px'} borderRight={'2px solid'}
                         borderColor={'primary.400'} maxW={'214px'} bg={'gray.700'}>
                     {nodes.map(elem =>
@@ -49,6 +50,8 @@ const NodeSelector = (props: { isOpen: boolean, nodeDropped: (screenX: number, s
                     )}
                 </VStack>
             </Box>
+
+            {/*<Box pos='absolute' w={'10px'} h='inherit' top={0} left={'100%'} bg={'gray.700'}/>*/}
         </Box>
     );
 }

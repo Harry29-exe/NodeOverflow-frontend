@@ -6,6 +6,18 @@ import {OutputNodeModel} from "./node/implementations/OutputNodeModel";
 const nodesWithDefaultFactoryFunctions: [name: string, provider: NodeModelConstructor & NodeModelLoader][] = [
     ['Image input', ImageInputNodeModel],
     ['Output node', OutputNodeModel],
+    ['Image input', ImageInputNodeModel],
+    ['Output node', OutputNodeModel],
+    // ['Image input', ImageInputNodeModel],
+    // ['Output node', OutputNodeModel],
+    // ['Image input', ImageInputNodeModel],
+    // ['Output node', OutputNodeModel],
+    // ['Image input', ImageInputNodeModel],
+    // ['Output node', OutputNodeModel],
+    // ['Image input', ImageInputNodeModel],
+    // ['Output node', OutputNodeModel],
+    // ['Image input', ImageInputNodeModel],
+    // ['Output node', OutputNodeModel],
 ]
 
 const nodeList: [name: string, create: NodeCreateFunction, load: NodeLoadFunction][] = []
