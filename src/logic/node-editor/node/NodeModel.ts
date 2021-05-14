@@ -20,11 +20,12 @@ export abstract class NodeModel implements UniqueDomId {
     constructor(save: NodeSave, storageId: number)
     constructor(id: number, storageId: number, x?: number, y?: number, dimensions?: NodeDimension)
     constructor(saveOrId: number | NodeSave, storageId: number, x?: number, y?: number, dimensions?: NodeDimension) {
-        this._domId = `s${storageId}n${saveOrId}`;
         if (typeof saveOrId === "number") {
+            this._domId = `s${storageId}n${saveOrId}`;
             this.id = saveOrId;
             this._viewProperties = new NodeViewProperties(dimensions ? dimensions : this._dimensions(), x ? x : 0, y ? y : 0);
         } else {
+            this._domId = `s${storageId}n${saveOrId.id}`;
             this.id = saveOrId.id;
             let vp = saveOrId.nodeViewProps;
             debugger;
