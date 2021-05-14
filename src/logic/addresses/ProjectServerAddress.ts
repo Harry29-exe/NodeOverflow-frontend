@@ -1,0 +1,1 @@
+export const projectServerAddress = "http://localhost:8080"

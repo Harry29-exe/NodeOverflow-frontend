@@ -49,9 +49,9 @@ export const we = 'we';
 //         return node;
 //     }
 //
-//     loadNode(id: number, save: ContrastNodeSave): NodeModel {
+//     loadNode(id: number, save-load: ContrastNodeSave): NodeModel {
 //         let node = new NodeModel(id, "Contrast", 0, 0,
-//             save.nodeDimensions ? save.nodeDimensions : this.defaultDimensions,
+//             save-load.nodeDimensions ? save-load.nodeDimensions : this.defaultDimensions,
 //             new ContrastNodeVFun());
 //         node.addSegment(new OutputSegmentModel("image"));
 //         node.addSegment(new NumericSliderSegmentModel("Contrast", 0, PortType.INPUT, -1, 1, 2));

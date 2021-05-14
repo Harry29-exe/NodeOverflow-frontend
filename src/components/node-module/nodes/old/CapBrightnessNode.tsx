@@ -55,12 +55,12 @@ export const we = 'we';
 //         return node;
 //     }
 //
-//     loadNode(id: number, save: CapBrightnessNodeSave): NodeModel {
-//         let node = new NodeModel(id, this.nodeName, save.x, save.y,
-//             save.nodeDimensions ? save.nodeDimensions : this.defaultDimensions,
+//     loadNode(id: number, save-load: CapBrightnessNodeSave): NodeModel {
+//         let node = new NodeModel(id, this.nodeName, save-load.x, save-load.y,
+//             save-load.nodeDimensions ? save-load.nodeDimensions : this.defaultDimensions,
 //             new ClampImageNodeVFun());
 //         node.addSegment(new OutputSegmentModel("image"));
-//         node.addSegment(new OptionSegmentModel("Cap at", save.capAt, ["Max", "Min"]))
+//         node.addSegment(new OptionSegmentModel("Cap at", save-load.capAt, ["Max", "Min"]))
 //         node.addSegment(new NumericSliderSegmentModel("value", 255,
 //             PortType.INPUT, 0, 255, 0));
 //         node.addSegment(new InputSegmentModel("image"));

@@ -30,9 +30,9 @@ export const we = 'we';
 //         return node;
 //     }
 //
-//     loadNode(id: number, save: NodeSave): NodeModel {
-//         let node = new NodeModel(id, "Output", save.x, save.y,
-//             save.nodeDimensions ? save.nodeDimensions : this.defaultDimensions,
+//     loadNode(id: number, save-load: NodeSave): NodeModel {
+//         let node = new NodeModel(id, "Output", save-load.x, save-load.y,
+//             save-load.nodeDimensions ? save-load.nodeDimensions : this.defaultDimensions,
 //             new OutputNodeVFun());
 //         node.addSegment(new InputSegmentModel("image output"));
 //         return node;

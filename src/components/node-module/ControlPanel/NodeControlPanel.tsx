@@ -1,14 +1,19 @@
-import React, {useRef} from 'react';
+import React, {useContext, useRef} from 'react';
 import {Button, ButtonGroup, HStack, useBoolean} from "@chakra-ui/react";
 import {NodeCanvasViewProperties} from "../NodeCanvasViewProperties";
 import {NodeStorage} from "../../../logic/node-editor/node-management/NodeStorage";
 import NodeSelector from "./NodeSelector";
 import {NodeCreateFunction} from "../../../logic/node-editor/node-management/GlobalNodeFactory";
 import LoadProjectPanel from "./LoadProjectPanel";
+import SaveProjectPanel from "./SaveProjectPanel";
+import {loadProjectRequest} from "../../../logic/node-editor/save-load/SaveProject";
+import {AuthContext} from "../../../logic/auth/AuthContext";
 
 const NodeControlPanel = (props: { storage: NodeStorage; viewProps: NodeCanvasViewProperties }) => {
     const [nodeSelectorOpen, toggleSelector] = useBoolean(false);
     const [loadPanelOpen, toggleLoadPanel] = useBoolean(false);
+    const [savePanelOpen, toggleSavePanel] = useBoolean(false);
+    const authContext = useContext(AuthContext);
     const panelRef = useRef<HTMLDivElement>(null);
 
     const getTopDist = (): number => {
@@ -34,12 +39,14 @@ const NodeControlPanel = (props: { storage: NodeStorage; viewProps: NodeCanvasVi
         storage.handleAddNode(node);
     }
 
-    const handleProjectLoad = (projectData: string) => {
-        let currentSave = props.storage.save(undefined);
-        console.log(JSON.stringify(currentSave));
+    const handleProjectLoad = async (projectData: string) => {
         toggleLoadPanel.off();
+        let data = await loadProjectRequest(authContext, 5);
+        let saveString = (JSON.parse(data)).projectData;
+        let save = JSON.parse(saveString);
+        console.log(save)
 
-        props.storage.load(JSON.parse(projectData));
+        props.storage.load(save);
 
     }
 
@@ -52,7 +59,7 @@ const NodeControlPanel = (props: { storage: NodeStorage; viewProps: NodeCanvasVi
                         Add node
                     </Button>
                     <Button onClick={toggleLoadPanel.toggle}>Load</Button>
-                    <Button>Save</Button>
+                    <Button onClick={toggleSavePanel.toggle}>Save</Button>
                 </ButtonGroup>
             </HStack>
 
@@ -61,6 +68,11 @@ const NodeControlPanel = (props: { storage: NodeStorage; viewProps: NodeCanvasVi
 
             {loadPanelOpen &&
             <LoadProjectPanel onClose={handleProjectLoad}/>
+            }
+
+            {savePanelOpen &&
+            <SaveProjectPanel projectData={JSON.stringify(props.storage.save(undefined))}
+                              onClose={toggleSavePanel.off}/>
             }
         </>
     );

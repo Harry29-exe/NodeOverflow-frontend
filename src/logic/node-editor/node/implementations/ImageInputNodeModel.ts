@@ -28,7 +28,7 @@ export class ImageInputNodeModel extends NodeModel {
         let segments = this._segments;
         let saves = save.segmentSaves.sort((s1, s2) => s1.segmentIndex - s2.segmentIndex);
         if (saves.length !== segments.length) {
-            throw new Error("Given Node save is not correct");
+            throw new Error("Given Node save-load is not correct");
         }
 
         for (let i = 0; i < segments.length; i++) {

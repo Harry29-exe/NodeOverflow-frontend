@@ -29,7 +29,7 @@ export const we = 'we';
 //
 //     createNewNode(id: number, x?: number, y?: number): NodeModel;
 //
-//     loadNode(id: number, save: Save): NodeModel;
+//     loadNode(id: number, save-load: Save): NodeModel;
 //
 //     createNodeSave(nodeModel: NodeModel): Save;
 // }

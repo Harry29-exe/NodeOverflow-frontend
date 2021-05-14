@@ -45,9 +45,9 @@ export const we = 'we';
 //         return node;
 //     }
 //
-//     loadNode(id: number, save: ImageInputNodeSave): NodeModel {
-//         let node = new NodeModel(id, this.nodeName, save.x, save.y,
-//             save.nodeDimensions ? save.nodeDimensions : this.defaultDimensions,
+//     loadNode(id: number, save-load: ImageInputNodeSave): NodeModel {
+//         let node = new NodeModel(id, this.nodeName, save-load.x, save-load.y,
+//             save-load.nodeDimensions ? save-load.nodeDimensions : this.defaultDimensions,
 //             new ImageInputNodeVFun());
 //         node.addSegment(new OutputSegmentModel("image"));
 //         node.addSegment(new ImageSegmentModel("Load input image", null, PortType.NO_PORT));
