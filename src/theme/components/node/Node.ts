@@ -15,8 +15,8 @@ const Node = {
             borderRadius: "xl",
             opacity: 0.9,
             zIndex: -1,
-            border: '2px solid',
-            borderColor: '#3c454f',
+            // border: '2px solid',
+            // borderColor: '#3c454f',
         },
         segmentWrapper: {
             fontSize: "md",

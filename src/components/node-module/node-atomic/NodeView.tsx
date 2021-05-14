@@ -198,11 +198,14 @@ const NodeView = (props: NodeComponentProps) => {
                  onTouchStart={handleTouch}
                  sx={style.background}
                  width={`${dim.width}px`}
-                 boxShadow={"0 0 3px 2px " + (state.aboutToDelete ? "#c21414" : state.selected ? "#29998e" : "#555e66")}
+                 border='2px solid'
+                 borderColor={state.aboutToDelete ? "#c21414" : state.selected ? "primary.400" : "#333"}
+                 boxShadow={"1px 1px 6px 2px " + "black"}
             >
                 <VStack w={`100%`} zIndex={1} spacing={0}>
                     <Center sx={style.header}
-                            boxShadow={"0 0 0 1px #3c454f"}
+                            boxSizing='content-box'
+                            boxShadow={`0 0 0 1px ${state.aboutToDelete ? "#c21414" : state.selected ? "primary.400" : "#333"}`}
                             width={`100%`}
                             height={`${dim.headHeight}px`}
                             _hover={{cursor: 'default', userSelect: 'none'}}

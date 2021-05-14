@@ -1,6 +1,7 @@
 import React, {useContext} from 'react';
 import ReactDOM from 'react-dom';
 import CanvasContext from "../../../logic/contexts/CanvasContext";
+import colors from "../../../theme/Colors";
 
 const createSVGStyle = () => {
     return {
@@ -48,7 +49,8 @@ const LinkTemporary = (props: { portDomId: string, mouseX: number, mouseY: numbe
                             ${inputX} ${inputY}`}
 
                         // onMouseDown={handleClick} onClick={event => event.preventDefault()}
-                          stroke="#334447" strokeWidth={`${6}px`} fill="transparent"/>
+                          stroke={colors.other["200"]} strokeWidth={`${6}px`} fill="transparent"
+                          stroke-linecap="round"/>
                 </svg>
                 <svg style={createSVGStyle()}>
                     <path d={`M ${outputX}
@@ -60,7 +62,8 @@ const LinkTemporary = (props: { portDomId: string, mouseX: number, mouseY: numbe
                                 ${inputX} ${inputY}`}
 
                         // onMouseDown={handleClick} onClick={event => event.preventDefault()}
-                          stroke="#586673" strokeWidth={`${4.5}px`} fill="transparent"/>
+                          stroke={colors.other["100"]} strokeWidth={`${4.5}px`} fill="transparent"
+                          stroke-linecap="round"/>
                 </svg>
             </div>
         ), canvasElem);

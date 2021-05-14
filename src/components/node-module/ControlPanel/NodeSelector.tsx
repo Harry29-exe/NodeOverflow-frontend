@@ -25,13 +25,14 @@ const reducer = (state: { y: number }, newValue: number) => {
 
 const NodeSelector = (props: { isOpen: boolean, nodeDropped: (screenX: number, screenY: number, createFun: NodeCreateFunction) => void, distanceFromPageTop: string | number }) => {
     const [width, setWidth] = useState('224px');
+    const defaultWidth = '224px';
     const nodes = nodeList;
     let childKey = 0;
 
     return (
         <Box position='relative'
              top='0' left='0'
-             w={props.isOpen ? width : 0} zIndex={50}
+             w={props.isOpen ? width : defaultWidth} zIndex={50}
              h={`calc(100vh - ${props.distanceFromPageTop}px)`}
              transform={`translate(${props.isOpen ? 0 : '-100%'}) rotateY(180deg)`}
              transition={'transform 0.15s ease-in'}
@@ -44,7 +45,7 @@ const NodeSelector = (props: { isOpen: boolean, nodeDropped: (screenX: number, s
                     {nodes.map(elem =>
                         <NodeAddButton key={childKey++} create={elem[1]} name={elem[0]}
                                        handleAddNode={props.nodeDropped}
-                                       toggleWidth={() => setWidth(width !== '100%' ? '100%' : '224px')}/>
+                                       toggleWidth={() => setWidth(width !== '100%' ? '100%' : defaultWidth)}/>
                     )}
                 </VStack>
             </Box>

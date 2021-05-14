@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {LinkModel} from "../../../logic/node-editor/LinkModel";
 import {Box} from "@chakra-ui/react";
+import colors from "../../../theme/Colors";
 
 const createSVGStyle = () => {
     return {
@@ -88,7 +89,7 @@ const LinkView = (props: { link: LinkModel, scale: number, canvasDomId: string }
                             ${inputX} ${inputY}`}
 
                       onMouseDown={handleClick} onClick={event => event.preventDefault()}
-                      stroke="#334447" strokeWidth={`${6}px`} fill="transparent"/>
+                      stroke={colors.other["200"]} strokeWidth={`${6}px`} fill="transparent"/>
             </svg>
             <svg style={createSVGStyle()}>
                 <path d={`M ${outputX}
@@ -100,7 +101,7 @@ const LinkView = (props: { link: LinkModel, scale: number, canvasDomId: string }
                             ${inputX} ${inputY}`}
 
                       onMouseDown={handleClick} onClick={event => event.preventDefault()}
-                      stroke="#586673" strokeWidth={`${4.5}px`} fill="transparent"/>
+                      stroke={colors.other["100"]} strokeWidth={`${4.5}px`} fill="transparent"/>
             </svg>
         </Box>
     );
