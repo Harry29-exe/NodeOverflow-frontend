@@ -49,7 +49,7 @@ const LinkTemporary = (props: { portDomId: string, mouseX: number, mouseY: numbe
                             ${inputX} ${inputY}`}
 
                         // onMouseDown={handleClick} onClick={event => event.preventDefault()}
-                          stroke={colors.other["200"]} strokeWidth={`${6}px`} fill="transparent"
+                          stroke={'#333'} strokeWidth={`${6}px`} fill="transparent"
                           stroke-linecap="round"/>
                 </svg>
                 <svg style={createSVGStyle()}>

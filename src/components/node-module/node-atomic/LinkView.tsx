@@ -89,7 +89,7 @@ const LinkView = (props: { link: LinkModel, scale: number, canvasDomId: string }
                             ${inputX} ${inputY}`}
 
                       onMouseDown={handleClick} onClick={event => event.preventDefault()}
-                      stroke={colors.other["200"]} strokeWidth={`${6}px`} fill="transparent"/>
+                      stroke={'#333'} strokeWidth={`${6}px`} fill="transparent"/>
             </svg>
             <svg style={createSVGStyle()}>
                 <path d={`M ${outputX}
