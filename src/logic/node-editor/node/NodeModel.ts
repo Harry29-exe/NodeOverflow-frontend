@@ -28,7 +28,7 @@ export abstract class NodeModel implements UniqueDomId {
             this._domId = `s${storageId}n${saveOrId.id}`;
             this.id = saveOrId.id;
             let vp = saveOrId.nodeViewProps;
-            debugger;
+
             this._viewProperties = new NodeViewProperties(
                 new NodeDimension(vp.dimensions.width, vp.dimensions.headHeight, vp.dimensions.segmentHeight, vp.dimensions.footerHeight),
                 vp.x, vp.y

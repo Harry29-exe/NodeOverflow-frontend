@@ -11,7 +11,7 @@ import {
     Textarea
 } from "@chakra-ui/react";
 import {AuthContext} from "../../../logic/auth/AuthContext";
-import {saveProjectRequest} from "../../../logic/node-editor/save-load/SaveProject";
+import {saveProjectRequest} from "../../../logic/projects/SaveProject";
 
 const SaveProjectPanel = (props: { projectData: string, onClose: () => void }) => {
     const authContext = useContext(AuthContext);

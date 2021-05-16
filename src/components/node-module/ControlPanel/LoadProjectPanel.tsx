@@ -7,11 +7,11 @@ import {
     ModalContent,
     ModalFooter,
     ModalHeader,
-    ModalOverlay,
-    Textarea
+    ModalOverlay
 } from "@chakra-ui/react";
+import ProjectBrowser from "./project-browser/ProjectBrowser";
 
-const LoadProjectPanel = (props: { onClose: (projectData: string) => void }) => {
+const LoadProjectPanel = (props: { onLoadRequest: (projectData: string) => void, onClose: () => void }) => {
     let [value, setValue] = React.useState("")
 
     let handleInputChange = (e: any) => {
@@ -20,7 +20,7 @@ const LoadProjectPanel = (props: { onClose: (projectData: string) => void }) => 
     }
 
     return (
-        <Modal isOpen={true} onClose={() => props.onClose(value)}>
+        <Modal isOpen={true} onClose={props.onClose} size={"6xl"}>
             <ModalOverlay/>
             <ModalContent>
                 <ModalHeader>
@@ -29,14 +29,15 @@ const LoadProjectPanel = (props: { onClose: (projectData: string) => void }) => 
                 <ModalCloseButton/>
 
                 <ModalBody>
-                    <Textarea value={value}
-                              onChange={handleInputChange}
-                              placeholder="Here is a sample placeholder"
-                              size="sm"/>
+                    {/*<Textarea value={value}*/}
+                    {/*          onChange={handleInputChange}*/}
+                    {/*          placeholder="Here is a sample placeholder"*/}
+                    {/*          size="sm"/>*/}
+                    <ProjectBrowser/>
                 </ModalBody>
 
                 <ModalFooter>
-                    <Button variant={'solidPrimary'} onClick={() => props.onClose(value)}>
+                    <Button variant={'solidPrimary'} onClick={props.onClose}>
                         Okay
                     </Button>
                 </ModalFooter>

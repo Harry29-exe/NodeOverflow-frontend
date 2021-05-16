@@ -1,5 +1,5 @@
-import {AbstractAuthContext} from "../../auth/AuthContext";
-import {projectServerAddress} from "../../addresses/ProjectServerAddress";
+import {AbstractAuthContext} from "../auth/AuthContext";
+import {projectServerAddress} from "../addresses/ProjectServerAddress";
 
 
 export const saveProjectRequest = async (authContext: AbstractAuthContext<any>, projectData: string) => {

@@ -6,7 +6,7 @@ import NodeSelector from "./NodeSelector";
 import {NodeCreateFunction} from "../../../logic/node-editor/node-management/GlobalNodeFactory";
 import LoadProjectPanel from "./LoadProjectPanel";
 import SaveProjectPanel from "./SaveProjectPanel";
-import {loadProjectRequest} from "../../../logic/node-editor/save-load/SaveProject";
+import {loadProjectRequest} from "../../../logic/projects/SaveProject";
 import {AuthContext} from "../../../logic/auth/AuthContext";
 
 const NodeControlPanel = (props: { storage: NodeStorage; viewProps: NodeCanvasViewProperties }) => {
@@ -67,7 +67,7 @@ const NodeControlPanel = (props: { storage: NodeStorage; viewProps: NodeCanvasVi
                           distanceFromPageTop={getTopDist()}/>
 
             {loadPanelOpen &&
-            <LoadProjectPanel onClose={handleProjectLoad}/>
+            <LoadProjectPanel onLoadRequest={handleProjectLoad} onClose={toggleLoadPanel.off}/>
             }
 
             {savePanelOpen &&
