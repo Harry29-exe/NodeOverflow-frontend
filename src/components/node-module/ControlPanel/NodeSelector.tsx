@@ -2,10 +2,10 @@ import {Box, VStack,} from '@chakra-ui/react';
 import {NodeModel} from "../../../logic/node-editor/node/NodeModel";
 import {NodeCreateFunction} from "../../../logic/node-editor/node-management/GlobalNodeFactory";
 import nodeList from "../../../logic/node-editor/NodeList";
-import {DefaultNodeStorage} from "../../../logic/node-editor/node-management/DefaultNodeStorage";
+import {DefaultProjectStorage} from "../../../logic/node-editor/node-management/DefaultProjectStorage";
 import NodeView from "../node-atomic/NodeView";
 import {NodeCanvasViewProperties} from "../NodeCanvasViewProperties";
-import {NodeStorage} from "../../../logic/node-editor/node-management/NodeStorage";
+import {ProjectStorage} from "../../../logic/node-editor/node-management/ProjectStorage";
 import {useRef, useState} from "react";
 import {NodeDimension} from "../../../logic/node-editor/node/NodeDimension";
 import './NodeSelector.css';
@@ -16,7 +16,7 @@ interface HandleAddNodeFun {
 
 const viewProps: NodeCanvasViewProperties = new NodeCanvasViewProperties(1, 0, 0);
 const standardDim = new NodeDimension(160, 26, 22, 22);
-const tempStorage: NodeStorage = new DefaultNodeStorage();
+const tempStorage: ProjectStorage = new DefaultProjectStorage();
 
 const reducer = (state: { y: number }, newValue: number) => {
     state.y = newValue;

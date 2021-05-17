@@ -1,7 +1,7 @@
 import React, {useContext, useRef} from 'react';
 import {Button, ButtonGroup, HStack, useBoolean} from "@chakra-ui/react";
 import {NodeCanvasViewProperties} from "../NodeCanvasViewProperties";
-import {NodeStorage} from "../../../logic/node-editor/node-management/NodeStorage";
+import {ProjectStorage} from "../../../logic/node-editor/node-management/ProjectStorage";
 import NodeSelector from "./NodeSelector";
 import {NodeCreateFunction} from "../../../logic/node-editor/node-management/GlobalNodeFactory";
 import LoadProjectPanel from "./LoadProjectPanel";
@@ -9,7 +9,7 @@ import SaveProjectPanel from "./SaveProjectPanel";
 import {loadProjectRequest} from "../../../logic/projects/SaveProject";
 import {AuthContext} from "../../../logic/auth/AuthContext";
 
-const NodeControlPanel = (props: { storage: NodeStorage; viewProps: NodeCanvasViewProperties }) => {
+const NodeControlPanel = (props: { storage: ProjectStorage; viewProps: NodeCanvasViewProperties }) => {
     const [nodeSelectorOpen, toggleSelector] = useBoolean(false);
     const [loadPanelOpen, toggleLoadPanel] = useBoolean(false);
     const [savePanelOpen, toggleSavePanel] = useBoolean(false);
@@ -71,7 +71,7 @@ const NodeControlPanel = (props: { storage: NodeStorage; viewProps: NodeCanvasVi
             }
 
             {savePanelOpen &&
-            <SaveProjectPanel projectData={JSON.stringify(props.storage.save(undefined))}
+            <SaveProjectPanel projectData={JSON.stringify(props.storage.save())}
                               onClose={toggleSavePanel.off}/>
             }
         </>

@@ -2,19 +2,20 @@ import {NodeModel} from "../node/NodeModel";
 import {SegmentModel} from "../segment/SegmentModel";
 import {LinkModel} from "../LinkModel";
 import ProjectSave from "../ProjectSave";
+import {ProjectViewProperties} from "./ProjectViewProperties";
 
 export interface NodeStorageListener {
     (nodes: NodeModel[], links: LinkModel[]): void;
 }
 
-export interface NodeStorage {
+export interface ProjectStorage {
     storageId: number;
     storageDomId: string;
+    projectViewProps: ProjectViewProperties;
 
-    //returns view properties
-    load(save: ProjectSave): any;
+    load(save: ProjectSave): void;
 
-    save(viewProperties: any): ProjectSave;
+    save(): ProjectSave;
 
     //this returns listenerId
     addUpdateListener(listener: NodeStorageListener): number;

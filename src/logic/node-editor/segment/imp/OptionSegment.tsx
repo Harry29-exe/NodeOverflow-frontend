@@ -1,6 +1,6 @@
 import {SegmentModel} from "../SegmentModel";
 import {NodeModel} from "../../node/NodeModel";
-import {NodeStorage} from "../../node-management/NodeStorage";
+import {ProjectStorage} from "../../node-management/ProjectStorage";
 import OptionSegmentView from "../../../../components/node-module/node-atomic/segments/OptionSegmentView";
 import React from "react";
 import {SegmentSave} from "../SegmentSave";
@@ -16,7 +16,7 @@ export class OptionSegment<T> extends SegmentModel<T> {
         this._possibleValues = possibleValues;
     }
 
-    createView(storage: NodeStorage): JSX.Element {
+    createView(storage: ProjectStorage): JSX.Element {
         return (<OptionSegmentView key={this.index} model={this} storage={storage}/>);
     }
 

@@ -1,6 +1,6 @@
 import React, {useEffect, useReducer, useRef} from 'react';
 import "./Node.css";
-import {NodeStorage} from "../../../logic/node-editor/node-management/NodeStorage";
+import {ProjectStorage} from "../../../logic/node-editor/node-management/ProjectStorage";
 import {NodeCanvasViewProperties} from "../NodeCanvasViewProperties";
 import {NodeModel} from "../../../logic/node-editor/node/NodeModel";
 import {Box, Center, useMultiStyleConfig, VStack} from "@chakra-ui/react";
@@ -38,11 +38,11 @@ function nodeStateReducer(state: NodeComponentState, action: any) {
 
 export class NodeComponentProps {
     public node: NodeModel;
-    public storage: NodeStorage;
+    public storage: ProjectStorage;
     public canvasViewProps: NodeCanvasViewProperties;
     public selected?: boolean;
 
-    constructor(node: NodeModel, storage: NodeStorage, currentScale: NodeCanvasViewProperties, selected?: boolean) {
+    constructor(node: NodeModel, storage: ProjectStorage, currentScale: NodeCanvasViewProperties, selected?: boolean) {
         this.node = node;
         this.storage = storage;
         this.canvasViewProps = currentScale;

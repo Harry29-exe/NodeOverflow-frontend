@@ -1,8 +1,9 @@
 import {NodeSave} from "./node/NodeSave";
 import LinkSave from "./LinkSave";
+import {ProjectViewProperties} from "./node-management/ProjectViewProperties";
 
 interface ProjectSave {
-    viewProperties: any;
+    viewProperties: ProjectViewProperties;
     nodes: NodeSave[];
     links: LinkSave[];
 }

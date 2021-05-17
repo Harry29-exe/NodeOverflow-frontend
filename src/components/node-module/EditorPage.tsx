@@ -5,9 +5,9 @@ import {NodeModel} from "../../logic/node-editor/node/NodeModel";
 import {ImageInputNodeModel} from "../../logic/node-editor/node/implementations/ImageInputNodeModel";
 import {NodeDimension} from "../../logic/node-editor/node/NodeDimension";
 import {LinkModel} from "../../logic/node-editor/LinkModel";
-import {DefaultNodeStorage} from "../../logic/node-editor/node-management/DefaultNodeStorage";
+import {DefaultProjectStorage} from "../../logic/node-editor/node-management/DefaultProjectStorage";
 
-const storage = new DefaultNodeStorage();
+const storage = new DefaultProjectStorage();
 
 const added = {tf: false};
 const testNodes: NodeModel[] = [

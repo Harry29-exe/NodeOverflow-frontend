@@ -1,25 +1,38 @@
 import {LinkModel} from "../LinkModel";
 import {NodeModel} from "../node/NodeModel";
 import {SegmentModel} from "../segment/SegmentModel";
-import {NodeStorage, NodeStorageListener} from "./NodeStorage";
+import {NodeStorageListener, ProjectStorage} from "./ProjectStorage";
 import {Storages} from "./Storages";
 import ProjectSave from "../ProjectSave";
 import {GlobalNodeFactory} from "./GlobalNodeFactory";
 import {createLinkSave} from "../LinkSave";
+import {ProjectViewProperties} from "./ProjectViewProperties";
+import {NodeCanvasViewProperties} from "../../../components/node-module/NodeCanvasViewProperties";
 
-export class DefaultNodeStorage implements NodeStorage {
+export class DefaultProjectStorage implements ProjectStorage {
     public readonly storageDomId: string;
     private readonly _storageId: number;
     private nextNodeId = 0;
     private hoveredPort?: { segment: SegmentModel<any>, portType: "in" | "out" };
     private links: LinkModel[];
     private nodes: NodeModel[];
+    private _projectViewProps: ProjectViewProperties;
     private readonly listeners: NodeStorageListener[];
 
-    constructor(nodes?: NodeModel[], links?: LinkModel[], listeners?: NodeStorageListener[]) {
+    constructor(projectViewProps?: ProjectViewProperties, nodes?: NodeModel[], links?: LinkModel[], listeners?: NodeStorageListener[]) {
         let id = Storages.nextId;
         this._storageId = id;
         this.storageDomId = `s${id}`;
+        if (projectViewProps) {
+            this._projectViewProps = projectViewProps;
+        } else {
+            this._projectViewProps = {
+                canvasViewProps: new NodeCanvasViewProperties(1, 0, 0),
+                editorSplitRatio: 0.6,
+                nodeSelectorWidth: 214
+            }
+        }
+
         if (nodes) {
             this.nodes = nodes;
             let biggestNodeId = 0;
@@ -41,11 +54,7 @@ export class DefaultNodeStorage implements NodeStorage {
         this.listeners = listeners ? listeners : [];
     }
 
-    load(save: ProjectSave): any {
-        // this.links = [];
-        // this.nodes = [];
-        // this.callListeners();
-        // debugger;
+    load(save: ProjectSave): void {
         let nodes: NodeModel[] = [];
         let links: LinkModel[] = [];
         save.nodes.forEach(n => {
@@ -68,14 +77,14 @@ export class DefaultNodeStorage implements NodeStorage {
         });
         this.links = links;
         this.nodes = nodes;
+        this._projectViewProps = save.viewProperties;
 
         this.callListeners();
-        return save.viewProperties;
     }
 
-    save(viewProperties: any): ProjectSave {
+    save(): ProjectSave {
         let projectSave: ProjectSave = {
-            viewProperties: viewProperties,
+            viewProperties: this._projectViewProps,
             nodes: [],
             links: []
         }
@@ -233,6 +242,10 @@ export class DefaultNodeStorage implements NodeStorage {
         }
         nodes[nodes.length - 1] = updatedNode;
         this.callListeners();
+    }
+
+    get projectViewProps(): ProjectViewProperties {
+        return this._projectViewProps;
     }
 
     getNextNodeId(): number {

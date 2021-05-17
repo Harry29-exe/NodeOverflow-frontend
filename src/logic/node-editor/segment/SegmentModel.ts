@@ -1,4 +1,4 @@
-import {NodeStorage} from "../node-management/NodeStorage";
+import {ProjectStorage} from "../node-management/ProjectStorage";
 import {NodeModel} from "../node/NodeModel";
 import {UniqueDomId} from "../UniqueDomId";
 import {SegmentSave} from "./SegmentSave";
@@ -30,7 +30,7 @@ export abstract class SegmentModel<InputType> implements UniqueDomId {
         }
     }
 
-    abstract createView(storage: NodeStorage): JSX.Element;
+    abstract createView(storage: ProjectStorage): JSX.Element;
 
     load(save: SegmentSave): void {
         this._value = save.segmentValue;

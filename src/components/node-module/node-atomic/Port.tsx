@@ -1,15 +1,15 @@
 import React, {useRef, useState} from 'react';
 import {Box} from "@chakra-ui/react";
 import {SegmentModel} from "../../../logic/node-editor/segment/SegmentModel";
-import {NodeStorage} from "../../../logic/node-editor/node-management/NodeStorage";
+import {ProjectStorage} from "../../../logic/node-editor/node-management/ProjectStorage";
 import LinkTemporary from "./LinkTemporary";
 
 class Props {
     public parent: SegmentModel<any>;
-    public storage: NodeStorage;
+    public storage: ProjectStorage;
     public portType: "in" | "out";
 
-    constructor(parent: SegmentModel<any>, storage: NodeStorage, portType: "in" | "out") {
+    constructor(parent: SegmentModel<any>, storage: ProjectStorage, portType: "in" | "out") {
         this.parent = parent;
         this.storage = storage;
         this.portType = portType;

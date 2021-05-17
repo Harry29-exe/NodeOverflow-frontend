@@ -4,12 +4,12 @@ import "./NodeModule.css";
 
 import RenderWindow from "./RenderWindow";
 import NodeControlPanel from "./ControlPanel/NodeControlPanel";
-import {NodeStorage} from "../../logic/node-editor/node-management/NodeStorage";
+import {ProjectStorage} from "../../logic/node-editor/node-management/ProjectStorage";
 import {NodeCanvasViewProperties} from "./NodeCanvasViewProperties";
 import {mainColors} from "../../App";
 
 export interface NodeModuleProps {
-    storage: NodeStorage,
+    storage: ProjectStorage,
     disableControlPanel?: boolean
 }
 

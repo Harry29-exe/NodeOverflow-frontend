@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {NodeModel} from "../../logic/node-editor/node/NodeModel";
-import {NodeStorage} from "../../logic/node-editor/node-management/NodeStorage";
+import {ProjectStorage} from "../../logic/node-editor/node-management/ProjectStorage";
 
 class Props {
     nodes: NodeModel[];
@@ -10,7 +10,7 @@ class Props {
     }
 }
 
-class RenderWindow extends Component<{ storage: NodeStorage }, { lastUpdate: number }> {
+class RenderWindow extends Component<{ storage: ProjectStorage }, { lastUpdate: number }> {
     private ref = React.createRef<HTMLCanvasElement>();
 
 

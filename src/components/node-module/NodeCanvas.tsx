@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import NodeView from "./node-atomic/NodeView";
 import LinkView from "./node-atomic/LinkView";
-import {NodeStorage, NodeStorageListener} from "../../logic/node-editor/node-management/NodeStorage";
+import {NodeStorageListener, ProjectStorage} from "../../logic/node-editor/node-management/ProjectStorage";
 import {NodeCanvasViewProperties} from "./NodeCanvasViewProperties";
 import "./NodeCanvas.css"
 import {NodeModel} from "../../logic/node-editor/node/NodeModel";
@@ -21,10 +21,10 @@ export class NodeCanvasState {
 }
 
 export class NodeCanvasProps {
-    storage: NodeStorage;
+    storage: ProjectStorage;
     viewProps: NodeCanvasViewProperties
 
-    constructor(storage: NodeStorage, viewProps: NodeCanvasViewProperties) {
+    constructor(storage: ProjectStorage, viewProps: NodeCanvasViewProperties) {
         this.storage = storage;
         this.viewProps = viewProps;
     }
