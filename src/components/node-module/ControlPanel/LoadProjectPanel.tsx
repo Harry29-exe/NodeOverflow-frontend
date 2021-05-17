@@ -11,7 +11,7 @@ import {
 } from "@chakra-ui/react";
 import ProjectBrowser from "./project-browser/ProjectBrowser";
 
-const LoadProjectPanel = (props: { onLoadRequest: (projectData: string) => void, onClose: () => void }) => {
+const LoadProjectPanel = (props: { loadProject: (projectId: number) => void, onClose: () => void }) => {
     let [value, setValue] = React.useState("")
 
     let handleInputChange = (e: any) => {
@@ -29,11 +29,7 @@ const LoadProjectPanel = (props: { onLoadRequest: (projectData: string) => void,
                 <ModalCloseButton/>
 
                 <ModalBody>
-                    {/*<Textarea value={value}*/}
-                    {/*          onChange={handleInputChange}*/}
-                    {/*          placeholder="Here is a sample placeholder"*/}
-                    {/*          size="sm"/>*/}
-                    <ProjectBrowser/>
+                    <ProjectBrowser loadProject={props.loadProject}/>
                 </ModalBody>
 
                 <ModalFooter>

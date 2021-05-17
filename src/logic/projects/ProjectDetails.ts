@@ -1,4 +1,5 @@
 interface ProjectDetails {
+    id: number;
     collaborators?: Collaborator[];
     metadata: {
         accessModifier: "PRIVATE" | "PUBLIC" | "PROTECTED";

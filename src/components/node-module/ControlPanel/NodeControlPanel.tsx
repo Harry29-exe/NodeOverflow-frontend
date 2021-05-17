@@ -39,9 +39,9 @@ const NodeControlPanel = (props: { storage: NodeStorage; viewProps: NodeCanvasVi
         storage.handleAddNode(node);
     }
 
-    const handleProjectLoad = async (projectData: string) => {
+    const handleProjectLoad = async (projectId: number) => {
         toggleLoadPanel.off();
-        let data = await loadProjectRequest(authContext, 5);
+        let data = await loadProjectRequest(authContext, projectId);
         let saveString = (JSON.parse(data)).projectData;
         let save = JSON.parse(saveString);
         console.log(save)
@@ -67,7 +67,7 @@ const NodeControlPanel = (props: { storage: NodeStorage; viewProps: NodeCanvasVi
                           distanceFromPageTop={getTopDist()}/>
 
             {loadPanelOpen &&
-            <LoadProjectPanel onLoadRequest={handleProjectLoad} onClose={toggleLoadPanel.off}/>
+            <LoadProjectPanel loadProject={handleProjectLoad} onClose={toggleLoadPanel.off}/>
             }
 
             {savePanelOpen &&
