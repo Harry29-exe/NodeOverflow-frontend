@@ -1,7 +1,6 @@
 import React, {useEffect, useReducer, useRef} from 'react';
 import "./Node.css";
 import {ProjectStorage} from "../../../logic/node-editor/node-management/ProjectStorage";
-import {NodeCanvasViewProperties} from "../NodeCanvasViewProperties";
 import {NodeModel} from "../../../logic/node-editor/node/NodeModel";
 import {Box, Center, useMultiStyleConfig, VStack} from "@chakra-ui/react";
 import {PressedKeys} from "../../../logic/contexts/GlobalKeyListener";
@@ -39,13 +38,13 @@ function nodeStateReducer(state: NodeComponentState, action: any) {
 export class NodeComponentProps {
     public node: NodeModel;
     public storage: ProjectStorage;
-    public canvasViewProps: NodeCanvasViewProperties;
+    public canvasScale: number;
     public selected?: boolean;
 
-    constructor(node: NodeModel, storage: ProjectStorage, currentScale: NodeCanvasViewProperties, selected?: boolean) {
+    constructor(node: NodeModel, storage: ProjectStorage, currentScale: number, selected?: boolean) {
         this.node = node;
         this.storage = storage;
-        this.canvasViewProps = currentScale;
+        this.canvasScale = currentScale;
         this.selected = selected;
     }
 }
@@ -63,7 +62,6 @@ const NodeView = (props: NodeComponentProps) => {
     }
 
     const handleClick = (event: any) => {
-        // event.preventDefault();
         setState({selected: true});
         props.storage.handleUpdateNode(props.node);
         let mouseX = event.clientX, mouseY = event.clientY;
@@ -76,8 +74,8 @@ const NodeView = (props: NodeComponentProps) => {
             lastMoveTime = Date.now();
 
             let node = props.node;
-            node.x -= (mouseX - event.clientX) / props.canvasViewProps.scale;
-            node.y -= (mouseY - event.clientY) / props.canvasViewProps.scale;
+            node.x -= (mouseX - event.clientX) / props.canvasScale;
+            node.y -= (mouseY - event.clientY) / props.canvasScale;
 
             setState({x: node.x, y: node.y});
 
@@ -137,8 +135,8 @@ const NodeView = (props: NodeComponentProps) => {
 
             let touch = event.touches[0];
             let node = props.node;
-            node.x = node.x - (screenX - touch.screenX) / props.canvasViewProps.scale;
-            node.y = node.y - (screenY - touch.screenY) / props.canvasViewProps.scale;
+            node.x = node.x - (screenX - touch.screenX) / props.canvasScale;
+            node.y = node.y - (screenY - touch.screenY) / props.canvasScale;
 
             setState({x: node.x, y: node.y});
 
@@ -187,7 +185,6 @@ const NodeView = (props: NodeComponentProps) => {
     }, [props.node.id]);
 
     const style = useMultiStyleConfig("Node", undefined);
-
 
     return (
         <div id={''} className={"Node"} style={{

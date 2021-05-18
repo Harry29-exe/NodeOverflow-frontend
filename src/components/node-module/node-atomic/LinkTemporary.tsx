@@ -1,6 +1,6 @@
 import React, {useContext} from 'react';
 import ReactDOM from 'react-dom';
-import CanvasContext from "../../../logic/contexts/CanvasContext";
+import CanvasScaleContext from "../../../logic/contexts/CanvasScaleContext";
 import colors from "../../../theme/Colors";
 
 const createSVGStyle = () => {
@@ -17,7 +17,7 @@ const createSVGStyle = () => {
 };
 
 const LinkTemporary = (props: { portDomId: string, mouseX: number, mouseY: number }) => {
-    const canvasViewProps = useContext(CanvasContext);
+    const canvasScale = useContext(CanvasScaleContext);
 
     let outputElem = document.getElementById(props.portDomId);
     let canvasElem = document.getElementById(props.portDomId.split('n')[0] + 'c');
@@ -30,7 +30,7 @@ const LinkTemporary = (props: { portDomId: string, mouseX: number, mouseY: numbe
     let canvasBox = canvasElem.getBoundingClientRect();
     let outBox = outputElem.getBoundingClientRect();
 
-    let sc = canvasViewProps.scale;
+    let sc = canvasScale;
     let outputX = (outBox.left - canvasBox.left + outBox.width / 2) / sc;
     let outputY = (outBox.top - canvasBox.top + outBox.height / 2) / sc;
     let inputX = (props.mouseX - canvasBox.left) / sc;

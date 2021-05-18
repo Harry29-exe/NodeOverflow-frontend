@@ -1,20 +1,22 @@
-import React, {useContext, useRef} from 'react';
-import {Button, ButtonGroup, HStack, useBoolean} from "@chakra-ui/react";
+import React, {useContext, useRef, useState} from 'react';
+import {Button, ButtonGroup, HStack, useBoolean, useToast} from "@chakra-ui/react";
 import {NodeCanvasViewProperties} from "../NodeCanvasViewProperties";
 import {ProjectStorage} from "../../../logic/node-editor/node-management/ProjectStorage";
 import NodeSelector from "./NodeSelector";
 import {NodeCreateFunction} from "../../../logic/node-editor/node-management/GlobalNodeFactory";
 import LoadProjectPanel from "./LoadProjectPanel";
 import SaveProjectPanel from "./SaveProjectPanel";
-import {loadProjectRequest} from "../../../logic/projects/SaveProject";
+import {loadProjectRequest, overwriteProjectDataRequest} from "../../../logic/projects/SaveProject";
 import {AuthContext} from "../../../logic/auth/AuthContext";
+
+type saveLoadState = "loadWindow" | "saveWindow" | "saveAsWindow" | "saving" | "none";
 
 const NodeControlPanel = (props: { storage: ProjectStorage; viewProps: NodeCanvasViewProperties }) => {
     const [nodeSelectorOpen, toggleSelector] = useBoolean(false);
-    const [loadPanelOpen, toggleLoadPanel] = useBoolean(false);
-    const [savePanelOpen, toggleSavePanel] = useBoolean(false);
+    const [saveLoadState, setSaveLoadState] = useState<saveLoadState>("none")
     const authContext = useContext(AuthContext);
     const panelRef = useRef<HTMLDivElement>(null);
+    const toast = useToast();
 
     const getTopDist = (): number => {
         let top = panelRef.current?.getBoundingClientRect().top;
@@ -40,14 +42,65 @@ const NodeControlPanel = (props: { storage: ProjectStorage; viewProps: NodeCanva
     }
 
     const handleProjectLoad = async (projectId: number) => {
-        toggleLoadPanel.off();
+        setSaveLoadState("none");
         let data = await loadProjectRequest(authContext, projectId);
         let saveString = (JSON.parse(data)).projectData;
         let save = JSON.parse(saveString);
         console.log(save)
 
-        props.storage.load(save);
+        props.storage.load(save, projectId);
 
+    }
+
+    const handleQuickSave = async () => {
+        let storage = props.storage;
+        console.log(storage.projectId)
+
+        if (storage.projectId !== undefined) {
+            setSaveLoadState("saving");
+            overwriteProjectDataRequest(authContext, storage.projectId, storage.save())
+                .then(
+                    value => {
+                        toast({
+                            title: value === 200 ? "Project saved" : "Something went wrong",
+                            description: value === 200 ? "Project has been saved successfully" : "We could not save your project try again later",
+                            status: value === 200 ? "success" : "error",
+                            duration: 2000,
+                            isClosable: true
+                        })
+                        setSaveLoadState("none");
+                    },
+                    reason => {
+                        toast({
+                            title: "Something went wrong",
+                            description: "We could not save your project try again later",
+                            status: "error",
+                            duration: 2000,
+                            isClosable: true
+                        })
+                        setSaveLoadState("none")
+                    }
+                );
+        } else {
+            setSaveLoadState("saveWindow");
+        }
+    }
+
+    const renderOpenedWindow = () => {
+        switch (saveLoadState) {
+            case "none":
+                return <div/>;
+            case "loadWindow":
+                return <LoadProjectPanel loadProject={handleProjectLoad} onClose={() => setSaveLoadState("none")}/>
+            case "saveWindow":
+                return <SaveProjectPanel projectData={JSON.stringify(props.storage.save())}
+                                         onClose={() => setSaveLoadState("none")}/>
+            case "saveAsWindow":
+                return <SaveProjectPanel projectData={JSON.stringify(props.storage.save())}
+                                         onClose={() => setSaveLoadState("none")}/>;
+            default:
+                return;
+        }
     }
 
     return (
@@ -55,30 +108,29 @@ const NodeControlPanel = (props: { storage: ProjectStorage; viewProps: NodeCanva
             <HStack ref={panelRef} w='100%' h='100%' bg={'gray.750'} borderBottom={'2px solid'}
                     borderColor={'primary.500'} zIndex={100}>
                 <ButtonGroup variant='ghost' size='sm'>
-                    <Button onClick={toggleSelector.toggle}>
-                        Add node
-                    </Button>
-                    <Button onClick={toggleLoadPanel.toggle}>Load</Button>
-                    <Button onClick={toggleSavePanel.toggle}>Save</Button>
+                    <Button onClick={toggleSelector.toggle}>add node</Button>
+                    <Button
+                        onClick={() => setSaveLoadState(saveLoadState === "loadWindow" ? "none" : "loadWindow")}>load</Button>
+                    <Button onClick={handleQuickSave} isLoading={saveLoadState === "saving"}>save</Button>
+                    <Button
+                        onClick={() => setSaveLoadState(saveLoadState === "saveAsWindow" ? "none" : "saveAsWindow")}>save
+                        as</Button>
+
                 </ButtonGroup>
             </HStack>
 
             <NodeSelector isOpen={nodeSelectorOpen} nodeDropped={handleNodeAdd}
                           distanceFromPageTop={getTopDist()}/>
 
-            {loadPanelOpen &&
-            <LoadProjectPanel loadProject={handleProjectLoad} onClose={toggleLoadPanel.off}/>
-            }
-
-            {savePanelOpen &&
-            <SaveProjectPanel projectData={JSON.stringify(props.storage.save())}
-                              onClose={toggleSavePanel.off}/>
+            {
+                renderOpenedWindow()
             }
         </>
     );
 };
 
 export default NodeControlPanel;
+
 //
 // import React, {PureComponent} from 'react';
 // import {mainColors} from "../../App";

@@ -12,8 +12,9 @@ export interface ProjectStorage {
     storageId: number;
     storageDomId: string;
     projectViewProps: ProjectViewProperties;
+    projectId?: number;
 
-    load(save: ProjectSave): void;
+    load(save: ProjectSave, projectId: number): void;
 
     save(): ProjectSave;
 

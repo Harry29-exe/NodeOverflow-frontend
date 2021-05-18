@@ -6,7 +6,7 @@ import {DefaultProjectStorage} from "../../../logic/node-editor/node-management/
 import NodeView from "../node-atomic/NodeView";
 import {NodeCanvasViewProperties} from "../NodeCanvasViewProperties";
 import {ProjectStorage} from "../../../logic/node-editor/node-management/ProjectStorage";
-import {useRef, useState} from "react";
+import {useState} from "react";
 import {NodeDimension} from "../../../logic/node-editor/node/NodeDimension";
 import './NodeSelector.css';
 
@@ -23,6 +23,7 @@ const reducer = (state: { y: number }, newValue: number) => {
     return {y: newValue};
 }
 
+//TODO poprwić żeby nie renderował się przy każdym update node module
 const NodeSelector = (props: { isOpen: boolean, nodeDropped: (screenX: number, screenY: number, createFun: NodeCreateFunction) => void, distanceFromPageTop: string | number }) => {
     const [width, setWidth] = useState('224px');
     const defaultWidth = '224px';
@@ -60,7 +61,6 @@ const NodeAddButton = (props: { name: string, create: NodeCreateFunction, toggle
     const [currentNode, setNode] = useState<NodeModel>(
         props.create(tempStorage.useNextNodeId(), tempStorage.storageId, 0, 0, standardDim));
     const [height, setHeight] = useState(0);
-    const ref = useRef<HTMLDivElement>(null);
 
     const handleMouseUp = (event: any) => {
         props.toggleWidth();
@@ -79,10 +79,9 @@ const NodeAddButton = (props: { name: string, create: NodeCreateFunction, toggle
     }
 
 
-    let currentRef = ref.current;
     return (
         <Box onMouseUp={handleMouseUp} onMouseDown={props.toggleWidth} minW='100%' h={height}>
-            <NodeView node={currentNode} storage={tempStorage} canvasViewProps={viewProps}/>
+            <NodeView node={currentNode} storage={tempStorage} canvasScale={viewProps.scale}/>
         </Box>
     )
 }

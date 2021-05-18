@@ -1,8 +1,9 @@
 import {AbstractAuthContext} from "../auth/AuthContext";
 import {projectServerAddress} from "../addresses/ProjectServerAddress";
+import ProjectSave from "../node-editor/ProjectSave";
 
 
-export const saveProjectRequest = async (authContext: AbstractAuthContext<any>, projectData: string) => {
+export const saveProjectRequest = async (authContext: AbstractAuthContext<any>, projectData: string): Promise<number> => {
     let body = {
         accessModifier: "PRIVATE",
         collaborators: [],
@@ -20,6 +21,25 @@ export const saveProjectRequest = async (authContext: AbstractAuthContext<any>, 
             'Authorization': authContext.authInfo.token,
         },
     });
+
+    return response.status;
+}
+
+export const overwriteProjectDataRequest = async (authContext: AbstractAuthContext<any>, projectId: number, projectSave: ProjectSave): Promise<number> => {
+    let body = {
+        projectId: projectId,
+        projectData: JSON.stringify(projectSave)
+    };
+    let response = await fetch(projectServerAddress + "/api/project", {
+        method: 'PATCH',
+        body: JSON.stringify(body),
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': authContext.authInfo.token,
+        },
+    });
+
+    return response.status;
 }
 
 export const loadProjectRequest = async (authContext: AbstractAuthContext<any>, projectId: number): Promise<string> => {

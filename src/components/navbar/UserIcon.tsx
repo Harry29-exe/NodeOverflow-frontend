@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import {Button, Center, HTMLChakraProps, Image} from "@chakra-ui/react";
+import {Center, HTMLChakraProps, Image} from "@chakra-ui/react";
 import {AuthContext} from "../../logic/auth/AuthContext";
 
 export interface UserIconProps extends HTMLChakraProps<"div"> {
@@ -11,7 +11,7 @@ const UserIcon = (props: UserIconProps) => {
     console.log(authContext.authInfo ? authContext.authInfo : "no context");
     let username = authContext.authInfo ? authContext.authInfo.username : "N";
     return (
-        <Center as={Button} {...props} _hover={{transform: "scale(1.2)", cursor: "pointer"}}
+        <Center {...props} _hover={{transform: "scale(1.2)", cursor: "pointer"}}
                 borderRadius={props.size / 4} overflow="hidden"
                 transition="transform 0.3s 0s linear">
             <Image src={createAvatar(props.size, username)}/>

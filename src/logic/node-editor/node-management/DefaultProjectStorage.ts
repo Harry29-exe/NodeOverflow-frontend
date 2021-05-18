@@ -12,12 +12,14 @@ import {NodeCanvasViewProperties} from "../../../components/node-module/NodeCanv
 export class DefaultProjectStorage implements ProjectStorage {
     public readonly storageDomId: string;
     private readonly _storageId: number;
+    private readonly listeners: NodeStorageListener[];
+    private _projectId?: number = undefined
     private nextNodeId = 0;
     private hoveredPort?: { segment: SegmentModel<any>, portType: "in" | "out" };
     private links: LinkModel[];
     private nodes: NodeModel[];
     private _projectViewProps: ProjectViewProperties;
-    private readonly listeners: NodeStorageListener[];
+
 
     constructor(projectViewProps?: ProjectViewProperties, nodes?: NodeModel[], links?: LinkModel[], listeners?: NodeStorageListener[]) {
         let id = Storages.nextId;
@@ -54,13 +56,21 @@ export class DefaultProjectStorage implements ProjectStorage {
         this.listeners = listeners ? listeners : [];
     }
 
-    load(save: ProjectSave): void {
+    load(save: ProjectSave, projectId: number): void {
+        this.nodes = [];
+        this.links = [];
+        this.callListeners();
+
+        this._projectId = projectId;
         let nodes: NodeModel[] = [];
         let links: LinkModel[] = [];
         save.nodes.forEach(n => {
             let newNode = GlobalNodeFactory.loadNode(n, this.storageId);
             if (newNode) nodes.push(newNode)
         });
+        let highestNodeId = 0;
+        nodes.forEach(n => highestNodeId = n.id > highestNodeId ? n.id : highestNodeId);
+        this.nextNodeId = highestNodeId + 1;
 
         save.links.forEach(l => {
             let inNode = nodes.find(n => n.id === l.inputNodeId);
@@ -244,16 +254,32 @@ export class DefaultProjectStorage implements ProjectStorage {
         this.callListeners();
     }
 
-    get projectViewProps(): ProjectViewProperties {
-        return this._projectViewProps;
-    }
-
     getNextNodeId(): number {
         return this.nextNodeId;
     }
 
     useNextNodeId(): number {
         return this.nextNodeId++;
+    }
+
+    getLinks(): LinkModel[] {
+        return this.links;
+    }
+
+    getNodes(): NodeModel[] {
+        return this.nodes;
+    }
+
+    get projectId(): number | undefined {
+        return this._projectId;
+    }
+
+    get projectViewProps(): ProjectViewProperties {
+        return this._projectViewProps;
+    }
+
+    get storageId(): number {
+        return this._storageId;
     }
 
     private callListeners() {
@@ -276,18 +302,5 @@ export class DefaultProjectStorage implements ProjectStorage {
             }
         }
         this.links = links.filter(l => l !== null && l !== undefined);
-    }
-
-
-    get storageId(): number {
-        return this._storageId;
-    }
-
-    getLinks(): LinkModel[] {
-        return this.links;
-    }
-
-    getNodes(): NodeModel[] {
-        return this.nodes;
     }
 }

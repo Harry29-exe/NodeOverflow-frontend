@@ -7,17 +7,17 @@ import {
     ModalContent,
     ModalFooter,
     ModalHeader,
-    ModalOverlay,
-    Textarea
+    ModalOverlay
 } from "@chakra-ui/react";
 import {AuthContext} from "../../../logic/auth/AuthContext";
 import {saveProjectRequest} from "../../../logic/projects/SaveProject";
+import SaveProjectForm from "./SaveProjectForm";
 
 const SaveProjectPanel = (props: { projectData: string, onClose: () => void }) => {
     const authContext = useContext(AuthContext);
 
     return (
-        <Modal isOpen={true} onClose={props.onClose}>
+        <Modal isOpen={true} onClose={props.onClose} size={"5xl"}>
             <ModalOverlay/>
             <ModalContent>
                 <ModalHeader>
@@ -26,9 +26,7 @@ const SaveProjectPanel = (props: { projectData: string, onClose: () => void }) =
                 <ModalCloseButton/>
 
                 <ModalBody>
-                    <Textarea value={props.projectData}
-                              placeholder="Here is a sample placeholder"
-                              size="sm"/>
+                    <SaveProjectForm/>
                 </ModalBody>
 
                 <ModalFooter>

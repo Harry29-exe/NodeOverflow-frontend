@@ -1,7 +1,8 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {LinkModel} from "../../../logic/node-editor/LinkModel";
 import {Box} from "@chakra-ui/react";
 import colors from "../../../theme/Colors";
+import CanvasScaleContext from "../../../logic/contexts/CanvasScaleContext";
 
 const createSVGStyle = () => {
     return {
@@ -37,9 +38,10 @@ class LinkState {
 }
 
 //TODO Clean up
-const LinkView = (props: { link: LinkModel, scale: number, canvasDomId: string }) => {
+const LinkView = (props: { link: LinkModel, canvasDomId: string }) => {
     const [shouldUpdate, update] = useState({shouldUpdate: true});
     const [cords, updateCords] = useState<LinkState>(new LinkState(0, 0, 0, 0, 1));
+    const canvasScale = useContext(CanvasScaleContext);
     useEffect(() => {
         props.link.setUpdate(() => update({shouldUpdate: true}));
         return () => props.link.setUpdate(null)
@@ -62,14 +64,14 @@ const LinkView = (props: { link: LinkModel, scale: number, canvasDomId: string }
 
 
     if (shouldUpdate.shouldUpdate) {
-        let sc = props.scale;
+        let sc = canvasScale;
         cords.x1 = (outBox.left - canvasBox.left + outBox.width / 2) / sc;
         cords.y1 = (outBox.top - canvasBox.top + outBox.height / 2) / sc;
         cords.x2 = (inBox.left - canvasBox.left + outBox.width / 2) / sc;
         cords.y2 = (inBox.top - canvasBox.top + outBox.height / 2) / sc;
         shouldUpdate.shouldUpdate = false;
     } else {
-        cords.sc = props.scale;
+        cords.sc = canvasScale;
     }
 
     let outputX = cords.x1;

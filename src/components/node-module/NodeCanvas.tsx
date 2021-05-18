@@ -6,7 +6,7 @@ import {NodeCanvasViewProperties} from "./NodeCanvasViewProperties";
 import "./NodeCanvas.css"
 import {NodeModel} from "../../logic/node-editor/node/NodeModel";
 import {LinkModel} from "../../logic/node-editor/LinkModel";
-import CanvasContext from '../../logic/contexts/CanvasContext';
+import CanvasScaleContext from '../../logic/contexts/CanvasScaleContext';
 
 export class NodeCanvasState {
     public viewProperties: NodeCanvasViewProperties;
@@ -182,7 +182,6 @@ class NodeCanvas extends Component<NodeCanvasProps, NodeCanvasState> {
                  style={{
                      width: "100%", height: "100%", overflow: "hidden", position: "absolute",
                      top: 0, left: 0, margin: 0, padding: 0,
-                     // backgroundPosition: `${viewProps.shiftLeft * viewProps.scale}px ${viewProps.shiftTop * viewProps.scale}px`,
                      backgroundPosition:
                          `${Math.floor(viewProps.shiftLeft * viewProps.scale + (canvasRef ? canvasRef.getBoundingClientRect().width / 2 : 0))}px
                          ${Math.floor(viewProps.shiftTop * viewProps.scale + (canvasRef ? canvasRef.getBoundingClientRect().height / 2 : 0))}px`,
@@ -190,7 +189,7 @@ class NodeCanvas extends Component<NodeCanvasProps, NodeCanvasState> {
                  }}
                  draggable={"false"} unselectable={"on"}>
 
-                <CanvasContext.Provider value={this.state.viewProperties}>
+                <CanvasScaleContext.Provider value={this.state.viewProperties.scale}>
                     <div id={`${this.props.storage.storageDomId}c`} style={{
                         position: "absolute", backgroundColor: "#ddaaaa",
                         left: "50%", top: "50%",
@@ -202,16 +201,15 @@ class NodeCanvas extends Component<NodeCanvasProps, NodeCanvasState> {
                     }}>
 
                         {this.state.links.map(l =>
-                            <LinkView link={l} scale={this.state.viewProperties.scale}
-                                      canvasDomId={`${this.props.storage.storageDomId}c`} key={l.domId}/>
+                            <LinkView link={l} canvasDomId={`${this.props.storage.storageDomId}c`} key={l.domId}/>
                         )}
 
                         {this.state.nodes.map(n =>
-                            <NodeView key={n.id} node={n} canvasViewProps={this.state.viewProperties}
+                            <NodeView key={n.id} node={n} canvasScale={this.state.viewProperties.scale}
                                       storage={this.props.storage}/>
                         )}
                     </div>
-                </CanvasContext.Provider>
+                </CanvasScaleContext.Provider>
 
                 <div style={{width: "inherit", height: "inherit"}}
                      onMouseDown={this.handleMove} onTouchStart={this.handleTouch}

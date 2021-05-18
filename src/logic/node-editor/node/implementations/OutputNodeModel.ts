@@ -11,10 +11,10 @@ export class OutputNodeModel extends NodeModel {
         typeof id === "number" ? super(id, storageId, x, y, dimensions) : super(id, storageId);
         this._name = 'Output node';
 
+        console.log("output node constructor")
+        this.initSegments();
         if (typeof id !== "number") {
             this.loadSegments(id);
-        } else {
-            this.initSegments();
         }
     }
 

@@ -6,6 +6,8 @@ import React from "react";
 export const Project = (props: { project: ProjectDetails, loadProject: (projectId: number) => void }) => {
     const [open, setOpen] = useBoolean(false);
 
+    let tagKey = 0;
+    let collaboratorKey = 0;
     return (
         <Box w='100%' m={0} p={0} transition={'max-height 0.5s ease-in'}
              borderBottomRadius={'md'} border={"2px solid"}
@@ -38,7 +40,7 @@ export const Project = (props: { project: ProjectDetails, loadProject: (projectI
                 <Flex fontWeight={300}>
                     <VStack w='100%' borderRadius={'md'}>
                         <Box fontWeight={400}>Tags:</Box>
-                        {props.project.metadata.tags.map(t => <Box>{t}</Box>)}
+                        {props.project.metadata.tags.map(t => <Box key={tagKey++}>{t}</Box>)}
                     </VStack>
 
 
@@ -47,7 +49,7 @@ export const Project = (props: { project: ProjectDetails, loadProject: (projectI
                         <VStack w='100%' borderRadius={'md'}>
                             <Box fontWeight={400}>Collaborators:</Box>
                             {props.project.collaborators.map(c =>
-                                <Box>{c.collaboratorUsername}</Box>)
+                                <Box key={collaboratorKey++}>{c.collaboratorUsername}</Box>)
                             }
                         </VStack>
                     </>
