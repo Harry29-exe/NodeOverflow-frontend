@@ -3,6 +3,7 @@ import {LinkModel} from "../../../logic/node-editor/LinkModel";
 import {Box} from "@chakra-ui/react";
 import colors from "../../../theme/Colors";
 import CanvasScaleContext from "../../../logic/contexts/CanvasScaleContext";
+import "./LinkView.css";
 
 const createSVGStyle = () => {
     return {
@@ -79,9 +80,22 @@ const LinkView = (props: { link: LinkModel, canvasDomId: string }) => {
     let inputX = cords.x2;
     let inputY = cords.y2;
 
+    // @ts-ignore
     return (
         <Box color={shouldUpdate.shouldUpdate ? '#fff' : '#ffe'}>
-            <svg style={createSVGStyle()}>
+            <filter id="dropshadow" height="130%">
+                <feGaussianBlur in="SourceAlpha" stdDeviation="3"/>
+                <feOffset dx="2" dy="2" result="offsetblur"/>
+                <feComponentTransfer>
+                    <feFuncA type="linear" slope="0.5"/>
+                </feComponentTransfer>
+                <feMerge>
+                    <feMergeNode/>
+                    <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+            </filter>
+
+            <svg style={createSVGStyle()} className={"shadow"}>
                 <path d={`M ${outputX}
                             ${outputY}
                             
