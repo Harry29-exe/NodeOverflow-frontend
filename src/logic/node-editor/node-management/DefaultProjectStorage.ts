@@ -19,7 +19,7 @@ export class DefaultProjectStorage implements ProjectStorage {
     private links: LinkModel[];
     private nodes: NodeModel[];
     private _projectViewProps: ProjectViewProperties;
-
+    private _stateHash: number = 0;
 
     constructor(projectViewProps?: ProjectViewProperties, nodes?: NodeModel[], links?: LinkModel[], listeners?: NodeStorageListener[]) {
         let id = Storages.nextId;
@@ -59,6 +59,7 @@ export class DefaultProjectStorage implements ProjectStorage {
     load(save: ProjectSave, projectId: number): void {
         this.nodes = [];
         this.links = [];
+        this.updateHash();
         this.callListeners();
 
         this._projectId = projectId;
@@ -89,6 +90,7 @@ export class DefaultProjectStorage implements ProjectStorage {
         this.nodes = nodes;
         this._projectViewProps = save.viewProperties;
 
+        this.updateHash();
         this.callListeners();
     }
 
@@ -120,6 +122,8 @@ export class DefaultProjectStorage implements ProjectStorage {
         if (!link.outputSegment.parent.links.find(l => l.domId === link.domId)) {
             link.outputSegment.parent.addLink(link);
         }
+
+        this.updateHash();
         this.callListeners();
     }
 
@@ -144,6 +148,8 @@ export class DefaultProjectStorage implements ProjectStorage {
         this.links.push(link);
         link.outputSegment.parent.addLink(link);
         link.inputSegment.parent.addLink(link);
+
+        this.updateHash();
         this.callListeners();
         return link;
     }
@@ -170,6 +176,8 @@ export class DefaultProjectStorage implements ProjectStorage {
                 let newNodeList = [node];
                 this.nodes = newNodeList.concat(this.nodes);
                 this.nextNodeId = this.nextNodeId > node.id ? this.nextNodeId : node.id + 1;
+
+                this.updateHash();
                 this.callListeners();
             }
         }
@@ -187,6 +195,8 @@ export class DefaultProjectStorage implements ProjectStorage {
             }
         }
         this.links = links.filter(l => l !== null && l !== undefined);
+
+        this.updateHash();
         this.callListeners();
     }
 
@@ -213,6 +223,8 @@ export class DefaultProjectStorage implements ProjectStorage {
             }
         }
         this.links = links.filter(l => l !== null && l !== undefined);
+
+        this.updateHash();
         this.callListeners();
     }
 
@@ -234,6 +246,8 @@ export class DefaultProjectStorage implements ProjectStorage {
             }
         }
         this.nodes = this.nodes.filter(n => n !== null && n !== undefined);
+
+        this.updateHash();
         this.callListeners();
     }
 
@@ -251,6 +265,8 @@ export class DefaultProjectStorage implements ProjectStorage {
             nodes[nodeIndex] = nodes[nodeIndex + 1];
         }
         nodes[nodes.length - 1] = updatedNode;
+
+        this.updateHash();
         this.callListeners();
     }
 
@@ -280,6 +296,18 @@ export class DefaultProjectStorage implements ProjectStorage {
 
     get storageId(): number {
         return this._storageId;
+    }
+
+    get stateHash(): number {
+        return this._stateHash;
+    }
+
+    private updateHash(): void {
+        let newHash = Math.random();
+        while (newHash === this._stateHash) {
+            newHash = Math.random();
+        }
+        this._stateHash = newHash;
     }
 
     private callListeners() {

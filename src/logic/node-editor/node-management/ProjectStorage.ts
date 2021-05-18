@@ -13,6 +13,7 @@ export interface ProjectStorage {
     storageDomId: string;
     projectViewProps: ProjectViewProperties;
     projectId?: number;
+    stateHash: number;
 
     load(save: ProjectSave, projectId: number): void;
 

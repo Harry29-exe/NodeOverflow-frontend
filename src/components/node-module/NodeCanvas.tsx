@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, useMemo} from 'react';
 import NodeView from "./node-atomic/NodeView";
 import LinkView from "./node-atomic/LinkView";
 import {NodeStorageListener, ProjectStorage} from "../../logic/node-editor/node-management/ProjectStorage";
@@ -199,15 +199,7 @@ class NodeCanvas extends Component<NodeCanvasProps, NodeCanvasState> {
                             ${viewProps.shiftTop}px)`
 
                     }}>
-
-                        {this.state.links.map(l =>
-                            <LinkView link={l} canvasDomId={`${this.props.storage.storageDomId}c`} key={l.domId}/>
-                        )}
-
-                        {this.state.nodes.map(n =>
-                            <NodeView key={n.id} node={n} canvasScale={this.state.viewProperties.scale}
-                                      storage={this.props.storage}/>
-                        )}
+                        <NodesAndLink storage={this.props.storage} canvasScale={this.props.viewProps.scale}/>
                     </div>
                 </CanvasScaleContext.Provider>
 
@@ -218,6 +210,21 @@ class NodeCanvas extends Component<NodeCanvasProps, NodeCanvasState> {
             </div>
         );
     }
+}
+
+const NodesAndLink = (props: { storage: ProjectStorage, canvasScale: number }) => {
+    return useMemo(() => (
+        <>
+            {props.storage.getLinks().map(l =>
+                <LinkView link={l} canvasDomId={`${props.storage.storageDomId}c`} key={l.domId}/>
+            )}
+
+            {props.storage.getNodes().map(n =>
+                <NodeView key={n.id} node={n} canvasScale={props.canvasScale}
+                          storage={props.storage}/>
+            )}
+        </>
+    ), [props.storage.stateHash])
 }
 
 export default NodeCanvas;
