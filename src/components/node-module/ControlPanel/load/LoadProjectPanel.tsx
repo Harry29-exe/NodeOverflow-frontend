@@ -9,7 +9,7 @@ import {
     ModalHeader,
     ModalOverlay
 } from "@chakra-ui/react";
-import ProjectBrowser from "./project-browser/ProjectBrowser";
+import ProjectBrowser from "./ProjectBrowser";
 
 const LoadProjectPanel = (props: { loadProject: (projectId: number) => void, onClose: () => void }) => {
     let [value, setValue] = React.useState("")

@@ -83,18 +83,6 @@ const LinkView = (props: { link: LinkModel, canvasDomId: string }) => {
     // @ts-ignore
     return (
         <Box color={shouldUpdate.shouldUpdate ? '#fff' : '#ffe'}>
-            <filter id="dropshadow" height="130%">
-                <feGaussianBlur in="SourceAlpha" stdDeviation="3"/>
-                <feOffset dx="2" dy="2" result="offsetblur"/>
-                <feComponentTransfer>
-                    <feFuncA type="linear" slope="0.5"/>
-                </feComponentTransfer>
-                <feMerge>
-                    <feMergeNode/>
-                    <feMergeNode in="SourceGraphic"/>
-                </feMerge>
-            </filter>
-
             <svg style={createSVGStyle()} className={"shadow"}>
                 <path d={`M ${outputX}
                             ${outputY}

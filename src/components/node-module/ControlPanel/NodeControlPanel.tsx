@@ -4,8 +4,8 @@ import {NodeCanvasViewProperties} from "../NodeCanvasViewProperties";
 import {ProjectStorage} from "../../../logic/node-editor/node-management/ProjectStorage";
 import NodeSelector from "./NodeSelector";
 import {NodeCreateFunction} from "../../../logic/node-editor/node-management/GlobalNodeFactory";
-import LoadProjectPanel from "./LoadProjectPanel";
-import SaveProjectPanel from "./SaveProjectPanel";
+import LoadProjectPanel from "./load/LoadProjectPanel";
+import SaveProjectPanel from "./save/SaveProjectPanel";
 import {loadProjectRequest, overwriteProjectDataRequest} from "../../../logic/projects/SaveProject";
 import {AuthContext} from "../../../logic/auth/AuthContext";
 

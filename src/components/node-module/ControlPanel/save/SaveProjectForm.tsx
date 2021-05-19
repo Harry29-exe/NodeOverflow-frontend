@@ -1,6 +1,7 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {
     Box,
+    Button,
     Center,
     CloseButton,
     Flex,
@@ -15,6 +16,8 @@ import {
     VStack
 } from "@chakra-ui/react";
 import {HiOutlinePlus} from "react-icons/all";
+import {saveProjectRequest} from "../../../../logic/projects/SaveProject";
+import {AuthContext} from "../../../../logic/auth/AuthContext";
 
 const BR = () => {
     return (
@@ -25,15 +28,18 @@ const BR = () => {
     )
 }
 
-const SaveProjectForm = () => {
+const SaveProjectForm = (props: { projectData: string, onSubmit: () => void }) => {
+    const [title, setTitle] = useState("");
+    const [accessModifier, setAccess] = useState("PUBLIC");
     const [tags, setTags] = useState<string[]>([""]);
+    const authContext = useContext(AuthContext);
 
     let tagId = 0;
     return (
         <VStack alignItems={'flex-start'} w='100%'>
             <FormControl id="project-name">
                 <FormLabel>Project name</FormLabel>
-                <Input placeholder="Project name:"/>
+                <Input placeholder="Project name:" onChange={e => setTitle(e.target.value)}/>
             </FormControl>
 
             <BR/>
@@ -43,7 +49,7 @@ const SaveProjectForm = () => {
                 <VStack w={"45%"} minW={'300px'}>
                     <FormControl w='100%'>
                         <FormLabel id="modifier">Select access modifier</FormLabel>
-                        <Select defaultValue="PUBLIC">
+                        <Select defaultValue="PUBLIC" onChange={e => setAccess(e.target.value)}>
                             <option>PUBLIC</option>
                             <option>PROTECTED</option>
                             <option>PRIVATE</option>
@@ -65,7 +71,7 @@ const SaveProjectForm = () => {
                                         setTags(newTags);
                                     }}
                                     remove={tagId => setTags(tags.slice(0, tagId).concat(tags.slice(tagId + 1)))}
-                                    tagId={tagId++}/>
+                                    key={tagId} tagId={tagId++}/>
                         )
                     }
 
@@ -83,6 +89,15 @@ const SaveProjectForm = () => {
 
                 </VStack>
             </HStack>
+
+            <Center w='100%'>
+                <Button mt={'20px'} variant={'primarySolid'} onClick={() => {
+                    saveProjectRequest(authContext, title, accessModifier, tags, props.projectData);
+                    props.onSubmit();
+                }}>
+                    Save
+                </Button>
+            </Center>
         </VStack>
     );
 };

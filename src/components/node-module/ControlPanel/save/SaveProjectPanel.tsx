@@ -1,6 +1,5 @@
-import React, {useContext} from "react";
+import React, {useState} from "react";
 import {
-    Button,
     Modal,
     ModalBody,
     ModalCloseButton,
@@ -9,12 +8,11 @@ import {
     ModalHeader,
     ModalOverlay
 } from "@chakra-ui/react";
-import {AuthContext} from "../../../logic/auth/AuthContext";
-import {saveProjectRequest} from "../../../logic/projects/SaveProject";
 import SaveProjectForm from "./SaveProjectForm";
+import SaveTypePanel from "./SaveTypePanel";
 
 const SaveProjectPanel = (props: { projectData: string, onClose: () => void }) => {
-    const authContext = useContext(AuthContext);
+    const [stage, setStage] = useState<"choose" | "cloud" | "local">("choose");
 
     return (
         <Modal isOpen={true} onClose={props.onClose} size={"5xl"}>
@@ -26,13 +24,15 @@ const SaveProjectPanel = (props: { projectData: string, onClose: () => void }) =
                 <ModalCloseButton/>
 
                 <ModalBody>
-                    <SaveProjectForm/>
+                    {stage === "choose" ?
+                        <SaveTypePanel setSaveType={setStage}/>
+                        :
+                        <SaveProjectForm onSubmit={props.onClose} projectData={props.projectData}/>
+                    }
+
                 </ModalBody>
 
                 <ModalFooter>
-                    <Button variant={'primarySolid'} onClick={() => saveProjectRequest(authContext, props.projectData)}>
-                        Save
-                    </Button>
                 </ModalFooter>
 
             </ModalContent>

@@ -3,15 +3,13 @@ import {projectServerAddress} from "../addresses/ProjectServerAddress";
 import ProjectSave from "../node-editor/ProjectSave";
 
 
-export const saveProjectRequest = async (authContext: AbstractAuthContext<any>, projectData: string): Promise<number> => {
+export const saveProjectRequest = async (authContext: AbstractAuthContext<any>, title: string, accessModifier: string, tags?: string[], projectData?: string): Promise<number> => {
     let body = {
-        accessModifier: "PRIVATE",
+        accessModifier: accessModifier,
         collaborators: [],
         projectData: projectData,
-        tags: [
-            "tag"
-        ],
-        title: "project"
+        tags: tags ? tags : [],
+        title: title
     };
     let response = await fetch(projectServerAddress + "/api/project", {
         method: 'POST',
