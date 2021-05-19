@@ -1,10 +1,9 @@
 import {NodeModel} from "../NodeModel";
 import {createNodeViewPropertiesDto, NodeSave} from "../NodeSave";
 import {OutputSegment} from "../../segment/imp/OutputSegment";
-import {OptionSegment} from "../../segment/imp/OptionSegment";
-import {InputSegment} from "../../segment/imp/InputSegment";
 import {SegmentSave} from "../../segment/SegmentSave";
 import {NodeDimension} from "../NodeDimension";
+import {ImageSegment} from "../../segment/imp/ImageSegment";
 
 export class ImageInputNodeModel extends NodeModel {
 
@@ -21,7 +20,7 @@ export class ImageInputNodeModel extends NodeModel {
     }
 
     async getOutputValue(segmentIndex: number): Promise<any> {
-        return Promise.resolve(undefined);
+        return Promise.resolve(this._segments[1].value);
     }
 
     loadSegments(save: NodeSave): void {
@@ -38,9 +37,8 @@ export class ImageInputNodeModel extends NodeModel {
 
     initSegments() {
         this._segments = [
-            new OutputSegment(0, this, undefined),
-            new OptionSegment(1, this, "val1", ["val1", "val2", "val3"], true, true),
-            new InputSegment(2, this),
+            new OutputSegment(0, this),
+            new ImageSegment(1, this, null)
         ];
     }
 

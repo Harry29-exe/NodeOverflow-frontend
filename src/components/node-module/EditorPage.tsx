@@ -17,8 +17,8 @@ const testNodes: NodeModel[] = [
 ]
 
 const testLinks: LinkModel[] = [
-    new LinkModel(testNodes[0].segments[1], testNodes[1].segments[1]),
-    new LinkModel(testNodes[0].segments[0], testNodes[1].segments[2]),
+    // new LinkModel(testNodes[0].segments[1], testNodes[1].segments[1]),
+    // new LinkModel(testNodes[0].segments[0], testNodes[1].segments[2]),
     // new LinkModel(testNodes[0].segments[1], testNodes[1].segments[1])
 ]
 

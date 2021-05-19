@@ -119,6 +119,7 @@ const NodeControlPanel = (props: { storage: ProjectStorage; viewProps: NodeCanva
                 </ButtonGroup>
             </HStack>
 
+
             <NodeSelector isOpen={nodeSelectorOpen} nodeDropped={handleNodeAdd}
                           distanceFromPageTop={getTopDist()}/>
 
