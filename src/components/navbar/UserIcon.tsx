@@ -8,7 +8,6 @@ export interface UserIconProps extends HTMLChakraProps<"div"> {
 
 const UserIcon = (props: UserIconProps) => {
     let authContext = useContext(AuthContext);
-    console.log(authContext.authInfo ? authContext.authInfo : "no context");
     let username = authContext.authInfo ? authContext.authInfo.username : "N";
     return (
         <Center {...props} _hover={{transform: "scale(1.2)", cursor: "pointer"}}

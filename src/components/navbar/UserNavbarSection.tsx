@@ -1,7 +1,7 @@
-import React, {useContext, useState} from 'react';
-import {Button, ButtonGroup, Center, HTMLChakraProps} from "@chakra-ui/react";
+import React, {useContext, useEffect, useState} from 'react';
+import {Button, ButtonGroup, Center, HTMLChakraProps, useBoolean} from "@chakra-ui/react";
 import LoginRegisterWindow from "./LoginRegisterWindow";
-import {AuthContext} from "../../logic/auth/AuthContext";
+import {AuthChangeListener, AuthContext} from "../../logic/auth/AuthContext";
 import UserMenu from "./UserMenu";
 
 export interface UserNavbarSectionProps extends HTMLChakraProps<"div"> {
@@ -13,17 +13,29 @@ interface LoginRegisterWindowState {
 }
 
 export const UserNavbarSection = (props: UserNavbarSectionProps) => {
-    let [loginRegisterWidowState, setWindowState] = useState<LoginRegisterWindowState>({
-        open: false, type: "login"
-    });
+    const [loginRegisterWidowState, setWindowState] = useState<LoginRegisterWindowState>({open: false, type: "login"});
     let authContext = useContext(AuthContext);
+    let [logged, setLogged] = useBoolean(authContext.isLogged);
+
     const onClose = (): void => {
         setWindowState({open: false, type: "login"});
     }
 
+    useEffect(() => {
+        const authListener: AuthChangeListener = (auth) => {
+            if (auth) {
+                setLogged.on()
+            } else {
+                setLogged.off();
+            }
+        }
+        authContext.addListener(authListener);
+        return () => authContext.removeListener(authListener);
+    }, [])
+
     return (
         <Center>
-            {authContext.isLogged ?
+            {logged ?
                 <UserMenu size={35}/>
                 :
                 <ButtonGroup variant={"primary"} size={"sm"} marginLeft={2} marginRight={2}>

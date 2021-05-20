@@ -9,8 +9,8 @@ import Navbar from "./components/navbar/Navbar";
 import theme from "./theme/theme";
 import {FullScreenContext} from './logic/contexts/FullScreenContext';
 import {initGlobalKeyListener} from "./logic/contexts/GlobalKeyListener";
-import {JwtAuthContext, JwtToken} from "./logic/auth/JwtAuthContext";
-import {AuthContext, AuthState} from './logic/auth/AuthContext';
+import {JwtAuthContext} from "./logic/auth/JwtAuthContext";
+import {AuthContext} from './logic/auth/AuthContext';
 import SettingsPage from "./components/settings/SettingsPage";
 
 
@@ -24,14 +24,13 @@ export const mainColors = {
 
 function App() {
     let [onFullscreen, setFullscreen] = useState(false);
-    let [authentication, updateAuthentication] = useState<JwtToken | undefined>(undefined);
     initGlobalKeyListener();
 
     return (
         <ChakraProvider theme={theme}>
             <FullScreenContext.Provider value={{onFullscreen: onFullscreen, toggleFullscreen: setFullscreen}}>
                 <AuthContext.Provider
-                    value={new JwtAuthContext(new AuthState<JwtToken>(updateAuthentication, authentication))}>
+                    value={new JwtAuthContext()}>
                     <Router>
                         {!onFullscreen &&
                         <Navbar height={"50px"}/>

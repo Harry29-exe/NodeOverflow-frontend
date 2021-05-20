@@ -1,29 +1,13 @@
 import {parseJwt} from "./AuthUtils";
-import {AbstractAuthContext, Authentication, AuthState, LoginStatus} from "./AuthContext";
+import {AbstractAuthContext, Authentication, LoginStatus} from "./AuthContext";
 import {authServerAddress} from "../addresses/AuthServerAddress";
 
 //TODO it's only temporary implementation
 export class JwtAuthContext extends AbstractAuthContext<JwtToken> {
-    private tokenRefreshActive: boolean = false;
 
-    constructor(authState: AuthState<JwtToken>) {
-        super(authState);
-        if (!!authState.authInfo) {
-            this.tokenRefreshActive = true;
-            document.cookie = `jwt=${authState.authInfo.token}`;
-
-        } else {
-            try {
-                let cookies = document.cookie.split(';')
-                let jwtCookie = (cookies.filter(c => c.startsWith('jwt')))[0].split('=')[1];
-                let jwt = new JwtToken(jwtCookie);
-                if (jwt.timeBeforeExpire > 60 * 1000) {
-                    this.authState.updateAuth(jwt);
-                }
-            } catch (e: any) {
-
-            }
-        }
+    constructor() {
+        super();
+        this.refreshToken();
     }
 
     async login(username: string, password: string, dontLogout: boolean = false): Promise<LoginStatus> {
@@ -33,7 +17,8 @@ export class JwtAuthContext extends AbstractAuthContext<JwtToken> {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({username: username, password: password})
+                body: JSON.stringify({username: username, password: password}),
+                credentials: 'include'
             });
 
         try {
@@ -42,25 +27,25 @@ export class JwtAuthContext extends AbstractAuthContext<JwtToken> {
             return LoginStatus.FAIL;
         }
 
+        this.callListeners();
         return LoginStatus.OK;
     }
 
     logout(): void {
-        document.cookie = "jwt= ;"
+        document.cookie = "token= ;"
         let cookies = document.cookie.split(";");
-        cookies.filter(c => c.startsWith("jwt")).forEach(
-            c => document.cookie = "jwt= ;"
-        );
+        cookies.filter(c => c.startsWith("token"))
+            .forEach(c => document.cookie = "token= ;");
 
-        this.authState.updateAuth(undefined);
+        this._authInfo = undefined;
+        this.callListeners();
     }
 
     private handleServerResponse(response: Response) {
         let token = response.headers.get("Authorization");
         if (typeof token === "string") {
             try {
-                this.authState.updateAuth(new JwtToken(token));
-                this.tokenRefreshActive = false;
+                this._authInfo = new JwtToken(token);
             } catch (e: any) {
                 throw new Error();
             }
@@ -69,11 +54,17 @@ export class JwtAuthContext extends AbstractAuthContext<JwtToken> {
         }
     }
 
-    private refreshToken() {
-        if (!this.tokenRefreshActive) {
+    private async refreshToken() {
+        let response = await fetch(authServerAddress + '/api/token-refresh', {
+            method: 'GET',
+            credentials: 'include'
+        });
+        if (response.status !== 200) {
             return;
         }
 
+        this.handleServerResponse(response);
+        this.callListeners();
     }
 }
 

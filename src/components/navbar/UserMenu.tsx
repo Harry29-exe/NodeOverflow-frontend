@@ -10,6 +10,7 @@ interface UserMenuProps {
 
 const UserMenu = (props: UserMenuProps) => {
     let authContext = useContext(AuthContext);
+
     return (
         <Menu>
             <MenuButton as={Button} variant="ghost"
