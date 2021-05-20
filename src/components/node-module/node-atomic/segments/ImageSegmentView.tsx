@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import SegmentProps from "../SegmentProps";
 import {ImageSegment} from "../../../../logic/node-editor/segment/imp/ImageSegment";
 import SegmentWrapper from "../SegmentWrapper";
@@ -13,6 +13,7 @@ type ImageState = {
 
 const ImageSegmentView = (props: SegmentProps<ImageSegment>) => {
     const [imageState, setImageState] = useState<ImageState>(null);
+    const inputRef = useRef<HTMLInputElement>(null);
 
     const loadFile = (file: File) => {
         let reader = new FileReader();
@@ -51,17 +52,19 @@ const ImageSegmentView = (props: SegmentProps<ImageSegment>) => {
     return (
         <SegmentWrapper storage={props.storage} model={props.model}>
             <VStack maxW='100%'>
-                <Box maxW='100%' maxH={fileInputHeight} overflow='hidden' border={'1px solid'}
+                <Box maxW='100%' w='100%' maxH={fileInputHeight} overflow='hidden' border={'1px solid'}
                      borderColor={'whiteAlpha.400'} borderRadius='md'
-                     onClick={e => e.stopPropagation()} onMouseDown={e => e.stopPropagation()}>
-
-                    <input style={{width: '100%', height: fileInputHeight, position: 'relative', opacity: 0}}
-                           onChange={handleValueChange} type="file" accept="image/*"/>
+                     onClick={e => {
+                         e.stopPropagation();
+                         let input = inputRef.current;
+                         if (input) {
+                             input.click();
+                         }
+                     }} onMouseDown={e => e.stopPropagation()}>
 
                     <Box w='100%' p={'5px'} maxH={fileInputHeight} h={fileInputHeight} userSelect='none'
-                         pointerEvents='none'
-                         fontSize={'sm'} _hover={{cursor: 'pointer'}}
-                         top={`-${fileInputHeight}`} pos={'relative'} textOverflow={'ellipsis'} textAlign='center'>
+                         fontSize={'sm'} _hover={{cursor: 'pointer', bg: "whiteAlpha.200"}}
+                         pos={'relative'} textOverflow={'ellipsis'} textAlign='center'>
 
                         {imageState ?
                             imageState.fileName
@@ -72,6 +75,10 @@ const ImageSegmentView = (props: SegmentProps<ImageSegment>) => {
                         }
 
                     </Box>
+
+                    <input ref={inputRef} style={{display: 'none'}} onChange={handleValueChange}
+                           type="file" accept="image/*"/>
+
                 </Box>
 
                 {imageState &&
