@@ -18,11 +18,6 @@ const viewProps: NodeCanvasViewProperties = new NodeCanvasViewProperties(1, 0, 0
 const standardDim = new NodeDimension(160, 26, 22, 22);
 const tempStorage: ProjectStorage = new DefaultProjectStorage();
 
-const reducer = (state: { y: number }, newValue: number) => {
-    state.y = newValue;
-    return {y: newValue};
-}
-
 //TODO poprwić żeby nie renderował się przy każdym update node module
 const NodeSelector = (props: { isOpen: boolean, nodeDropped: (screenX: number, screenY: number, createFun: NodeCreateFunction) => void, distanceFromPageTop: string | number }) => {
     const [width, setWidth] = useState('224px');
@@ -52,14 +47,16 @@ const NodeSelector = (props: { isOpen: boolean, nodeDropped: (screenX: number, s
                 </VStack>
             </Box>
 
-            {/*<Box pos='absolute' w={'10px'} h='inherit' top={0} left={'100%'} bg={'gray.700'}/>*/}
         </Box>
     );
 }
 
 const NodeAddButton = (props: { name: string, create: NodeCreateFunction, toggleWidth: () => void, handleAddNode: HandleAddNodeFun }) => {
-    const [currentNode, setNode] = useState<NodeModel>(
-        props.create(tempStorage.useNextNodeId(), tempStorage.storageId, 0, 0, standardDim));
+    const [currentNode, setNode] =
+        useState<NodeModel>(props.create(
+            tempStorage.useNextNodeId(),
+            tempStorage.storageId, 0, 0,
+            standardDim));
     const [height, setHeight] = useState(0);
 
     const handleMouseUp = (event: any) => {

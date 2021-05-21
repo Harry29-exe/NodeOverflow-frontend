@@ -12,6 +12,7 @@ import {initGlobalKeyListener} from "./logic/contexts/GlobalKeyListener";
 import {JwtAuthContext} from "./logic/auth/JwtAuthContext";
 import {AuthContext} from './logic/auth/AuthContext';
 import SettingsPage from "./components/settings/SettingsPage";
+import ProjectPage from "./components/projects/ProjectPage";
 
 
 export const mainColors = {
@@ -54,6 +55,10 @@ function App() {
 
                                 <Route path={"/settings"}>
                                     <SettingsPage/>
+                                </Route>
+
+                                <Route path={"/projects"}>
+                                    <ProjectPage/>
                                 </Route>
                             </Switch>
                         </Box>

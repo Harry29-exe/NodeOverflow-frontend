@@ -31,7 +31,7 @@ export const UserNavbarSection = (props: UserNavbarSectionProps) => {
         }
         authContext.addListener(authListener);
         return () => authContext.removeListener(authListener);
-    }, [])
+    })
 
     return (
         <Center>

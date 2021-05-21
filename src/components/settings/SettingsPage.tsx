@@ -15,7 +15,7 @@ const pathWithNames = [
 ]
 
 const SettingsPage = () => {
-    let {path, url} = useRouteMatch();
+    let match = useRouteMatch();
     let authContext = useContext(AuthContext);
 
     if (!authContext.authInfo) {
@@ -41,15 +41,15 @@ const SettingsPage = () => {
                             <AccountSettings/>
                         </Route>
 
-                        <Route path={`${path}/account`}>
+                        <Route path={`${match.url}/account`}>
                             <AccountSettings/>
                         </Route>
 
-                        <Route path={`${path}/profile`}>
+                        <Route path={`${match.url}/profile`}>
                             <ProjectSettings/>
                         </Route>
 
-                        <Route path={`${path}/test`}>
+                        <Route path={`${match.url}/test`}>
                             <VeryLongSettings/>
                         </Route>
                     </Switch>

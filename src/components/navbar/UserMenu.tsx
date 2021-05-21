@@ -25,6 +25,10 @@ const UserMenu = (props: UserMenuProps) => {
                     Settings
                 </MenuItem>
 
+                <MenuItem as={RouterLink} to="/projects">
+                    Projects
+                </MenuItem>
+
                 <MenuItem as={RouterLink} to="/settings/user-settings">
                     Account settings
                 </MenuItem>

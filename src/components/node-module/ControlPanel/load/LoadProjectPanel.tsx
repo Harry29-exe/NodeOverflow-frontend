@@ -12,13 +12,6 @@ import {
 import ProjectBrowser from "./ProjectBrowser";
 
 const LoadProjectPanel = (props: { loadProject: (projectId: number) => void, onClose: () => void }) => {
-    let [value, setValue] = React.useState("")
-
-    let handleInputChange = (e: any) => {
-        let inputValue = e.target.value
-        setValue(inputValue)
-    }
-
     return (
         <Modal isOpen={true} onClose={props.onClose} size={"6xl"}>
             <ModalOverlay/>

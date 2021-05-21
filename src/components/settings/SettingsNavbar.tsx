@@ -7,8 +7,8 @@ interface SettingsNavbarProps {
 }
 
 const SettingsNavbar = (props: SettingsNavbarProps) => {
-    let {path, url} = useRouteMatch();
-    let [newPath, changePath] = useState<string>(path);
+    let match = useRouteMatch();
+    let [newPath, changePath] = useState<string>(match.url);
 
     return (
         <VStack pos={["relative", null, "sticky"]} top="0"
