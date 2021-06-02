@@ -45,8 +45,8 @@ const ProjectBrowser = (props: { loadProject: (projectId: number) => void }) => 
             Math.ceil(projectsState.allResults / resultsPerPage)
     }
 
-    const updateProjects = () => {
-        getProjects(authContext, resultsPerPage, page, filters)
+    const updateProjects = (newPage: number) => {
+        getProjects(authContext, resultsPerPage, newPage, filters)
             .then(
                 value => setProjectsState({
                     projects: value.projectDetails,
@@ -55,6 +55,9 @@ const ProjectBrowser = (props: { loadProject: (projectId: number) => void }) => 
                     lastRequest: projectsState.lastRequest
                 }),
                 reason => console.log(reason));
+        if(newPage !== page) {
+            setPage(newPage);
+        }
     }
 
     let key = 0;
@@ -62,7 +65,7 @@ const ProjectBrowser = (props: { loadProject: (projectId: number) => void }) => 
         <VStack w={"100%"} px={'1.5%'} fontSize={'lg'} fontWeight={400} spacing={2} maxH={"70vh"} overflow={"auto"}>
             <ProjectSearchBar returnFilters={filters => {
                 setFilters(filters);
-                updateProjects();
+                updateProjects(1);
             }}/>
 
             <HStack w='100%' bg={"primary.500"} minH={'40px'} borderRadius={'md'}>
@@ -95,11 +98,7 @@ const ProjectBrowser = (props: { loadProject: (projectId: number) => void }) => 
             }
 
             <HStack>
-                <Input type="number" w='80px' defaultValue={1} onChange={e => {
-                    let newPage = parseInt(e.target.value);
-                    let pageCount = calcPageCount();
-                    setPage(newPage < 1 ? 1 : newPage > pageCount ? pageCount : newPage);
-                }}/>
+                <Input type="number" w='80px' defaultValue={1} onChange={e => updateProjects(parseInt(e.target.value))}/>
                 <Box>/</Box>
                 <Input type="number" value={calcPageCount()} w='80px'
                        isDisabled/>
