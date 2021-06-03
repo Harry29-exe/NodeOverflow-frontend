@@ -3,7 +3,7 @@ import SegmentProps from "../SegmentProps";
 import {ImageSegment} from "../../../../logic/node-editor/segment/imp/ImageSegment";
 import SegmentWrapper from "../SegmentWrapper";
 import {Box, Image as ChakraImage, VStack} from "@chakra-ui/react";
-import {ImageLikeData} from "../../../../logic/image-manipulation/structs/ImageLikeData";
+import {NodeImage} from "../../../../logic/image-manipulation/structs/NodeImage";
 import {AiOutlineFileImage} from "react-icons/all";
 
 type ImageState = {
@@ -15,22 +15,15 @@ const ImageSegmentView = (props: SegmentProps<ImageSegment>) => {
     const [imageState, setImageState] = useState<ImageState>(null);
     const inputRef = useRef<HTMLInputElement>(null);
 
-    const loadFile = (file: File) => {
+    const loadFile = async (file: File) => {
+        console.log("loading")
         let reader = new FileReader();
         reader.onload = () => {
             let img = new Image();
             img.onload = () => {
-                setImageState({imageSrc: img.src, fileName: file.name});
-                let canvas = document.createElement("canvas");
-                canvas.height = img.height;
-                canvas.width = img.width;
-                let ctx = canvas.getContext("2d");
-                if (ctx !== null) {
-                    ctx.drawImage(img, 0, 0);
-                    props.model.value = new ImageLikeData(
-                        ctx.getImageData(0, 0, img.width, img.height).data,
-                        img.width, img.height);
-                }
+                imgToSegmentVal(img);
+                imgToMiniSrc(img, file.name);
+                console.log("finished");
             }
             if (typeof reader.result === "string") {
                 img.src = reader.result;
@@ -39,7 +32,34 @@ const ImageSegmentView = (props: SegmentProps<ImageSegment>) => {
         reader.readAsDataURL(file);
     }
 
-    const handleValueChange = (event: any) => {
+    const imgToSegmentVal = (img: HTMLImageElement) => {
+        let canvas = document.createElement("canvas");
+        canvas.height = img.height;
+        canvas.width = img.width;
+        let ctx = canvas.getContext("2d");
+        if (ctx !== null) {
+            ctx.drawImage(img, 0, 0);
+            props.model.value = new NodeImage(
+                ctx.getImageData(0, 0, img.width, img.height).data,
+                img.width, img.height);
+        }
+    }
+
+    const imgToMiniSrc = (img: HTMLImageElement, filename: string) => {
+        let canvas = document.createElement("canvas");
+        let miniW = 200;
+        let miniH = Math.floor(img.width / img.height) * miniW;
+        canvas.height = miniW;
+        canvas.width = miniH;
+        let ctx = canvas.getContext("2d");
+        if (ctx !== null) {
+            ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0, miniW, miniH);
+            setImageState({imageSrc: canvas.toDataURL(), fileName: filename});
+        }
+    }
+
+    const handleValueChange = async (event: any) => {
+        console.log("init");
         try {
             let file = event.target.files[0];
             loadFile(file);
@@ -56,11 +76,12 @@ const ImageSegmentView = (props: SegmentProps<ImageSegment>) => {
                      borderColor={'whiteAlpha.400'} borderRadius='md'
                      onClick={e => {
                          e.stopPropagation();
-                         let input = inputRef.current;
-                         if (input) {
-                             input.click();
-                         }
-                     }} onMouseDown={e => e.stopPropagation()}>
+                     }} onMouseDown={e => {
+                         e.stopPropagation();
+                        let input = document.getElementById(props.model.domId + 'input');
+                        // @ts-ignore
+                        input.click();
+                    }}>
 
                     <Box w='100%' p={'5px'} maxH={fileInputHeight} h={fileInputHeight} userSelect='none'
                          fontSize={'sm'} _hover={{cursor: 'pointer', bg: "whiteAlpha.200"}}
@@ -76,8 +97,8 @@ const ImageSegmentView = (props: SegmentProps<ImageSegment>) => {
 
                     </Box>
 
-                    <input ref={inputRef} style={{display: 'none'}} onChange={handleValueChange}
-                           type="file" accept="image/*"/>
+                    <input id={props.model.domId + 'input'} style={{display: 'none'}}
+                           onChange={handleValueChange} type="file" accept="image/*"/>
 
                 </Box>
 

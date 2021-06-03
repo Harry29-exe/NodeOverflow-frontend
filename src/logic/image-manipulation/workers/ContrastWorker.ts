@@ -1,8 +1,8 @@
-import {ImageLikeData} from "../structs/ImageLikeData";
+import {NodeImage} from "../structs/NodeImage";
 import {ImageWorker} from "../ImageWorker";
 import WorkerLoader from "../WorkerLoader";
 
-const ContrastWorker = () => {
+const ContrastWebWorker = () => {
 
     self.addEventListener // eslint-disable-line no-restricted-globals
         ("message", (message: MessageEvent<{ imageData: Uint8ClampedArray, contrast: number }>) => {
@@ -39,10 +39,7 @@ const ContrastWorker = () => {
         });
 }
 
-export default ContrastWorker;
-
-export class ContrastImageWorker implements ImageWorker<ImageLikeData, number, ImageLikeData> {
-    private worker = WorkerLoader(ContrastWorker);
+export class ContrastWorker implements ImageWorker<NodeImage, number, NodeImage> {
     private _isBusy = false;
     private contrast: number = 0;
 
@@ -50,22 +47,24 @@ export class ContrastImageWorker implements ImageWorker<ImageLikeData, number, I
         return this._isBusy;
     }
 
-    run(inputData: ImageLikeData): Promise<ImageLikeData> {
+    run(inputData: NodeImage): Promise<NodeImage> {
         if (this._isBusy) {
             throw new Error("Worker is busy");
         }
 
-        return new Promise<ImageLikeData>((resolve, reject) => {
-            this.worker.onmessage = (message: MessageEvent<Uint8ClampedArray>) => {
+        let worker = WorkerLoader(ContrastWebWorker);
+        return new Promise<NodeImage>((resolve, reject) => {
+            worker.onmessage = (message: MessageEvent<Uint8ClampedArray>) => {
                 inputData.data = message.data;
                 resolve(inputData);
+                worker.terminate();
             }
 
-            this.worker.postMessage(this.createMessage(inputData), [inputData.data.buffer]);
+            worker.postMessage(this.createMessage(inputData), [inputData.data.buffer]);
         });
     }
 
-    private createMessage(data: ImageLikeData) {
+    private createMessage(data: NodeImage) {
         return {imageData: data.data, hasAlpha: data.numberOfChannels === 4, contrast: this.contrast * 255}
     }
 
@@ -78,3 +77,5 @@ export class ContrastImageWorker implements ImageWorker<ImageLikeData, number, I
     }
 
 }
+
+export default ContrastWorker;

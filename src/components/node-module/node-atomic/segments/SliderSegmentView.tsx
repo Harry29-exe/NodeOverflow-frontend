@@ -10,7 +10,7 @@ type SliderState = 'slider' | 'input'
 const SliderSegmentView = (props: SegmentProps<SliderSegment>) => {
     let model = props.model;
     const calcFill = () => Math.abs((model.value - model.minValue) * 100 / (model.maxValue - model.minValue));
-    const [fillPercentage, setFill] = useState<number>();
+    const [fillPercentage, setFill] = useState<number>(calcFill());
     const [state, setState] = useState<SliderState>('slider');
 
     const eventListener = new SliderSegmentEventListener(model, setState, setFill);

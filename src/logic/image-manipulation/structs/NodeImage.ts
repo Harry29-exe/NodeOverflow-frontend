@@ -11,7 +11,7 @@ export enum ColorSpace {
 
 }
 
-export class ImageLikeData {
+export class NodeImage {
     private _numberOfChannels: number;
     private _channels: boolean[];
     private _data: Uint8ClampedArray;

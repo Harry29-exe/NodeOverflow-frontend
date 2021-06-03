@@ -2,7 +2,7 @@ import {NodeModel} from "../NodeModel";
 import {createNodeSave, NodeSave} from "../NodeSave";
 import {NodeDimension} from "../NodeDimension";
 import {InputSegment} from "../../segment/imp/InputSegment";
-import {ImageLikeData} from "../../../image-manipulation/structs/ImageLikeData";
+import {NodeImage} from "../../../image-manipulation/structs/NodeImage";
 
 
 export class OutputNodeModel extends NodeModel {
@@ -27,7 +27,7 @@ export class OutputNodeModel extends NodeModel {
         let nodeInput = await outputSegment.parent.getOutputValue(outputSegment.index);
         if (nodeInput instanceof ImageData) {
             return Promise.resolve(nodeInput);
-        } else if (nodeInput instanceof ImageLikeData) {
+        } else if (nodeInput instanceof NodeImage) {
             let imageData = new ImageData(nodeInput.data, nodeInput.width, nodeInput.height);
             return Promise.resolve(imageData);
         }

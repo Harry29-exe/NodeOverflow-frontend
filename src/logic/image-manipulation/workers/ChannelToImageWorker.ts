@@ -1,4 +1,4 @@
-import {ImageLikeData} from "../structs/ImageLikeData";
+import {NodeImage} from "../structs/NodeImage";
 
 export const ChannelToImageWorker = () => {
     self.addEventListener("message", (message: MessageEvent<{ channelData: Uint8ClampedArray, width: number, height: number }>) => { // eslint-disable-line no-restricted-globals
@@ -25,7 +25,7 @@ export const ChannelToImageWorker = () => {
 
 export default ChannelToImageWorker;
 
-export const createWorkerMessage = (channelData: ImageLikeData) => {
+export const createWorkerMessage = (channelData: NodeImage) => {
     return {channelData: channelData.data, width: channelData.width, height: channelData.height};
 }
 

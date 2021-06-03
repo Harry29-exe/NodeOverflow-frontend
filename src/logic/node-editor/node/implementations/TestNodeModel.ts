@@ -9,7 +9,7 @@ export class TestNodeModel extends NodeModel {
     constructor(id: number, storageId: number, x?: number, y?: number, dimensions?: NodeDimension);
     constructor(id: number | NodeSave, storageId: number, x?: number, y?: number, dimensions?: NodeDimension) {
         typeof id === "number" ? super(id, storageId, x, y, dimensions) : super(id, storageId);
-        this._name = 'Output node';
+        this._name = 'Test node';
 
         this.initSegments();
         if (typeof id !== "number") {

@@ -224,7 +224,7 @@ const NodesAndLink = (props: { storage: ProjectStorage, canvasScale: number }) =
                           storage={props.storage}/>
             )}
         </>
-    ), [props.storage.stateHash])
+    ), [props.storage.stateHash, props.canvasScale])
 }
 
 export default NodeCanvas;
