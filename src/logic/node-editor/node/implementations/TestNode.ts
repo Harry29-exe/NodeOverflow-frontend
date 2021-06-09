@@ -2,8 +2,9 @@ import {NodeModel} from "../NodeModel";
 import {NodeSave} from "../NodeSave";
 import {NodeDimension} from "../NodeDimension";
 import {SliderSegment} from "../../segment/imp/SliderSegment";
+import {OptionSegment} from "../../segment/imp/OptionSegment";
 
-export class TestNodeModel extends NodeModel {
+export class TestNode extends NodeModel {
 
     constructor(save: NodeSave, storageId: number);
     constructor(id: number, storageId: number, x?: number, y?: number, dimensions?: NodeDimension);
@@ -21,6 +22,7 @@ export class TestNodeModel extends NodeModel {
     initSegments() {
         this._segments = [
             new SliderSegment(0, this, -1, 1, 1000),
+            new OptionSegment(1, this, "val1", ["val1", "val2", "val3"], false, false),
 
         ]
     }

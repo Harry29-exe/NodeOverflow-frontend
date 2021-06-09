@@ -56,7 +56,7 @@ const MappedValue = (props: { val: any, changeValue: (v: any) => void, offset: n
         <Center onClick={() => props.changeValue(props.val)}
                 pos='relative' top={`${props.offset}px`}
                 w='100%' bg={'gray.700'}
-                p={0} m={0}>
+                p={0} m={0} key={props.val}>
             <Center _hover={{bg: "gray.800", cursor: "pointer"}} w='90%' h='90%' borderRadius='md'>
                 {props.val}
             </Center>

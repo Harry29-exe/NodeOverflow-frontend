@@ -48,9 +48,6 @@ export class ContrastWorker implements ImageWorker<NodeImage, number, NodeImage>
     }
 
     run(inputData: NodeImage): Promise<NodeImage> {
-        if (this._isBusy) {
-            throw new Error("Worker is busy");
-        }
 
         let worker = WorkerLoader(ContrastWebWorker);
         return new Promise<NodeImage>((resolve, reject) => {

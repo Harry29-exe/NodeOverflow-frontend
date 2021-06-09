@@ -5,7 +5,7 @@ import {InputSegment} from "../../segment/imp/InputSegment";
 import {NodeImage} from "../../../image-manipulation/structs/NodeImage";
 
 
-export class OutputNodeModel extends NodeModel {
+export class OutputNode extends NodeModel {
     constructor(save: NodeSave, storageId: number);
     constructor(id: number, storageId: number, x?: number, y?: number, dimensions?: NodeDimension);
     constructor(id: number | NodeSave, storageId: number, x?: number, y?: number, dimensions?: NodeDimension) {

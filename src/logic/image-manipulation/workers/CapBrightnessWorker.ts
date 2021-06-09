@@ -2,7 +2,7 @@ import {ImageWorker} from "../ImageWorker";
 import {NodeImage} from "../structs/NodeImage";
 import WorkerLoader from "../WorkerLoader";
 
-const CapBrightnessWorker = () => {
+const CapBrightnessWebWorker = () => {
     self.addEventListener("message", (message: MessageEvent<{ imgArray: Uint8ClampedArray, capValue: number, capMax: boolean }>) => { // eslint-disable-line no-restricted-globals
         const capValue = message.data.capValue;
         const capAtMax = message.data.capMax;
@@ -39,8 +39,6 @@ const CapBrightnessWorker = () => {
     });
 }
 
-export default CapBrightnessWorker;
-
 export class CapBrightnessParams {
     public capValue: number;
     public capMax: boolean;
@@ -51,13 +49,12 @@ export class CapBrightnessParams {
     }
 }
 
-export class CapBrightnessImageWorker implements ImageWorker<NodeImage, CapBrightnessParams, NodeImage> {
+export class CapBrightnessWorker implements ImageWorker<NodeImage, CapBrightnessParams, NodeImage> {
     private params: CapBrightnessParams;
-    private worker: Worker = WorkerLoader(CapBrightnessWorker);
     private _isBusy: boolean = false;
 
-    constructor(parameters: CapBrightnessParams) {
-        this.params = parameters;
+    constructor() {
+        this.params = new CapBrightnessParams(255, true);
     }
 
     isBusy(): boolean {
@@ -65,26 +62,24 @@ export class CapBrightnessImageWorker implements ImageWorker<NodeImage, CapBrigh
     }
 
     run(inputData: NodeImage): Promise<NodeImage> {
-        if (this._isBusy) {
-            return Promise.reject("Worker is busy");
-        }
-        this._isBusy = true;
+        let worker = WorkerLoader(CapBrightnessWebWorker);
         return new Promise<NodeImage>((resolve, reject) => {
-            this.worker.onmessage = (message: MessageEvent<Uint8ClampedArray>) => {
+            worker.onmessage = (message: MessageEvent<Uint8ClampedArray>) => {
                 inputData.data = message.data;
                 this._isBusy = false;
                 resolve(inputData);
+                worker.terminate();
             }
-            this.worker.onmessageerror = e => {
-                this._isBusy = false;
+            worker.onmessageerror = e => {
                 reject("Worker error");
+                worker.terminate();
             }
-            this.worker.onerror = e => {
-                this._isBusy = false;
+            worker.onerror = e => {
                 reject("Worker error");
+                worker.terminate();
             }
 
-            this.worker.postMessage({
+            worker.postMessage({
                 imgArray: inputData.data,
                 capValue: this.params.capValue,
                 capMax: this.params.capMax

@@ -1,15 +1,16 @@
 import {NodeModel} from "../NodeModel";
 import {createNodeViewPropertiesDto, NodeSave} from "../NodeSave";
+import {NodeDimension} from "../NodeDimension";
+import {ContrastWorker} from "../../../image-manipulation/workers/ContrastWorker";
 import {OutputSegment} from "../../segment/imp/OutputSegment";
-import {SegmentModel} from "../../segment/SegmentModel";
 import {SliderSegment} from "../../segment/imp/SliderSegment";
 import {InputSegment} from "../../segment/imp/InputSegment";
-import {ContrastWorker} from "../../../image-manipulation/workers/ContrastWorker";
 import {SegmentSave} from "../../segment/SegmentSave";
-import {NodeDimension} from "../NodeDimension";
+import {CapBrightnessParams, CapBrightnessWorker} from "../../../image-manipulation/workers/CapBrightnessWorker";
+import {OptionSegment} from "../../segment/imp/OptionSegment";
 
-export class ContrastNode extends NodeModel {
-    private contrastWorker;
+export class CapBrightnessNode extends NodeModel {
+    private capBrightnessWorker;
 
     constructor(save: NodeSave, storageId: number);
     constructor(id: number, storageId: number, x?: number, y?: number, dimensions?: NodeDimension);
@@ -20,8 +21,8 @@ export class ContrastNode extends NodeModel {
             super(id, storageId);
         }
 
-        this._name = 'Contrast Node';
-        this.contrastWorker = new ContrastWorker();
+        this._name = 'Cap Brightness Node';
+        this.capBrightnessWorker = new CapBrightnessWorker();
 
         this.initSegments();
         if (typeof id !== "number") {
@@ -32,8 +33,9 @@ export class ContrastNode extends NodeModel {
     initSegments() {
         this._segments = [
             new OutputSegment(0, this),
-            new SliderSegment(1, this, -1, 1, 100, 0),
-            new InputSegment(2, this)
+            new SliderSegment(1, this, 0, 255, 1, 255),
+            new OptionSegment(2, this, "max", ["max", "min"], false, false),
+            new InputSegment(3,this)
         ]
     }
 
@@ -49,11 +51,14 @@ export class ContrastNode extends NodeModel {
         }
     }
 
-
     async getOutputValue(segmentIndex: number): Promise<any> {
-        this.contrastWorker.setParams(this._segments[1].value);
-        let input = await this._segments[2].value;
-        return this.contrastWorker.run(input);
+        let val = this._segments[1].value;
+        let capAtMax = this._segments[2].value === "max";
+        this.capBrightnessWorker.setParams(new CapBrightnessParams(val, capAtMax));
+
+        let nodeImage = await this._segments[3].value
+        let output = await this.capBrightnessWorker.run(nodeImage);
+        return Promise.resolve(output);
     }
 
     save(): NodeSave {

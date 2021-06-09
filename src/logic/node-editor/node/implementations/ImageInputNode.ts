@@ -5,7 +5,7 @@ import {SegmentSave} from "../../segment/SegmentSave";
 import {NodeDimension} from "../NodeDimension";
 import {ImageSegment} from "../../segment/imp/ImageSegment";
 
-export class ImageInputNodeModel extends NodeModel {
+export class ImageInputNode extends NodeModel {
 
     constructor(save: NodeSave, storageId: number);
     constructor(id: number, storageId: number, x?: number, y?: number, dimensions?: NodeDimension);

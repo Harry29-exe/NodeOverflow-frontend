@@ -2,6 +2,7 @@ import {SegmentModel} from "../SegmentModel";
 import {ProjectStorage} from "../../node-management/ProjectStorage";
 import SliderSegmentView from "../../../../components/node-module/node-atomic/segments/SliderSegmentView";
 import {NodeModel} from "../../node/NodeModel";
+import {SegmentSave} from "../SegmentSave";
 
 export class SliderSegment extends SegmentModel<number> {
     protected _label: string = "value:";
@@ -14,6 +15,28 @@ export class SliderSegment extends SegmentModel<number> {
         this._minValue = minValue;
         this._maxValue = maxValue;
         this._precision = precision;
+    }
+
+    load(save: SegmentSave) {
+        let val = save.segmentValue;
+        this._precision = val.precision;
+        this._minValue = val.minVal;
+        this._maxValue = val.maxVal;
+        this._value = val.value;
+    }
+
+    save(): SegmentSave {
+        let value = {
+            minVal: this._minValue,
+            maxVal: this._maxValue,
+            precision: this._precision,
+            value: this._value
+        };
+
+        return {
+            segmentValue: value,
+            segmentIndex: this._index
+        };
     }
 
     createView(storage: ProjectStorage): JSX.Element {
