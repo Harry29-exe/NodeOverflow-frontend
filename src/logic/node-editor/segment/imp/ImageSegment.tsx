@@ -1,14 +1,14 @@
 import {SegmentModel} from "../SegmentModel";
 import {ProjectStorage} from "../../node-management/ProjectStorage";
 import ImageSegmentView from "../../../../components/node-module/node-atomic/segments/ImageSegmentView";
-import {NodeImage} from "../../../image-manipulation/structs/NodeImage";
+import {AppImage} from "../../../image-manipulation/structs/AppImage";
 import {NodeModel} from "../../node/NodeModel";
 import {SegmentSave} from "../SegmentSave";
 
-export class ImageSegment extends SegmentModel<NodeImage | null> {
+export class ImageSegment extends SegmentModel<AppImage | null> {
     protected _label: string = "Image segment";
 
-    constructor(index: number, parent: NodeModel, value: NodeImage | null, changeValueListener?: (newValue: NodeImage | null) => void) {
+    constructor(index: number, parent: NodeModel, value: AppImage | null, changeValueListener?: (newValue: AppImage | null) => void) {
         super(index, parent, value, false, false, changeValueListener);
     }
 
@@ -28,17 +28,17 @@ export class ImageSegment extends SegmentModel<NodeImage | null> {
     }
 
 
-    get value(): NodeImage | null {
+    get value(): AppImage | null {
         let val = this._value;
         if(val === null) {
             return null;
         }
 
         let arrayCopy = val.data.slice(0, val.data.length);
-        return new NodeImage(arrayCopy, val.width, val.height);
+        return new AppImage(arrayCopy, val.width, val.height);
     }
 
-    set value(value: NodeImage | null) {
+    set value(value: AppImage | null) {
         this._value = value;
     }
 }

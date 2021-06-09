@@ -1,13 +1,13 @@
-import {NodeModel} from "../NodeModel";
-import {createNodeViewPropertiesDto, NodeSave} from "../NodeSave";
-import {NodeDimension} from "../NodeDimension";
-import {ContrastWorker} from "../../../image-manipulation/workers/ContrastWorker";
-import {OutputSegment} from "../../segment/imp/OutputSegment";
-import {SliderSegment} from "../../segment/imp/SliderSegment";
-import {InputSegment} from "../../segment/imp/InputSegment";
-import {SegmentSave} from "../../segment/SegmentSave";
-import {CapBrightnessParams, CapBrightnessWorker} from "../../../image-manipulation/workers/CapBrightnessWorker";
-import {OptionSegment} from "../../segment/imp/OptionSegment";
+import {NodeModel} from "../node/NodeModel";
+import {createNodeViewPropertiesDto, NodeSave} from "../node/NodeSave";
+import {NodeDimension} from "../node/NodeDimension";
+import {ContrastWorker} from "../../image-manipulation/workers/ContrastWorker";
+import {OutputSegment} from "../segment/imp/OutputSegment";
+import {SliderSegment} from "../segment/imp/SliderSegment";
+import {InputSegment} from "../segment/imp/InputSegment";
+import {SegmentSave} from "../segment/SegmentSave";
+import {CapBrightnessParams, CapBrightnessWorker} from "../../image-manipulation/workers/CapBrightnessWorker";
+import {OptionSegment} from "../segment/imp/OptionSegment";
 
 export class CapBrightnessNode extends NodeModel {
     private capBrightnessWorker;

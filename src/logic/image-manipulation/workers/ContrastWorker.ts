@@ -1,4 +1,4 @@
-import {NodeImage} from "../structs/NodeImage";
+import {AppImage} from "../structs/AppImage";
 import {ImageWorker} from "../ImageWorker";
 import WorkerLoader from "../WorkerLoader";
 
@@ -39,7 +39,7 @@ const ContrastWebWorker = () => {
         });
 }
 
-export class ContrastWorker implements ImageWorker<NodeImage, number, NodeImage> {
+export class ContrastWorker implements ImageWorker<AppImage, number, AppImage> {
     private _isBusy = false;
     private contrast: number = 0;
 
@@ -47,10 +47,10 @@ export class ContrastWorker implements ImageWorker<NodeImage, number, NodeImage>
         return this._isBusy;
     }
 
-    run(inputData: NodeImage): Promise<NodeImage> {
+    run(inputData: AppImage): Promise<AppImage> {
 
         let worker = WorkerLoader(ContrastWebWorker);
-        return new Promise<NodeImage>((resolve, reject) => {
+        return new Promise<AppImage>((resolve, reject) => {
             worker.onmessage = (message: MessageEvent<Uint8ClampedArray>) => {
                 inputData.data = message.data;
                 resolve(inputData);
@@ -61,7 +61,7 @@ export class ContrastWorker implements ImageWorker<NodeImage, number, NodeImage>
         });
     }
 
-    private createMessage(data: NodeImage) {
+    private createMessage(data: AppImage) {
         return {imageData: data.data, hasAlpha: data.numberOfChannels === 4, contrast: this.contrast * 255}
     }
 

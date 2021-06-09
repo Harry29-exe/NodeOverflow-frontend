@@ -1,8 +1,8 @@
-import {NodeModel} from "../NodeModel";
-import {NodeSave} from "../NodeSave";
-import {NodeDimension} from "../NodeDimension";
-import {SliderSegment} from "../../segment/imp/SliderSegment";
-import {OptionSegment} from "../../segment/imp/OptionSegment";
+import {NodeModel} from "../node/NodeModel";
+import {NodeSave} from "../node/NodeSave";
+import {NodeDimension} from "../node/NodeDimension";
+import {SliderSegment} from "../segment/imp/SliderSegment";
+import {OptionSegment} from "../segment/imp/OptionSegment";
 
 export class TestNode extends NodeModel {
 

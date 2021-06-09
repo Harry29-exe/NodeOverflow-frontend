@@ -1,5 +1,5 @@
 import {ImageWorker} from "../ImageWorker";
-import {NodeImage} from "../structs/NodeImage";
+import {AppImage} from "../structs/AppImage";
 import WorkerLoader from "../WorkerLoader";
 
 const CapBrightnessWebWorker = () => {
@@ -49,7 +49,7 @@ export class CapBrightnessParams {
     }
 }
 
-export class CapBrightnessWorker implements ImageWorker<NodeImage, CapBrightnessParams, NodeImage> {
+export class CapBrightnessWorker implements ImageWorker<AppImage, CapBrightnessParams, AppImage> {
     private params: CapBrightnessParams;
     private _isBusy: boolean = false;
 
@@ -61,9 +61,9 @@ export class CapBrightnessWorker implements ImageWorker<NodeImage, CapBrightness
         return this._isBusy;
     }
 
-    run(inputData: NodeImage): Promise<NodeImage> {
+    run(inputData: AppImage): Promise<AppImage> {
         let worker = WorkerLoader(CapBrightnessWebWorker);
-        return new Promise<NodeImage>((resolve, reject) => {
+        return new Promise<AppImage>((resolve, reject) => {
             worker.onmessage = (message: MessageEvent<Uint8ClampedArray>) => {
                 inputData.data = message.data;
                 this._isBusy = false;

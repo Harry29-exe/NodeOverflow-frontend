@@ -1,5 +1,5 @@
 import {ImageWorker} from "../ImageWorker";
-import {NodeImage} from "../structs/NodeImage";
+import {AppImage} from "../structs/AppImage";
 import WorkerLoader from "../WorkerLoader";
 
 export const InvertWorker = () => {
@@ -30,15 +30,15 @@ export const InvertWorker = () => {
         })
 }
 
-export class InvertImageWorker implements ImageWorker<NodeImage, void, NodeImage> {
+export class InvertImageWorker implements ImageWorker<AppImage, void, AppImage> {
     private worker = WorkerLoader(InvertWorker);
 
     isBusy(): boolean {
         return false;
     }
 
-    run(inputData: NodeImage): Promise<NodeImage> {
-        return new Promise<NodeImage>((resolve, reject) => {
+    run(inputData: AppImage): Promise<AppImage> {
+        return new Promise<AppImage>((resolve, reject) => {
             this.worker.onmessage = (message: MessageEvent<Uint8ClampedArray>) => {
                 inputData.data = message.data;
                 resolve(inputData);
@@ -48,7 +48,7 @@ export class InvertImageWorker implements ImageWorker<NodeImage, void, NodeImage
         })
     }
 
-    private createMessage = (inputData: NodeImage) => {
+    private createMessage = (inputData: AppImage) => {
         return {imgData: inputData.data, hasAlpha: inputData.numberOfChannels === 4}
     }
 

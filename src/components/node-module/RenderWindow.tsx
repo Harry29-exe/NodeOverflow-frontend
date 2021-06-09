@@ -17,13 +17,12 @@ class RenderWindow extends Component<Props, { lastUpdate: number }> {
 
     componentDidUpdate(prevProps: Readonly<Props>, prevState: Readonly<any>, snapshot?: any) {
         console.log("render window update");
-        if (Date.now() - this.state.lastUpdate > 1000) {
+        if (Date.now() - this.state.lastUpdate > 10000) {
             let outputNode: NodeModel | null = null;
             let nodes = this.props.storage.getNodes();
             for (let i = 0; i < nodes.length; i++) {
                 if (nodes[i].name === "Output node") {
                     outputNode = nodes[i];
-                    break;
                 }
             }
             this.setState({lastUpdate: Date.now()});

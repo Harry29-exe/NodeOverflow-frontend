@@ -1,10 +1,11 @@
 import {NodeCreateFunction, NodeLoadFunction} from "./node-management/GlobalNodeFactory";
-import {ImageInputNode} from "./node/implementations/ImageInputNode";
+import {ImageInputNode} from "./node-implementations/ImageInputNode";
 import {createCreateFunction, createLoadFunction, NodeModelConstructor, NodeModelLoader} from "./node/NodeModelUtils";
-import {OutputNode} from "./node/implementations/OutputNode";
-import {TestNode} from "./node/implementations/TestNode";
-import {ContrastNode} from "./node/implementations/ContrastNode";
-import {CapBrightnessNode} from "./node/implementations/CapBrightnessNode";
+import {OutputNode} from "./node-implementations/OutputNode";
+import {TestNode} from "./node-implementations/TestNode";
+import {ContrastNode} from "./node-implementations/ContrastNode";
+import {CapBrightnessNode} from "./node-implementations/CapBrightnessNode";
+import {SeparateChannelsNode} from "./node-implementations/SeparateChannelsNode";
 
 const nodesWithDefaultFactoryFunctions: [name: string, provider: NodeModelConstructor & NodeModelLoader][] = [
     ['Image input', ImageInputNode],
@@ -12,6 +13,7 @@ const nodesWithDefaultFactoryFunctions: [name: string, provider: NodeModelConstr
     ['Test node', TestNode],
     ['Contrast Node', ContrastNode],
     ['Cap Brightness Node', CapBrightnessNode],
+    ["Separate Channels Node", SeparateChannelsNode],
 
 ]
 

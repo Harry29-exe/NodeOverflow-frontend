@@ -206,6 +206,7 @@ const NodeView = (props: NodeComponentProps) => {
                             boxShadow={`0 0 0 1px ${state.aboutToDelete ? "#c21414" : state.selected ? colors.primary["400"] : "#333"}`}
                             width={`100%`}
                             height={`${dim.headHeight}px`}
+                            textAlign="center"
                             _hover={{cursor: 'default', userSelect: 'none'}}
                             _selection={{userSelect: 'none'}}>
                         {props.node.name}

@@ -1,7 +1,7 @@
 export interface ImageWorker<Input, Params, Output> {
     isBusy(): boolean;
 
-    run(inputData: Input): Promise<Output>;
+    run(inputData: Input, parameters?: Params): Promise<Output>;
 
     getParams(): Params;
 

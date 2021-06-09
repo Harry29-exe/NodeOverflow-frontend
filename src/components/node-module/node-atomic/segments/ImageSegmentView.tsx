@@ -3,7 +3,7 @@ import SegmentProps from "../SegmentProps";
 import {ImageSegment} from "../../../../logic/node-editor/segment/imp/ImageSegment";
 import SegmentWrapper from "../SegmentWrapper";
 import {Box, Image as ChakraImage, VStack} from "@chakra-ui/react";
-import {NodeImage} from "../../../../logic/image-manipulation/structs/NodeImage";
+import {AppImage} from "../../../../logic/image-manipulation/structs/AppImage";
 import {AiOutlineFileImage} from "react-icons/all";
 
 type ImageState = {
@@ -39,7 +39,7 @@ const ImageSegmentView = (props: SegmentProps<ImageSegment>) => {
         let ctx = canvas.getContext("2d");
         if (ctx !== null) {
             ctx.drawImage(img, 0, 0);
-            props.model.value = new NodeImage(
+            props.model.value = new AppImage(
                 ctx.getImageData(0, 0, img.width, img.height).data,
                 img.width, img.height);
         }

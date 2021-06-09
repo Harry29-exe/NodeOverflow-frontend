@@ -1,9 +1,9 @@
-import {NodeModel} from "../NodeModel";
-import {createNodeViewPropertiesDto, NodeSave} from "../NodeSave";
-import {OutputSegment} from "../../segment/imp/OutputSegment";
-import {SegmentSave} from "../../segment/SegmentSave";
-import {NodeDimension} from "../NodeDimension";
-import {ImageSegment} from "../../segment/imp/ImageSegment";
+import {NodeModel} from "../node/NodeModel";
+import {createNodeViewPropertiesDto, NodeSave} from "../node/NodeSave";
+import {OutputSegment} from "../segment/imp/OutputSegment";
+import {SegmentSave} from "../segment/SegmentSave";
+import {NodeDimension} from "../node/NodeDimension";
+import {ImageSegment} from "../segment/imp/ImageSegment";
 
 export class ImageInputNode extends NodeModel {
 

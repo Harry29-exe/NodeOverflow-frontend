@@ -11,7 +11,7 @@ export enum ColorSpace {
 
 }
 
-export class NodeImage {
+export class AppImage {
     private _numberOfChannels: number;
     private _channels: boolean[];
     private _data: Uint8ClampedArray;

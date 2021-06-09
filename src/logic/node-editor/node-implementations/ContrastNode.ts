@@ -1,12 +1,12 @@
-import {NodeModel} from "../NodeModel";
-import {createNodeViewPropertiesDto, NodeSave} from "../NodeSave";
-import {OutputSegment} from "../../segment/imp/OutputSegment";
-import {SegmentModel} from "../../segment/SegmentModel";
-import {SliderSegment} from "../../segment/imp/SliderSegment";
-import {InputSegment} from "../../segment/imp/InputSegment";
-import {ContrastWorker} from "../../../image-manipulation/workers/ContrastWorker";
-import {SegmentSave} from "../../segment/SegmentSave";
-import {NodeDimension} from "../NodeDimension";
+import {NodeModel} from "../node/NodeModel";
+import {createNodeViewPropertiesDto, NodeSave} from "../node/NodeSave";
+import {OutputSegment} from "../segment/imp/OutputSegment";
+import {SegmentModel} from "../segment/SegmentModel";
+import {SliderSegment} from "../segment/imp/SliderSegment";
+import {InputSegment} from "../segment/imp/InputSegment";
+import {ContrastWorker} from "../../image-manipulation/workers/ContrastWorker";
+import {SegmentSave} from "../segment/SegmentSave";
+import {NodeDimension} from "../node/NodeDimension";
 
 export class ContrastNode extends NodeModel {
     private contrastWorker;

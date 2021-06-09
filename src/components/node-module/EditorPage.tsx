@@ -2,7 +2,7 @@ import React from 'react';
 import {Box} from "@chakra-ui/react";
 import NodeModule from "./NodeModule";
 import {NodeModel} from "../../logic/node-editor/node/NodeModel";
-import {ImageInputNode} from "../../logic/node-editor/node/implementations/ImageInputNode";
+import {ImageInputNode} from "../../logic/node-editor/node-implementations/ImageInputNode";
 import {NodeDimension} from "../../logic/node-editor/node/NodeDimension";
 import {LinkModel} from "../../logic/node-editor/LinkModel";
 import {DefaultProjectStorage} from "../../logic/node-editor/node-management/DefaultProjectStorage";
