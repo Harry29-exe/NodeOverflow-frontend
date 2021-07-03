@@ -1,0 +1,5 @@
+{
+  "name": "Introduction",
+  "description": "Image is first loaded from node on the left and then is \"transported\" throughout link to the node on the right",
+  "project_data": "{\"viewProperties\":{\"canvasViewProps\":{\"scale\":1,\"shiftTop\":0,\"shiftLeft\":0},\"editorSplitRatio\":0.6,\"nodeSelectorWidth\":214},\"nodes\":[{\"name\":\"Output node\",\"id\":0,\"nodeViewProps\":{\"dimensions\":{\"width\":160,\"headHeight\":26,\"segmentHeight\":22,\"footerHeight\":22},\"x\":195.015625,\"y\":-124.5},\"segmentSaves\":[{\"segmentIndex\":0,\"segmentValue\":{}}]},{\"name\":\"Image input\",\"id\":1,\"nodeViewProps\":{\"dimensions\":{\"width\":160,\"headHeight\":26,\"segmentHeight\":22,\"footerHeight\":22},\"x\":-347.25710227272725,\"y\":-117.5},\"segmentSaves\":[{\"segmentIndex\":0},{\"segmentIndex\":1,\"segmentValue\":null}]}],\"links\":[{\"inputNodeId\":0,\"inputSegmentIndex\":0,\"outputNodeId\":1,\"outputSegmentIndex\":0}]}"
+}

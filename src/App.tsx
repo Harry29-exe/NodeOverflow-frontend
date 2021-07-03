@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import './App.css';
-import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
+import {HashRouter as Router, Route, Switch} from "react-router-dom";
 import {Box, ChakraProvider} from "@chakra-ui/react";
 import ExamplesPage from "./components/examples/ExamplesPage";
 import MainPage from "./components/main-page/MainPage";

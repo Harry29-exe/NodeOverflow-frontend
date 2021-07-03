@@ -1,10 +1,70 @@
-import React from 'react';
+import React, {useState} from 'react';
+import {Box, Button, Center, HStack, Switch, VStack} from "@chakra-ui/react";
+import NodeModule from "../node-module/NodeModule";
+import {DefaultProjectStorage} from "../../logic/node-editor/node-management/DefaultProjectStorage";
+import {NodeModel} from "../../logic/node-editor/node/NodeModel";
+import {LinkModel} from "../../logic/node-editor/LinkModel";
+import file from "../../resources/Introduction.example.json";
+
+export interface ExampleLink {
+    name: string,
+    path: string
+}
+
+export interface ExampleProps {
+    name: string,
+    description: string,
+    nodeModels: NodeModel[],
+    linkModels: LinkModel[]
+}
+
+const examples: ExampleLink[] = [
+    {name: "Introduction", path: ""},
+    {name: "First steps", path: ""},
+    {name: "Introduction", path: ""},
+    {name: "First steps", path: ""},
+    {name: "Introduction", path: ""},
+    {name: "First steps", path: ""},
+    {name: "Introduction", path: ""},
+    {name: "First steps", path: ""},
+    {name: "Introduction", path: ""},
+    {name: "First steps", path: ""},
+]
 
 const ExamplesPage = () => {
-    return (
-        <div>
+    const [currentExample, setCurrentExample] = useState<ExampleLink>(examples[0]);
+    const [loadedExample, setLoadedExample] = useState();
 
-        </div>
+    const changeExample = (example: ExampleLink) => {
+
+    }
+
+    const storage = new DefaultProjectStorage();
+    storage.load( JSON.parse(file.project_data), 0);
+
+    return (
+        <HStack w={'100%'} h='100%' spacing={0}>
+
+            <VStack w={'200px'} h='100%' bg={'gray.700'} zIndex={100} borderRight={'2px solid'} borderColor={'primary.400'} overflowY={'auto'} pt={2}>
+                {examples.map(
+                    ex => <Button variant={'secondary'} w='100%' color={ex.name === currentExample.name? 'primary.200': 'white'} textDecor={'underline'}
+                                  minH='60px' onClick={() => changeExample(ex)}>{ex.name}</Button>
+                )}
+            </VStack>
+
+
+
+            <Center w='calc(100% - 200px)' h='100%' pos='relative'>
+                <VStack w='100%' h='95%'>
+                    <Box fontSize={'lg'}></Box>
+                    <Box fontSize={'md'}></Box>
+
+                    <Box w='90%' flexGrow={5} overflow='hidden' borderRadius={'2xl'} border={'2px solid'} borderColor={'primary.400'}>
+                        <NodeModule storage={storage}/>
+                    </Box>
+                </VStack>
+            </Center>
+        </HStack>
     );
 };
 

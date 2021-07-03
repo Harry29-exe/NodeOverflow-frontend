@@ -9,7 +9,8 @@ import {DefaultProjectStorage} from "../../logic/node-editor/node-management/Def
 
 const storage = new DefaultProjectStorage();
 
-const added = {tf: false};
+const added = {tf: true};
+
 const testNodes: NodeModel[] = [
     new ImageInputNode(0, storage.storageId, 0, 0, new NodeDimension(160, 22, 26, 22)),
     new ImageInputNode(1, storage.storageId, 60, -80, new NodeDimension(160, 22, 26, 22)),
