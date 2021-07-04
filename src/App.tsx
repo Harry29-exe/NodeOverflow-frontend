@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import './App.css';
 import {HashRouter as Router, Route, Switch} from "react-router-dom";
 import {Box, ChakraProvider} from "@chakra-ui/react";
-import ExamplesPage from "./components/examples/ExamplesPage";
 import MainPage from "./components/main-page/MainPage";
 import EditorPage from "./components/node-module/EditorPage";
 import Navbar from "./components/navbar/Navbar";
@@ -13,6 +12,7 @@ import {JwtAuthContext} from "./logic/auth/JwtAuthContext";
 import {AuthContext} from './logic/auth/AuthContext';
 import SettingsPage from "./components/settings/SettingsPage";
 import ProjectPage from "./components/projects/ProjectPage";
+import ExamplesPageView from "./components/examples/View/ExamplesPageView";
 
 
 export const mainColors = {
@@ -38,6 +38,7 @@ function App() {
                         }
 
                         <Box pos={"absolute"} left={0} w={"100vw"}
+                             style={{background: "linear-gradient(135deg, #2c7399, #1c665f)"}}
                              h={onFullscreen ? "100vh" : "calc(100vh - 50px)"}
                              top={onFullscreen ? 0 : "50px"}>
                             <Switch>
@@ -50,7 +51,7 @@ function App() {
                                 </Route>
 
                                 <Route path={"/examples"}>
-                                    <ExamplesPage/>
+                                    <ExamplesPageView/>
                                 </Route>
 
                                 <Route path={"/settings"}>

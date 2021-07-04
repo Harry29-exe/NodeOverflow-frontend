@@ -1,0 +1,1 @@
+export const exampleServerAddress = "http://localhost:8080"
