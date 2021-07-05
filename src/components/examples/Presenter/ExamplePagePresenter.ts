@@ -13,6 +13,7 @@ export class ExamplePagePresenter implements IExamplePagePresenter {
     private currentExampleModel: ExampleModel = {} as ExampleModel;
 
     constructor(examplePageView: IExamplePageView) {
+        console.log("constructor");
         this.examplePageView = examplePageView;
 
         fetch(exampleServerAddress + '/examples/info')
@@ -20,18 +21,23 @@ export class ExamplePagePresenter implements IExamplePagePresenter {
             .then(categories => {
                 this.categories = categories;
                 examplePageView.displayNavbar(categories);
+                this.fetchExample("we")
+                    .then(model => this.examplePageView.displayExample(model));
             });
     }
 
-    changeExample(exampleId: ExampleIdentifier): void {
+    public static changeExample(exampleId: ExampleIdentifier): void {
 
     }
 
     private async fetchExample(examplePath: string): Promise<ExampleModel> {
-        return await fetch(exampleServerAddress + examplePath)
+        return await fetch(exampleServerAddress +"/example/"+ examplePath)
             .then(
                 response => response.json(),
                 reason => Promise.reject(reason))
             .then(model => new ExampleModel(model.name, model.category, model.description, model.project))
+    }
+
+    changeExample(exampleId: ExampleIdentifier): void {
     }
 }

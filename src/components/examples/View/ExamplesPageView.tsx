@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Box, Button, Center, HStack, Skeleton, Switch, useBoolean, VStack} from "@chakra-ui/react";
+import {Box, Button, Center, HStack, Skeleton, Switch, useBoolean, useConst, VStack} from "@chakra-ui/react";
 import NodeModule from "../../node-module/NodeModule";
 import {DefaultProjectStorage} from "../../../logic/node-editor/node-management/DefaultProjectStorage";
 import {NodeModel} from "../../../logic/node-editor/node/NodeModel";
@@ -10,6 +10,7 @@ import {IExamplePageView} from "./IExamplePageView";
 import {ExampleModel} from "../Model/ExampleModel";
 import {ExampleCategory} from "../Model/ExampleCategory";
 import ExampleIdentifier from "../Model/ExampleIdentifier";
+import {IExamplePagePresenter} from "../Presenter/IExamplePagePresenter";
 
 export interface ExampleLink {
     name: string,
@@ -23,76 +24,81 @@ export interface ExampleProps {
     linkModels: LinkModel[]
 }
 
-const ExamplesPageView = () => {
-    const [activeExample, setActiveExample] = useState<ExampleModel | null>(null);
-    const [exampleList, setExamplesList] = useState<ExampleCategory[]>([]);
+export class ExamplesPageView extends React.Component<any, {activeExample: ExampleModel | null, examples: ExampleCategory[] | null}> implements IExamplePageView {
+    private presenter: IExamplePagePresenter;
 
-
-    const presenter = new ExamplePagePresenter({
-        displayExample(example: ExampleModel) {
-            setActiveExample(example);
-        },
-        displayLoadingExample() {
-            setActiveExample(null);
-        },
-        displayLoadingNavbar() {
-            setExamplesList([]);
-        },
-        displayNavbar(examplesCategories: ExampleCategory[]) {
-            setExamplesList(examplesCategories);
-        }
-    });
-
-    const changeExample = (example: string) => {
-
+    constructor(props: any) {
+        super(props);
+        this.state = {activeExample: null, examples: null};
+        this.presenter = new ExamplePagePresenter(this);
     }
 
-    const storage = new DefaultProjectStorage();
-    // storage.load( JSON.parse(file.project_data), 0);
 
-    return (
-        <HStack w={'100%'} h='100%' spacing={0}>
-            <Box w={'200px'} h='100%' bg={'gray.700'} zIndex={100} borderRight={'2px solid'}
-                 borderColor={'primary.400'} overflowY={'auto'} pt={2}
-            >
-                {exampleList.length > 0?
-                    <VExamplesNavbar examples={exampleList}
-                                     onExampleChange={nextExample => presenter.changeExample(nextExample)}
-                                     activeExample={activeExample? activeExample:
-                                         new ExampleIdentifier(exampleList[0].sections[0], exampleList[0].name)}/>
-                    :
-                    <VStack mx='5%' w='90%'>
-                        <Skeleton height="50px" w='100%' startColor={"gray.400"} endColor={"gray.700"}/>
-                        <Skeleton height="50px" w='100%' startColor={"gray.400"} endColor={"gray.700"}/>
-                        <Skeleton height="50px" w='100%' startColor={"gray.400"} endColor={"gray.700"}/>
-                        <Skeleton height="50px" w='100%' startColor={"gray.400"} endColor={"gray.700"}/>
-                        <Skeleton height="50px" w='100%' startColor={"gray.400"} endColor={"gray.700"}/>
-                        <Skeleton height="50px" w='100%' startColor={"gray.400"} endColor={"gray.700"}/>
-                    </VStack>
-                }
-            </Box>
+    displayExample(example: ExampleModel): void {
+        this.setState({activeExample: example});
+    }
 
+    displayLoadingExample(): void {
+        this.setState({activeExample: null});
+    }
 
+    displayLoadingNavbar(): void {
+        this.setState({examples: null});
+    }
 
-            <Center w='calc(100% - 200px)' h='100%' pos='relative'>
-                {activeExample?
-                    <VStack w='90%' h='95%'>
-                        <VStack w="100%" border={"2px solid"} borderColor={"primary.400"} borderRadius={'2xl'} p={4}>
-                            <Box fontSize={'lg'}>{activeExample.name}</Box>
-                            <Box fontSize={'md'}>{activeExample.description}</Box>
+    displayNavbar(examplesCategories: ExampleCategory[]): void {
+        this.setState({examples: examplesCategories});
+    }
+
+    render() {
+        let exampleList = this.state.examples;
+        let activeExample = this.state.activeExample;
+        let storage = new DefaultProjectStorage();
+
+        return (
+            <HStack w={'100%'} h='100%' spacing={0}>
+                <Box w={'200px'} h='100%' bg={'gray.700'} zIndex={100} borderRight={'2px solid'}
+                     borderColor={'primary.400'} overflowY={'auto'} pt={2}
+                >
+                    {exampleList?
+                        <VExamplesNavbar examples={exampleList}
+                                         onExampleChange={nextExample => this.presenter.changeExample(nextExample)}
+                                         activeExample={activeExample? activeExample:
+                                             new ExampleIdentifier(exampleList[0].sections[0], exampleList[0].name)}/>
+                        :
+                        <VStack mx='5%' w='90%'>
+                            <Skeleton height="50px" w='100%' startColor={"gray.400"} endColor={"gray.700"}/>
+                            <Skeleton height="50px" w='100%' startColor={"gray.400"} endColor={"gray.700"}/>
+                            <Skeleton height="50px" w='100%' startColor={"gray.400"} endColor={"gray.700"}/>
+                            <Skeleton height="50px" w='100%' startColor={"gray.400"} endColor={"gray.700"}/>
+                            <Skeleton height="50px" w='100%' startColor={"gray.400"} endColor={"gray.700"}/>
+                            <Skeleton height="50px" w='100%' startColor={"gray.400"} endColor={"gray.700"}/>
                         </VStack>
+                    }
+                </Box>
 
-                        <Box w='100%' flexGrow={5} overflow='hidden' borderRadius={'2xl'} border={'2px solid'}
-                             borderColor={'primary.400'}>
-                            <NodeModule storage={storage}/>
-                        </Box>
-                    </VStack>
-                    :
-                    <Skeleton w='100%' h='100%'/>
-                }
-            </Center>
-        </HStack>
-    );
-};
+
+
+                <Center w='calc(100% - 200px)' h='100%' pos='relative'>
+                    {activeExample?
+                        <VStack w='90%' h='95%'>
+                            <VStack w="100%" border={"2px solid"} borderColor={"primary.400"} borderRadius={'2xl'} p={4}>
+                                <Box fontSize={'lg'}>{activeExample.name}</Box>
+                                <Box fontSize={'md'}>{activeExample.description}</Box>
+                            </VStack>
+
+                            <Box w='100%' flexGrow={5} overflow='hidden' borderRadius={'2xl'} border={'2px solid'}
+                                 borderColor={'primary.400'}>
+                                <NodeModule storage={storage}/>
+                            </Box>
+                        </VStack>
+                        :
+                        <Skeleton w='100%' h='100%'/>
+                    }
+                </Center>
+            </HStack>
+        );
+    }
+}
 
 export default ExamplesPageView;
